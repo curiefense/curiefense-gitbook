@@ -8,6 +8,12 @@ Curiefense is [fully controllable programmatically](api/introduction.md). All co
 
 Curiefense also has a UI console, discussed in this Manual in the [Console](console/document-editor/) section. 
 
+## Version
+
+This documentation is for **version 1.0**.
+
+\(To view docs for a different version, choose it at the top of the left sidebar.\)
+
 ## Architecture and Components
 
 Curiefense provides traffic filtering that can be configured differently for multiple environments \(e.g. dev/qa/prod\), all of which can be administered from one central cluster if desired. Here is an overview of its components.
