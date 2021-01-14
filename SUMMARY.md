@@ -12,13 +12,13 @@
 
 ## Console
 
-* [Document Editor](console/document-editor/README.md)
-  * [ACL Profiles](console/document-editor/acl-profiles.md)
-  * [Rate Limits](console/document-editor/rate-limits.md)
-  * [Profiling Lists](console/document-editor/profiling-lists.md)
-  * [URL Maps](console/document-editor/url-maps.md)
-  * [WAF Profiles](console/document-editor/waf-profiles.md)
-  * [WAF Signatures](console/document-editor/waf-signatures.md)
+* [Policies & Rules](console/policies-rules/README.md)
+  * [ACL Policies](console/policies-rules/acl-policies.md)
+  * [Tag Rules](console/policies-rules/tag-rules.md)
+  * [Rate Limits](console/policies-rules/rate-limits.md)
+  * [URL Maps](console/policies-rules/url-maps.md)
+  * [WAF Policies](console/policies-rules/waf-policies.md)
+  * [WAF Rules](console/policies-rules/waf-rules.md)
 * [System Settings](console/system-settings.md)
 * [Publish Configuration](console/publish-configuration.md)
 

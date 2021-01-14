@@ -179,7 +179,7 @@ Click on the `/with/header` entry, and notice the `trusted` tag on the right col
 
 Notice also that along the `trusted` tag you defined, Curiefense attached a number of tags that were generated automatically. [More information about this](../reference/tags.md#automatic-tags).
 
-Profiling Lists are a powerful feature of Curiefense \(and are explained in depth [here](../console/document-editor/profiling-lists.md)\). We just demonstrated the ability to create a single-entry self-managed list that characterizes incoming requests based on a header. Curiefense allows you to attach tags based on complex combinations of headers, arguments, cookies, geolocation, methods, paths, and more. External data sources are also supported; sessions can be profiled based on data and rules defined by a third party, such as blocklists and whitelists.
+Profiling Lists are a powerful feature of Curiefense \(and are explained in depth [here](../console/policies-rules/tag-rules.md)\). We just demonstrated the ability to create a single-entry self-managed list that characterizes incoming requests based on a header. Curiefense allows you to attach tags based on complex combinations of headers, arguments, cookies, geolocation, methods, paths, and more. External data sources are also supported; sessions can be profiled based on data and rules defined by a third party, such as blocklists and whitelists.
 
 Now that we know how to attach tags to incoming requests, let's tell Curiefense how to react to them.
 
@@ -221,7 +221,7 @@ Let's assume that we've tested our new policies and want to make the ACL active.
 
 Navigate to **Document Editor** and then choose to edit **URL Maps** in the upper dropdown list**.** 
 
-URL Maps assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. \(They are explained in depth [here](../console/document-editor/url-maps.md).\) 
+URL Maps assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. \(They are explained in depth [here](../console/policies-rules/url-maps.md).\) 
 
 We're going to edit Curiefense's default security profile: the one that applies to every URL which does not otherwise have any policies assigned to it.
 
@@ -282,7 +282,7 @@ Wait briefly, and you should see how the response changes from 403 \(ACL\) to 50
 Now that we're somewhat familiar with the system, let's set up multi-layered rate limiting to protect against a variety of attacks.
 
 {% hint style="info" %}
-Rate limits in Curiefense are reusable "stand-alone" rules that can be attached to different paths in [URL Maps](../console/document-editor/url-maps.md).
+Rate limits in Curiefense are reusable "stand-alone" rules that can be attached to different paths in [URL Maps](../console/policies-rules/url-maps.md).
 {% endhint %}
 
 Previously, we used the default Rate Limit that comes with Curiefense, and applied it to the entire domain. Now we will create three specific Rate Limits for the login process of an API, and attach them to the relevant endpoints. 
@@ -394,7 +394,7 @@ The demonstration above is only the beginning of what can be done with Rate Limi
 
 Here's a common example. Rate Limits like the ones demonstrated above will block a requestor who exceeds a defined limit within the given timespan. However, once the limit resets, the requestor would be able to try again, and could repeat this cycle as often as desired. To prevent this, you can configure Curiefense to ban a requestor \(and block all of their requests\) when multiple rate limits are violated.
 
-A full explanation of Curiefense's Rate Limits and their capabilities is available [here](../console/document-editor/rate-limits.md).  
+A full explanation of Curiefense's Rate Limits and their capabilities is available [here](../console/policies-rules/rate-limits.md).  
 
 ## Grafana Dashboards
 
@@ -412,7 +412,7 @@ Curiefense comes with two dashboards out of the box: Traffic Overview and Top Ac
 
 ## Onwards
 
-You now have a working Curiefense installation to experiment with. Its capabilities go far beyond those demonstrated in this tutorial; browsing through the rest of this Manual \(especially the [Document Editor](../console/document-editor/) section\) will give you some ideas to test, so you can see what the platform can do.
+You now have a working Curiefense installation to experiment with. Its capabilities go far beyond those demonstrated in this tutorial; browsing through the rest of this Manual \(especially the [Document Editor](../console/policies-rules/) section\) will give you some ideas to test, so you can see what the platform can do.
 
 Note that this tutorial was a Quick Start guide, and therefore, it used many default options for the deployment. You might want to change some of them; for example, you might want Curiefense to use TLS for its UI server and for communicating with the backend.
 

@@ -6,7 +6,13 @@ Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapte
 
 Curiefense is [fully controllable programmatically](api/introduction.md). All configuration data \(security rulesets, policies, etc.\) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
 
-Curiefense also has a UI console, discussed in this Manual in the [Console](console/document-editor/) section. 
+Curiefense also has a UI console, discussed in this Manual in the [Console](console/policies-rules/) section. 
+
+## Version
+
+This documentation is for **version 1.2.4**.
+
+\(To view docs for a previous version, choose it at the top of the left sidebar.\)
 
 ## Architecture and Components
 
@@ -60,7 +66,7 @@ A Configuration is a complete definition of Curiefense's behavior for a specific
 
 ![](.gitbook/assets/data-structures.png)
 
-Each Configuration contains six Documents \(one of each type: ACL Profiles, Rate Limits, etc.\) Each Document contains at least one Entry, i.e., an individual security rule or definition. Documents are edited and managed in the [Document Editor](console/document-editor/) or via API.
+Each Configuration contains six Documents \(one of each type: ACL Profiles, Rate Limits, etc.\) Each Document contains at least one Entry, i.e., an individual security rule or definition. Documents are edited and managed in the [Policies & Rules](console/policies-rules/) UI or via API.
 
 A Configuration also includes data blobs, which currently are used to store the Maxmind geolocation database. This is where Curiefense obtains its geolocation data and ASN for each request it processes.
 
