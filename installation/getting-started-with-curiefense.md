@@ -26,13 +26,15 @@ sudo apt install -y git docker.io docker-compose libpq-dev python3-dev gcc pytho
 sudo usermod -aG docker $(whoami) && sudo -i -u $(whoami)
 ```
 
-Grab the latest code from github to get started:
+Grab the latest code from GitHub to get started:
 
 ```
 git clone https://github.com/curiefense/curiefense.git
 cd curiefense/deploy/compose/
 docker-compose up
 ```
+
+ProTip: Try Curiefense out on [Katacoda](https://www.katacoda.com/curiefense), no install necessary.
 
 ## Verify the Deployment
 
