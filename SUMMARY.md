@@ -45,4 +45,5 @@
 * [The Challenge Process](reference/the-challenge-process.md)
 * [Multi-Stage Traffic Filtering](reference/multi-stage-traffic-filtering.md)
 * [Tags](reference/tags.md)
+* [Release Notes](reference/release-notes.md)
 
