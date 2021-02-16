@@ -37,7 +37,7 @@
 
 * [API Introduction](api/introduction.md)
 * [API Namespaces and Endpoints](api/api-namespaces-and-endpoints.md)
-* [cURL Examples](api/untitled-1.md)
+* [cURL Examples](api/curl-examples.md)
 
 ## Reference
 
