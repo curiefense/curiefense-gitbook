@@ -211,6 +211,8 @@ kubectl apply -f s3cfg.yaml
 
 ### Database configuration
 
+Skip this section if you are using elasticsearch to store logs (that is the default).
+
 Curiefense requires two database accounts. They will be automatically provisioned by the `logdb` container:
 
 * One with read/write authorization \(described below as `BASE64_READWRITE_USERNAME` and`BASE64_READWRITE_PASSWORD`\). If the `logdb` container is used \(which is the default\), `BASE64_READWRITE_USERNAME` must be set to `postgres`.
