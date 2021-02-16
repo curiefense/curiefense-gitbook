@@ -51,7 +51,7 @@ Starting from a fresh ubuntu 20.04 VM:
 * Allow your user to interact with docker: `sudo usermod -aG docker $USER && newgrp docker`
 
 ```text
-minikube start --kubernetes-version=v1.14.9 --driver=docker --memory='8g' --cpus 4
+minikube start --kubernetes-version=v1.14.9 --driver=docker --memory='8g' --cpus 6
 eval $(minikube docker-env)
 minikube addons enable ingress
 ```
