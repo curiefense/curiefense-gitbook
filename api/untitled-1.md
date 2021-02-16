@@ -1,4 +1,4 @@
-# cURL and CLI Tool
+# cURL Examples
 
 Curiefense includes a command line tool: `curieconf_cli`.
 
