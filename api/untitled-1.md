@@ -1,125 +1,73 @@
 # cURL Examples
 
-Curiefense includes a command line tool: `curieconf_cli`.
-
-In the discussion below, some examples will be given using the command line via this tool. Others will be shown for both `curieconf_cli` and `curl`. 
+Here are some examples of sending API requests to Curiefense using cURL.
 
 ## Operations on Configurations
-
-List all existing configurations:
-
-```text
-curieconf_cli conf list
-```
-
-Retrieve the full configuration named `master`:
-
-```text
-curieconf_cli conf get master
-```
-
-Retrieve all the different versions of the configuration named `master`:
-
-```text
-curieconf_cli conf list-versions master
-```
-
-Create a new configuration from a dump file:
-
-```text
-curieconf_cli conf get master > /tmp/dumpfile.json
-# edit /tmp/dumpfile, change configuration id to a new name
-curieconf_cli conf create  /tmp/dumpfile.json
-curieconf_cli conf create -n overriden_conf_name < /tmp/dumpfile.json
-```
-
-Revert configuration `master` to version `3a370d4`:
-
-```text
-curieconf_cli conf revert master 3a370d4
-```
-
-Update a configuration from a batch update:
-
-```text
-curieconf_cli conf update master < /tmp/batch.update.json
-```
 
 Get the detailed list of existing configurations:
 
 ```text
-CURL: curl -XGET $api_url/configs/ 
-CLI:  curieconf_cli conf list
+curl -XGET $api_url/configs/
 ```
 
 Retrieve a complete configuration: 
 
 ```text
-CURL: -XGET $api_url/configs/{config}/ 
-CLI:  curieconf_cli conf get {config}
+curl -XGET $api_url/configs/{config}/
 ```
 
 Create a new configuration, name is in the posted data:
 
 ```text
-CURL: curl -XPOST $api_url/configs/ 
-CLI:  curieconf_cli conf create [{filename}]
+curl -XPOST $api_url/configs/
 ```
 
 Create a new configuration, name is provided and overrides posted data:
 
 ```text
- CURL: curl -XPOST $api_url/configs/{config}/ 
- CLI:  curieconf_cli conf create -n {config} [{filename}]
+curl -XPOST $api_url/configs/{config}/
 ```
 
 Update an existing configuration: 
 
 ```text
-CURL: curl -XPUT $api_url/configs/{config}/ 
-CLI:  curieconf_cli conf update {config} [{filename}]
+curl -XPUT $api_url/configs/{config}/
 ```
 
 Delete a configuration: 
 
 ```text
-CURL: -XDELETE $api_url/configs/{config}/ 
-CLI:  curieconf_cli conf delete {config}
+curl -XDELETE $api_url/configs/{config}/
 ```
 
 Clone a configuration, new name is in POST data:
 
 ```text
- CURL: curl -XPOST $api_url/configs/{config}/clone/ 
- CLI:  CLI uses the other clone URL
+curl -XPOST $api_url/configs/{config}/clone/
 ```
 
 Clone a configuration, new name is in the URL: 
 
 ```text
-CURL: -XPOST $api_url/configs/{config}/clone/{new_name}/ 
-CLI:  curieconf_cli conf clone {config} {newname}
+curl -XPOST $api_url/configs/{config}/clone/{new_name}/
 ```
 
 Get all versions of a given configuration:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/v/ 
-CLI:  curieconf_cli conf list-versions {config}
+curl -XGET $api_url/configs/{config}/v/
 ```
 
 Retrieve a specific version of a configuration:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/v/{version}/ 
-CLI:  curieconf_cli conf get {config} -v {version}
+curl -XGET $api_url/configs/{config}/v/{version}/
 ```
 
 Create a new version for a configuration from an old version:
 
 ```text
-CURL: curl -XPUT $api_url/configs/{config}/v/{version}/revert/ 
-CLI:  curieconf_cli conf revert {config} {version}
+curl -XPUT $api_url/configs/{config}/v/{version}/revert/
 ```
 
 #### Format for full config dumps and batch updates: <a id="markdown-header-format-for-full-config-dumps-and-batch-updates"></a>
@@ -156,57 +104,49 @@ CLI:  curieconf_cli conf revert {config} {version}
 Retrieve the list of existing documents in this configuration:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/d/ 
-CLI:  curieconf_cli doc list {config}
+curl -XGET $api_url/configs/{config}/d/
 ```
 
 Get a complete document:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/d/{document}/ 
-CLI:  curieconf_cli doc get {config} {document}
+curl -XGET $api_url/configs/{config}/d/{document}/
 ```
 
 Get a given version of a document:
 
 ```text
- CURL: curl -XGET $api_url/configs/{config}/d/{document}/v/{version}/ 
- CLI:  curieconf_cli doc get {config} {document} -v {version}
+curl -XGET $api_url/configs/{config}/d/{document}/v/{version}/
 ```
 
 Retrieve the existing versions of a given document:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/d/{document}/v/ 
-CLI:  curieconf_cli doc list-versions {config} {document}
+curl -XGET $api_url/configs/{config}/d/{document}/v/
 ```
 
 Create a new complete document:
 
 ```text
-CURL: curl -XPOST $api_url/configs/{config}/d/{document}/ 
-CLI:  curieconf_cli doc create {config} {document} [{filename}]
+curl -XPOST $api_url/configs/{config}/d/{document}/
 ```
 
 Update an existing document:
 
 ```text
-CURL: curl -XPUT $api_url/configs/{config}/d/{document}/ 
-CLI:  curieconf_cli doc update {config} {document} [{filename}]
+curl -XPUT $api_url/configs/{config}/d/{document}/
 ```
 
 Delete/empty a document:
 
 ```text
-CURL: curl -XDELETE $api_url/configs/{config}/d/{document}/ 
-CLI:  curieconf_cli doc delete {config} {document}
+curl -XDELETE $api_url/configs/{config}/d/{document}/
 ```
 
 Create a new version for a document from an old version:
 
 ```text
-CURL: curl -XPUT $api_url/configs/{config}/d/{document}/v/{version}/revert/ 
-CLI:  curieconf_cli doc revert {config} {document} {version}
+curl -XPUT $api_url/configs/{config}/d/{document}/v/{version}/revert/
 ```
 
 ## Operations on Entries
@@ -214,50 +154,43 @@ CLI:  curieconf_cli doc revert {config} {document} {version}
 Retrieve the list of entries in a document:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/d/{document}/e/ 
-CLI:  curieconf_cli entry list {config} {document}
+curl -XGET $api_url/configs/{config}/d/{document}/e/
 ```
 
 Retrieve an entry from a document:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/d/{document}/e/{entry}/ 
-CLI:  curieconf_cli entry get {config} {document} {entry}
+curl -XGET $api_url/configs/{config}/d/{document}/e/{entry}/
 ```
 
 Get the list of existing versions of a given entry in a document:
 
 ```text
- CURL: curl -XGET $api_url/configs/{config}/d/{document}/e/{entry}/v/ 
- CLI:  curieconf_cli entry list-versions {config} {document} {entry}
+curl -XGET $api_url/configs/{config}/d/{document}/e/{entry}/v/
 ```
 
 Get a given version of a document entry:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/r/{document}/i/{entry}/v/{version}/ 
-CLI:  curieconf_cli entry get {config} {document} {entry} -v {version}
+curl -XGET $api_url/configs/{config}/r/{document}/i/{entry}/v/{version}/
 ```
 
 Create an entry in a document:
 
 ```text
-CURL: curl -XPOST $api_url/configs/{config}/d/{document}/e/ 
-CLI:  curieconf_cli entry create {config} {document} [{filename}]
+curl -XPOST $api_url/configs/{config}/d/{document}/e/
 ```
 
 Update an entry in a document:
 
 ```text
-CURL: curl -XPUT $api_url/configs/{config}/d/{document}/e/{entry}/ 
-CLI:  curieconf_cli entry update {config} {document} {entry} [{filename}]
+curl -XPUT $api_url/configs/{config}/d/{document}/e/{entry}/
 ```
 
 Delete an entry from a document:
 
 ```text
-CURL: curl -XDELETE $api_url/configs/{config}/d/{document}/e/{entry}/ 
-CLI:  curieconf_cli entry delete {config} {document} {entry}
+curl -XDELETE $api_url/configs/{config}/d/{document}/e/{entry}/
 ```
 
 ## Operations on Blobs
@@ -265,56 +198,48 @@ CLI:  curieconf_cli entry delete {config} {document} {entry}
 Retrieve the list of available blobs:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/b/ 
-CLI: curieconf_cli blob list {config}
+curl -XGET $api_url/configs/{config}/b/
 ```
 
 Retrieve a blob:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/b/{blob}/ 
-CLI:  curieconf_cli blob get {config} {blob}
+curl -XGET $api_url/configs/{config}/b/{blob}/
 ```
 
 Create a new blob:
 
 ```text
-CURL: curl -XPOST $api_url/configs/{config}/b/{blob}/ 
-CLI:  curieconf_cli blob create {config} {blob} [{filename}]
+curl -XPOST $api_url/configs/{config}/b/{blob}/
 ```
 
 Replace a blob with new data:
 
 ```text
-CURL: curl -XPUT $api_url/configs/{config}/b/{blob}/ 
-CLI:  curieconf_cli blob update {config} {blob} [{filename}]
+curl -XPUT $api_url/configs/{config}/b/{blob}/
 ```
 
 Delete a blob:
 
 ```text
-CURL: curl -XDELETE $api_url/configs/{config}/b/{blob}/ 
-CLI:  curieconf_cli blob delete {config} {blob}
+curl -XDELETE $api_url/configs/{config}/b/{blob}/
 ```
 
 Retrieve the list of versions of a given blob:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/b/{blob}/v/ 
-CLI:  curieconf_cli blob list-versions {config} {blob}
+curl -XGET $api_url/configs/{config}/b/{blob}/v/
 ```
 
 Retrieve the given version of a blob:
 
 ```text
-CURL: curl -XGET $api_url/configs/{config}/b/{blob}/v/{version}/ 
-CLI:  curieconf_cli blob get {config} {blob} -v {version}
+curl -XGET $api_url/configs/{config}/b/{blob}/v/{version}/
 ```
 
 Create a new version for a blob from an old version:
 
 ```text
- CURL: curl -XPUT $api_url/configs/{config}/b/{blob}/v/{version}/revert/ 
- CLI:  curieconf_cli blob revert {config} {blob} {version}
+curl -XPUT $api_url/configs/{config}/b/{blob}/v/{version}/revert/
 ```
 
