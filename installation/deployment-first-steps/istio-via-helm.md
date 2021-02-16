@@ -25,7 +25,6 @@ An AWS S3 bucket must be available to synchronize configurations between the `co
   * Set`curieconf_manifest_url` to the bucket URL.
 * In `deploy/curiefense-helm/curiefense/values.yaml`:
   * Set `curieconf_manifest_url` to the bucket URL.
-  * Set `curiefense_db_hostname` to the hostname \(or FQDN\) of the database server if you choose to supply your own database. If you choose to use the instance from our `curiefense` chart, use the default `logdb` value.
 
 ## Create a Kubernetes Cluster Running Helm
 
@@ -297,20 +296,26 @@ kubectl apply -f uiserver-tls.yaml
 
 An example file with self-signed certificates is provided at `deploy/curiefense-helm/example-uiserver-tls.yaml`.
 
+When running `./deploy.sh` in the next step, add this argument to enable TLS on the UIServer:
+
+```
+-f curiefense/uiserver-enable-tls.yaml
+```
+
 ## Deploy Istio and Curiefense Images
 
 Deploy the Istio service mesh:
 
 ```text
 cd ~/curiefense/deploy/istio-helm 
-./deploy.sh
+DOCKER_TAG=main ./deploy.sh
 ```
 
 And then the Curiefense components:
 
 ```text
 cd ~/curiefense/deploy/curiefense-helm
-./deploy.sh
+DOCKER_TAG=main ./deploy.sh
 ```
 
 ## Deploy the \(Sample\) App
@@ -379,10 +384,10 @@ If this error occurs:  `Could not resolve host: a6fdxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ### Check that logs reach the accesslog UI <a id="markdown-header-check-that-logs-reach-the-accesslog-ui"></a>
 
-Run this query \(add random characters at the end\)
+Run this query
 
 ```text
-curl http://$(kubectl -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')/productpage/TEST_STRING
+curl http://$(kubectl -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')/TEST_STRING
 ```
 
 \(Replace "ip" with "hostname" if running in an environment where the LoadBalancer yields a FQDN, as is the case with Amazon's ELB.\)
@@ -390,10 +395,10 @@ curl http://$(kubectl -n istio-system get svc istio-ingressgateway -o jsonpath='
 Run this to ensure that the logs have been recorded and are reachable from the UI server:
 
 ```text
-kubectl exec -n curiefense -it "$(kubectl get -n curiefense pod -l app.kubernetes.io/name=uiserver -o jsonpath='{.items[0].metadata.name}')" -c uiserver -- curl 'http://localhost/logs/api/v1/exec/' -H 'Content-Type: application/json;charset=utf-8' --data-raw '{"statement":"SELECT  Path FROM logs ORDER BY StartTime DESC LIMIT 1024","parameters":[]}'
+kubectl exec -ti -n curiefense elasticsearch-0 -- curl http://127.0.0.1:9200/_search -H "Content-Type: application/json" -d '{"query": {"match": {"path": "/TEST_STRING"}}}'
 ```
 
-Check that `TEST_STRING` appears in the output.
+Check that a result is return, and that it does contains `TEST_STRING`.
 
 ## Expose Curiefense Services using NodePorts <a id="markdown-header-expose-curiefense-services-using-nodeports"></a>
 
@@ -416,13 +421,13 @@ kubectl get nodes -o wide
 If you are using minikube, also run the following commands on the host in order to expose services on the Internet:
 
 ```text
-sudo iptables -t nat -A PREROUTING -p tcp --match multiport --dports 30000,30080,30081,30300,30443 -j DNAT --to 172.17.0.2
-sudo iptables -I FORWARD -p tcp --match multiport --dports 30000,30080,30081,30300,30443,30444 -j  ACCEPT
+sudo iptables -t nat -A PREROUTING -p tcp --match multiport --dports 30000,30080,30081,30200,30300,30443,30601 -j DNAT --to 172.17.0.2
+sudo iptables -I FORWARD -p tcp --match multiport --dports 30000,30080,30081,30200,30300,30443,30444,30601 -j  ACCEPT
 ```
 
 ### For Amazon EKS only: <a id="markdown-header-amazon-eks"></a>
 
-If you are using Amazon EKS, you will also need to allow inbound connections for port range 30000-30500 from your IP. Go to the EC2 page in the AWS console, select the EC2 instance for the cluster \(named `curiefense-eks-...-Node`\), select the "Security" pane, select the security group \(named `eks-cluster-sg-curiefense-eks-[0-9]+`\), then add the incoming rule.
+If you are using Amazon EKS, you will also need to allow inbound connections for port range 30000-30700 from your IP. Go to the EC2 page in the AWS console, select the EC2 instance for the cluster \(named `curiefense-eks-...-Node`\), select the "Security" pane, select the security group \(named `eks-cluster-sg-curiefense-eks-[0-9]+`\), then add the incoming rule.
 
 ## Access Curiefense Services <a id="markdown-header-access-curiefense-services"></a>
 
@@ -430,9 +435,13 @@ The UIServer is now available on port 30080 over HTTP, and on port 30443 over HT
 
 Grafana is now available on port 30300 over HTTP. 
 
-For the `bookinfo` sample app, the Book Review product page is now available on port 30081 over HTTP, and on port 30444 over HTTPS. 
+For the `bookinfo` sample app, the Book Review product page is now available on port 30081 over HTTP, and on port 30444 over HTTPS (if you chose to enable TLS). 
 
 The confserver is now available on port 30000 over HTTP.
+
+Kibana is now available on port 30601 over HTTP.
+
+Elasticsearch is now available on port 30200 over HTTP.
 
 For a full list of ports used by Curiefense containers, see the [Reference page on services and containers](../../reference/services-container-images.md).
 
@@ -444,19 +453,31 @@ Helm charts are divided as follows:
 
 * `curiefense-admin` - confserver, curielogserver and UIServer.
 * `curiefense-dashboards` - Grafana and Prometheus.
-* `curiefense-log` - logdb, namely: PostgreSQL.
-* `curiefense-proxy` - curielogger, curiesync and redis.
+* `curiefense-log` - log storage: elasticsearch (default), postgres; log forwarders for elasticsearch: logstash (default), fluentd; log display interface: kibana (default)
+* `curiefense-proxy` - curielogger, curiesync and redis (used for synchronizationj.
 
 #### Chart configuration variables <a id="markdown-header-configuration-variables"></a>
 
 Configuration variables in `deploy/curiefense-helm/curiefense/values.yaml` can be modified or overridden to fit your deployment needs:
 
 * Variables in the `images` section define the Docker image names for each component. Override this if you want to host images on your own private registry.
-* `storage_class_name` is the StorageClass that is used for dynamic provisioning of Persistent Volumes. It defaults to `null` \(default storage class, which works by default on EKS, GKE and minikube\).
-* `..._storage_size` variables define the size of persistent volumes. The defaults are fine for a test or small-scale deployment.
-* `curieconf_manifest_url` is the URL of the AWS S3 bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
-* `curiefense_db_hostname` defines the hostname of the postgres server that will be used to store logs. Defaults to the provided `logdb` StatefulSet. Override this to replace the postgres instance with one you supply, or an AWS Aurora instance.
-* `docker_tag` defines the image tag versions that should be used. `deploy.sh` will override this to deploy a version that matches the current working directory, unless the `DOCKER_TAG` environment variable is set.
+* `storage.storage_class_name` is the StorageClass that is used for dynamic provisioning of Persistent Volumes. It defaults to `null` \(default storage class, which works by default on EKS, GKE and minikube\).
+* `storage.*_storage_size` variables define the size of persistent volumes. The defaults are fine for a test or small-scale deployment.
+* `settings.curieconf_manifest_url` is the URL of the AWS S3 bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
+* `settings.curiefense_logdb_type` defines whether logs are stored in postgresql or elasticsearch.
+* `settings.curiefense_es_forwarder` defines whether logs are forwarded to elasticsearch using fluentd or logstash \(default\). Has no effect if `settings.curiefense_logdb_type` is set to `elasticsearch`.
+* `settings.curiefense_es_hosts` is the hostname for the elasticsearch cluster. Changing it is required only if the elasticsearch cluster supplied by this chart is not used, and replaced with an externally-managed cluster.
+* `settings.curiefense_logstash_url` is the url of the logstash server. Changing it is required only if the logstash instance supplied by this chart is not used, and replaced with an externally-managed instance.
+* `settings.curiefense_fluentd_url` is the url of the fluentd server. Changing it is required only if the fluentd instance supplied by this chart is not used, and replaced with an externally-managed instance.
+* `settings.curiefense_kibana_url` is the url of the kibana server. Changing it is required only if the kibana instance supplied by this chart is not used, and replaced with an externally-managed instance.
+* `settings.curiefense_db_hostname` is the hostname of the postgres server that will be used to store logs. Defaults to the provided `logdb` StatefulSet. Override this to replace the postgres instance with one you supply, or an AWS Aurora instance.
+* `settings.curiefense_bucket_type` is the type of cloud bucket that is used to transfer configurations from `confserver` to envoy proxies \(supported values: `s3` or `gs`\).
+* `settings.curiefense_es_index_name` is the name of the elasticsearch index where logs are stored.
+* `settings.docker_tag` defines the image tag versions that should be used. `deploy.sh` will override this to deploy a version that matches the current working directory, unless the `DOCKER_TAG` environment variable is set.
+* `settings.redis_port` is the port on which redis listens. This value must be set identically in the Istio chart's `values.yaml`.
+* `settings.uiserver_enable_tls` is a boolean that defines whether TLS is enabled on the UI server. If it is enabled, then a certificate and key must have been provisioned \(see above\).
+* Variables in the `requests` define default CPU requirements for pods.
+* Variables in the `enable` allow disabling parts of a deployment, which can be supplied outside of this chart \(ex. postgresql, kibana, logstash, fluentd, elasticsearch, prometheus...\).
 
 ### Istio chart <a id="markdown-header-istio"></a>
 
@@ -474,9 +495,11 @@ Configuration variables in `deploy/istio-helm/chart/values.yaml` can be modified
 
 * `gw_image` defines the name of the image that contains our filtering code and modified Envoy binary.
 * `curiesync_image` defines the name of the image that contains scripts that synchronize local Envoy configuration with the AWS S3 bucket defined in `curieconf_manifest_url`.
-* `curieconf_manifest_url` is the URL of the AWS S3 bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
-* `curiefense_namespace` should contain the name of the namespace where Curiefense components defined in `deploy/curiefense-helm/` are running.
+* `curieconf_manifest_url` is the URL of the AWS S3 or Google Storage bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
+* `curiefense_namespace` is the name of the namespace where Curiefense components defined in `deploy/curiefense-helm/` are running.
+* `curiefense_bucket_type` is the type of cloud bucket that is used to transfer configurations from `confserver` to envoy proxies \(supported values: `s3` or `gs`\).
 * `redis_host` defines the hostname of the redis server that will be used by `curieproxy`. Defaults to the provided redis StatefulSet. Override this to replace the redis instance with one you supply.
+* `redis_port` defines the port of the redis server that will be used by `curieproxy`. Defaults to the provided redis StatefulSet. Override this to replace the redis instance with one you supply.
 * `initial_curieconf_pull` defines whether a configuration should be pulled from the AWS S3 bucket before running Envoy \(`true`\), or if traffic should be allowed to flow with a default configuration until the next synchronization \(typically every 10s\).
 
 
