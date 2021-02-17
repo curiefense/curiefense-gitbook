@@ -1,10 +1,12 @@
 ---
-description: 'aka Version History, Changelog'
+description: >-
+  All notable changes to this project will be documented in this file. This
+  project adheres to Semantic Versioning.
 ---
 
 # Release Notes
 
-## Version 1.2.4
+## Version 1.3.0
 
 ### Enhanced
 
