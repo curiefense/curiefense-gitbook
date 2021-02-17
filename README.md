@@ -8,7 +8,7 @@ Curiefense also has a UI console, discussed in this Manual in the [Console](cons
 
 ## Version
 
-This documentation is for **version 1.2.4**.
+This documentation is for **version 1.3.0**
 
 \(To view docs for a previous version, choose it at the top of the left sidebar.\)
 
