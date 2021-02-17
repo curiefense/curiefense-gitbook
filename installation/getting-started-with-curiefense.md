@@ -113,7 +113,7 @@ Before diving in and making changes, let's discuss a few concepts of Curiefense'
   4. Using a single configuration server, you can maintain configurations of multiple deployments \(e.g. production, devops, qa, rc, etc.\) by keeping each in a separate branch, and you can merge them the git way at any point in time, via the API and/or UI.
 * Configurations are organized in Documents and Entries. More on this [here](../#data-structures).
 
-![](../.gitbook/assets/curiefense-conf.png)
+![](../.gitbook/assets/data-structures%20%281%29.png)
 
 ## Policy and Rules Configuration
 
