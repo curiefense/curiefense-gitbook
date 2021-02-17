@@ -1,8 +1,8 @@
-# Document Editor
+# Policies & Rules
 
 Curiefense maintains its security parameters in Documents, which contain Entries. \(Read more about [Curiefense's data structures](../../#data-structures).\)
 
-The Document Editor is where Documents and their Entries are created, defined, and administered.
+The Policies & Rules section is where Documents and their Entries are created, defined, and administered.
 
 ## Documents and traffic flow
 
@@ -14,11 +14,11 @@ Curiefense processes incoming requests according to this traffic flow:
 
 This process is based on the Documents as follows:
 
-* \*\*\*\*[**Profiling Lists** ](profiling-lists.md)is the Document which defines tags for external lists and custom lists.
-* \*\*\*\*[**ACL Profiles**](acl-profiles.md), [**Rate Limits**](rate-limits.md), and [**WAF Profiles**](waf-profiles.md) define security rulesets, i.e. the actions to take when specific tags and/or other criteria are observed.
+* \*\*\*\*[**Tag Rules** ](tag-rules.md)is the Document which defines tags for external lists and custom lists.
+* \*\*\*\*[**ACL Policies**](acl-policies.md), [**Rate Limits**](rate-limits.md), and [**WAF Policies**](waf-policies.md) define security rulesets, i.e. the actions to take when specific tags and/or other criteria are observed.
 * \*\*\*\*[**URL Maps**](url-maps.md) assign the security rulesets to internal URLs.
 
-## Document Editor interface
+## Policies & Rules interface
 
 ![](../../.gitbook/assets/document-editor-acl-profiles%20%281%29.png)
 
@@ -51,12 +51,12 @@ The top section contains a toolbar with input controls.
 
 The UI in this section will vary, depending on the type of Document being edited. Each is discussed in more depth here:
 
-* [ACL Profiles](acl-profiles.md)
+* [ACL Policies](acl-policies.md)
+* [Tag Rules](tag-rules.md)
 * [Rate Limits](rate-limits.md)
-* [Profiling Lists](profiling-lists.md)
 * [URL Maps](url-maps.md)
-* [WAF Profiles](waf-profiles.md)
-* [WAF Signatures](waf-signatures.md)
+* [WAF Policies](waf-policies.md)
+* [WAF Rules](waf-rules.md)
 
 At the bottom of this section, the URL of the current entry is shown in gray. It reflects the structure of the data. 
 

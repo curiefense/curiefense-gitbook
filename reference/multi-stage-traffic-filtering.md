@@ -6,10 +6,10 @@ Curiefense evaluates incoming traffic in a multi-stage filtering process. An HTT
 
 When constructing its security posture, it can be helpful to understand the filtering stages. They are:
 
-* Profiling: Curiefense assigns [automatically-generated tags](tags.md#automatic-tags) and [user-defined tags](tags.md#user-defined-tags) to the requests.
-* \*\*\*\*[Rate Limit](../console/document-editor/rate-limits.md) enforcement.
-* \*\*\*\*[ACL Profile](../console/document-editor/acl-profiles.md) enforcement.
-* \*\*\*\*[WAF Profiles](../console/document-editor/waf-profiles.md) and [WAF Signatures](../console/document-editor/waf-signatures.md) enforcement.
+* Tagging: Curiefense assigns [automatically-generated tags](tags.md#automatic-tags) and [user-defined tags](tags.md#user-defined-tags) to the requests.
+* \*\*\*\*[Rate Limit](../console/policies-rules/rate-limits.md) enforcement.
+* \*\*\*\*[ACL Policies](../console/policies-rules/acl-policies.md) enforcement.
+* \*\*\*\*[WAF Policies](../console/policies-rules/waf-policies.md) and [WAF Rules](../console/policies-rules/waf-rules.md) enforcement.
 * Transmission of request to the backend.
 
 ## 
