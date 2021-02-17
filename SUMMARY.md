@@ -12,13 +12,13 @@
 
 ## Console
 
-* [Document Editor](console/document-editor/README.md)
-  * [ACL Profiles](console/document-editor/acl-profiles.md)
-  * [Rate Limits](console/document-editor/rate-limits.md)
-  * [Profiling Lists](console/document-editor/profiling-lists.md)
-  * [URL Maps](console/document-editor/url-maps.md)
-  * [WAF Profiles](console/document-editor/waf-profiles.md)
-  * [WAF Signatures](console/document-editor/waf-signatures.md)
+* [Policies & Rules](console/policies-rules/README.md)
+  * [ACL Policies](console/policies-rules/acl-policies.md)
+  * [Tag Rules](console/policies-rules/tag-rules.md)
+  * [Rate Limits](console/policies-rules/rate-limits.md)
+  * [URL Maps](console/policies-rules/url-maps.md)
+  * [WAF Policies](console/policies-rules/waf-policies.md)
+  * [WAF Rules](console/policies-rules/waf-rules.md)
 * [System Settings](console/system-settings.md)
 * [Publish Configuration](console/publish-configuration.md)
 
@@ -29,15 +29,13 @@
 
 ## GIT
 
----
-
-* [Version Control](version-control.md)
+* [Version Control](git/version-control.md)
 
 ## API
 
 * [API Introduction](api/introduction.md)
 * [API Namespaces and Endpoints](api/api-namespaces-and-endpoints.md)
-* [cURL and CLI Tool](api/untitled-1.md)
+* [cURL Examples](api/curl-examples.md)
 
 ## Reference
 
@@ -45,4 +43,5 @@
 * [The Challenge Process](reference/the-challenge-process.md)
 * [Multi-Stage Traffic Filtering](reference/multi-stage-traffic-filtering.md)
 * [Tags](reference/tags.md)
+* [Release Notes](reference/release-notes.md)
 

@@ -1,8 +1,8 @@
-# WAF Profiles
+# WAF Policies
 
 ![](../../.gitbook/assets/waf-profiles.png)
 
-The input controls at the top of this page are described here: [Document Editor interface](./#document-editor-interface). Specific editing of a WAF Profile is described below.
+The input controls at the top of this page are described here: [Policies & Rules](./#document-editor-interface)[ interface](./#document-editor-interface). Specific editing of a WAF Profile is described below.
 
 ## Overview
 
@@ -13,7 +13,7 @@ Every URL that Curiefense protects has a WAF Profile assigned to it in [URL Maps
 #### Reasons why WAF filtering might not occur:
 
 * The request was blocked before WAF filtering would have occurred. \(Before the WAF is used, [several other stages of filtering occur first](../../reference/multi-stage-traffic-filtering.md).\)
-* The applicable [ACL Profile](acl-profiles.md) resulted in an Action of Bypass, which exempts the request from WAF filtering. 
+* The applicable [ACL Profile](acl-policies.md) resulted in an Action of Bypass, which exempts the request from WAF filtering. 
 * The WAF is not in [Active Mode](url-maps.md#editing-its-path-maps) for this URL.
 
 ## Input Characteristics
@@ -28,7 +28,7 @@ At the top of the page, the following values are defined for incoming requests.
 
 ## Content Filtering and Whitelisting
 
-By default, an incoming request will be compared to all the [WAF Signatu](waf-signatures.md)[res](waf-signatures.md). If any parameter \(any header, cookie, or argument within it\) fails this evaluation, the request will be blocked.
+By default, an incoming request will be compared to all the [WAF Signatu](waf-rules.md)[res](waf-rules.md). If any parameter \(any header, cookie, or argument within it\) fails this evaluation, the request will be blocked.
 
 However, parameters can be whitelisted and exempted from this filtering. For each parameter, this can be done in two ways:
 

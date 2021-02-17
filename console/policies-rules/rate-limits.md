@@ -1,10 +1,10 @@
 # Rate Limits
 
-![](../../.gitbook/assets/rate-limits%20%282%29.png)
+![](../../.gitbook/assets/rate-limits-no-limitations.png)
 
 Rate Limits are rules which define the number of requests with certain characteristics that are allowed within defined time frames. When a request is received that exceeds a Rate Limit, a specified action is performed.
 
-The input controls at the top of this page are described here: [Document Editor interface](./#document-editor-interface). Specific editing of a Rate Limit is described below.
+The input controls at the top of this page are described here: [Policies & Rules](./#document-editor-interface)[ interface](./#document-editor-interface). Specific editing of a Rate Limit is described below.
 
 ## Rate Limit concepts
 
