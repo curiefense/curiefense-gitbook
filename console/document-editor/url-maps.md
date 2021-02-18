@@ -11,7 +11,7 @@ This page specifies a list of URLs and the security policies assigned to them.
 Every incoming HTTP/S request targets a specific URL. Curiefense finds the best match for that URL in the URL Maps, and applies the security policies defined for it.
 
 {% hint style="info" %}
-The "best match" is determined by regex evaluation. \(The order in which the URLs are listed in the interface does not matter.\) If no matching definition is found, Reblaze applies the rulesets from the default definition.
+The "best match" is determined by regex evaluation. \(The order in which the URLs are listed in the interface does not matter.\) If no matching definition is found, Curiefense applies the rulesets from the default definition.
 {% endhint %}
 
 ## Components of a URL Map
