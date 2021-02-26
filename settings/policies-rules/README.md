@@ -2,21 +2,23 @@
 
 Curiefense maintains its security parameters in Documents, which contain Entries. \(Read more about [Curiefense's data structures](../../#data-structures).\)
 
-The Policies & Rules section is where Documents and their Entries are created, defined, and administered.
+The Policies & Rules section is where Documents and their Entries are created, defined, and administered via the UI.
 
 ## Documents and traffic flow
 
 Curiefense processes incoming requests according to this traffic flow:
 
 * Each incoming request is inspected, and tags are assigned to it. For example, if the request's IP was found on the Spamhaus DROP list, it could be assigned a "spamhaus" tag. Some tags are generated automatically, while others are user-defined. \([Read more about tags](../../reference/tags.md).\)
+* Next, Rate Limits are enforced. 
+* Then, Session Flow Control is enforced.
 * Next, Curiefense determines the security ruleset\(s\) that have been assigned to the request's target URL, and which match the tags. For example, there might be a ruleset defined for the "spamhaus" tag, or for the "devops" tag.
 * Curiefense then enforces the ruleset\(s\), and takes the defined Action\(s\). For example, "block requests from Spamhaus-listed IPs", or "bypass devops requests from further filtering."
 
 This process is based on the Documents as follows:
 
 * \*\*\*\*[**Tag Rules** ](tag-rules.md)is the Document which defines tags for external lists and custom lists.
-* \*\*\*\*[**ACL Policies**](acl-policies.md), [**Rate Limits**](rate-limits.md), and [**WAF Policies**](waf-policies.md) define security rulesets, i.e. the actions to take when specific tags and/or other criteria are observed.
-* \*\*\*\*[**URL Maps**](url-maps.md) assign the security rulesets to internal URLs.
+* \*\*\*\*[**Rate Limits**](rate-limits.md) and [**Session Flow Control**](flow-control.md) parameters define session-based policies.
+* \*\*\*\*[**ACL Policies**](acl-policies.md) ****and [**WAF Policies**](waf-policies.md) define the actions to take when specific tags and/or other criteria are observed. [**URL Maps**](url-maps.md) assign these actions to internal URLs.
 
 ## Policies & Rules interface
 
@@ -52,6 +54,7 @@ The top section contains a toolbar with input controls.
 The UI in this section will vary, depending on the type of Document being edited. Each is discussed in more depth here:
 
 * [ACL Policies](acl-policies.md)
+* [Flow Control](flow-control.md)
 * [Tag Rules](tag-rules.md)
 * [Rate Limits](rate-limits.md)
 * [URL Maps](url-maps.md)

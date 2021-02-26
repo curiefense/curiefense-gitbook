@@ -1,10 +1,10 @@
 # Overview
 
-Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
+Curiefense is an **API-first, GitOps-based web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
 
 Curiefense is [fully controllable programmatically](api/introduction.md). All configuration data \(security rulesets, policies, etc.\) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
 
-Curiefense also has a UI console, discussed in this Manual in the [Console](settings/policies-rules/) section. 
+Curiefense also has a UI console, discussed in this Manual beginning in the [Settings](settings/policies-rules/) section. 
 
 ## Version
 

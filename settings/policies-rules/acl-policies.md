@@ -42,8 +42,7 @@ The most common use is the "Deny Bot" column, as noted above. This means that al
 
 Another possible use is to place "all" in the _Deny_ column, to create a positive security model. \(This will block all requests which did not explicitly meet any of the conditions to be _Bypassed_ or _Allowed_.\) But even this usage can be dangerous. Unless all the conditions for _Bypassing_ or _Allowing_ requests are fully and correctly defined, this can result in False Positive errors, and some legitimate requests will be blocked and filtered.
 
-In other columns, "all" can have serious consequences. For example, placing it in the _Enforce Deny_ column will block _all_ incoming traffic to which this ACL Policy is applied. On the other hand, placing it in the _Bypass_ column will _allow_ all incoming traffic \(and exempt it from being scrubbed by the WAF!\), except for those requests which matched a tag in the _Enforce Deny_ column.   
-
+In other columns, "all" can have serious consequences. For example, placing it in the _Enforce Deny_ column will block _all_ incoming traffic to which this ACL Policy is applied. On the other hand, placing it in the _Bypass_ column will _allow_ all incoming traffic \(and exempt it from being scrubbed by the WAF!\), except for those requests which matched a tag in the _Enforce Deny_ column. 
 
 Summary: before using the "all" tag in an ACL Policy, carefully consider its ramifications.
 {% endhint %}
