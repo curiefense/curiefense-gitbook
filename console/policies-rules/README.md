@@ -31,7 +31,7 @@ This page is divided into three vertical sections. From top to bottom, they are:
 Each is discussed below.
 
 {% hint style="info" %}
-After editing anything on this page, you must save your changes \(with the Save button on the upper right\) and then [publish them](../publish-configuration.md).
+After editing anything on this page, you must save your changes \(with the Save button on the upper right\) and then [publish them](../publish-changes.md).
 {% endhint %}
 
 ## Entry Administration
@@ -68,7 +68,7 @@ For example, `/conf/api/v1/configs/devops/d/urlmaps/e/__default__` shows that:
 
 ## **Document Versioning**
 
-The bottom section of this page shows a history of versions for this Document. In a later version of Curiefense, this section will allow for reversions. In the current version, reversions are only available in the API and in the [Publish Configuration](../publish-configuration.md) section of the UI.
+The bottom section of this page shows a history of versions for this Document. In a later version of Curiefense, this section will allow for reversions. In the current version, reversions are only available in the API and in the [Publish Configuration](../publish-changes.md) section of the UI.
 
 
 

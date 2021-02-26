@@ -76,7 +76,7 @@ When a Configuration is created or modified \(whether by the UI console or an AP
 
 ![](.gitbook/assets/architecture-multiple-buckets.png)
 
-When a Configuration is [published](console/publish-configuration.md), it can be pushed to multiple buckets \(each of which can be monitored by one or more environments\) all at once, from a single button-push or API call.
+When a Configuration is [published](console/publish-changes.md), it can be pushed to multiple buckets \(each of which can be monitored by one or more environments\) all at once, from a single button-push or API call.
 
 ## Filtering
 

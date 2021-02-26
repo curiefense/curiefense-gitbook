@@ -1,8 +1,8 @@
-# System Settings
+# System DB
 
 ![](../.gitbook/assets/system-settings%20%281%29.png)
 
-This page displays the current System Settings in a JSON editor. These settings are used to populate the interface for [Publish Configuration](publish-configuration.md).
+This page displays the current System Database in a JSON editor. These settings are used to populate the interface for [Publish Configuration](publish-changes.md).
 
 The settings are:
 

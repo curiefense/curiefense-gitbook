@@ -19,8 +19,8 @@
   * [URL Maps](console/policies-rules/url-maps.md)
   * [WAF Policies](console/policies-rules/waf-policies.md)
   * [WAF Rules](console/policies-rules/waf-rules.md)
-* [System Settings](console/system-settings.md)
-* [Publish Configuration](console/publish-configuration.md)
+* [System DB](console/system-db.md)
+* [Publish Changes](console/publish-changes.md)
 
 ## Analytics
 
