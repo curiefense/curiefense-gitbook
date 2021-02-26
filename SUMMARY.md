@@ -10,17 +10,17 @@
   * [Docker Compose](installation/deployment-first-steps/docker-compose.md)
   * [Istio via Helm](installation/deployment-first-steps/istio-via-helm.md)
 
-## Console
+## Settings
 
-* [Policies & Rules](console/policies-rules/README.md)
-  * [ACL Policies](console/policies-rules/acl-policies.md)
-  * [Tag Rules](console/policies-rules/tag-rules.md)
-  * [Rate Limits](console/policies-rules/rate-limits.md)
-  * [URL Maps](console/policies-rules/url-maps.md)
-  * [WAF Policies](console/policies-rules/waf-policies.md)
-  * [WAF Rules](console/policies-rules/waf-rules.md)
-* [System DB](console/system-db.md)
-* [Publish Changes](console/publish-changes.md)
+* [Policies & Rules](settings/policies-rules/README.md)
+  * [ACL Policies](settings/policies-rules/acl-policies.md)
+  * [Tag Rules](settings/policies-rules/tag-rules.md)
+  * [Rate Limits](settings/policies-rules/rate-limits.md)
+  * [URL Maps](settings/policies-rules/url-maps.md)
+  * [WAF Policies](settings/policies-rules/waf-policies.md)
+  * [WAF Rules](settings/policies-rules/waf-rules.md)
+* [System DB](settings/system-db.md)
+* [Publish Changes](settings/publish-changes.md)
 
 ## Analytics
 

@@ -102,7 +102,7 @@ Other than those situations, Active Challenges can be very beneficial.
 **We recommend that you keep Active Challenges enabled if possible.** They automatically eliminate almost all DDoS traffic, scanning tools, and other hostile bot traffic.
 {% endhint %}
 
-If you wish to turn off Active Challenges, remove all tags from the "Deny Bot" column within [ACL Profiles](../console/policies-rules/acl-policies.md).
+If you wish to turn off Active Challenges, remove all tags from the "Deny Bot" column within [ACL Profiles](../settings/policies-rules/acl-policies.md).
 
 {% hint style="danger" %}
 **If you have not enabled Passive Challenges** \(and successfully tested them\), disabling Active Challenges is not recommended.

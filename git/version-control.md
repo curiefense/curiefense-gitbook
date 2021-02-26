@@ -6,5 +6,5 @@ This page displays previous versions of configurations, and allows you to revert
 
 To do this, hover the mouse over the desired configuration. The "Restore Version" button will appear, as shown above.
 
-Select this button. Once the process is complete, [publish](../console/publish-changes.md). Curiefense will push the selected configuration out to all deployments.
+Select this button. Once the process is complete, [publish](../settings/publish-changes.md). Curiefense will push the selected configuration out to all deployments.
 

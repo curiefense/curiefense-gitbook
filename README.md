@@ -4,7 +4,7 @@ Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapte
 
 Curiefense is [fully controllable programmatically](api/introduction.md). All configuration data \(security rulesets, policies, etc.\) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
 
-Curiefense also has a UI console, discussed in this Manual in the [Console](console/policies-rules/) section. 
+Curiefense also has a UI console, discussed in this Manual in the [Console](settings/policies-rules/) section. 
 
 ## Version
 
@@ -64,7 +64,7 @@ A Configuration is a complete definition of Curiefense's behavior for a specific
 
 ![](.gitbook/assets/data-structures.png)
 
-Each Configuration contains six Documents \(one of each type: ACL Profiles, Rate Limits, etc.\) Each Document contains at least one Entry, i.e., an individual security rule or definition. Documents are edited and managed in the [Policies & Rules](console/policies-rules/) UI or via API.
+Each Configuration contains six Documents \(one of each type: ACL Profiles, Rate Limits, etc.\) Each Document contains at least one Entry, i.e., an individual security rule or definition. Documents are edited and managed in the [Policies & Rules](settings/policies-rules/) UI or via API.
 
 A Configuration also includes data blobs, which currently are used to store the Maxmind geolocation database. This is where Curiefense obtains its geolocation data and ASN for each request it processes.
 
@@ -76,7 +76,7 @@ When a Configuration is created or modified \(whether by the UI console or an AP
 
 ![](.gitbook/assets/architecture-multiple-buckets.png)
 
-When a Configuration is [published](console/publish-changes.md), it can be pushed to multiple buckets \(each of which can be monitored by one or more environments\) all at once, from a single button-push or API call.
+When a Configuration is [published](settings/publish-changes.md), it can be pushed to multiple buckets \(each of which can be monitored by one or more environments\) all at once, from a single button-push or API call.
 
 ## Filtering
 
