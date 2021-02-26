@@ -6,7 +6,7 @@ The input controls at the top of this page are described here: [Policies & Rules
 
 ## Overview
 
-Session Flow Control blocks attacks based on defined sequences of session flow.
+The Session Flow Control module blocks hostile activity based on defined sequences of session flow.
 
 Threat actors usually behave quite differently than legitimate users. For speed and efficiency, they tend to deviate from normal patterns of activity. The Session Flow Control capabilities of Curiefense allow you to define the expected patterns of behavior, and block access attempts that deviate from them.
 
