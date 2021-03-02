@@ -1,6 +1,6 @@
 # API Introduction
 
-As discussed in [Data Structures](), Curiefense's data is stored within:
+As discussed [here](../#data-structures), Curiefense's data is stored within:
 
 * Configurations
 * Documents
