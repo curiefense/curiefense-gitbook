@@ -6,7 +6,7 @@ description: >-
 
 # Release Notes
 
-## Version 1.3.0
+## [Version 1.3.0](https://github.com/curiefense/curiefense/releases/tag/v1.3.0)
 
 ### Enhanced
 
@@ -93,6 +93,7 @@ description: >-
 
 ### Removed
 
+* \[curielogger\] Removed postgres support in favor or elasticsearch
 * \[ui\] Flow Control - Removed the regex symbol next to Method, Host, and Path
 * \[curielogger\] removed addition of hardcoded path to logstash url
 * \[curieproxy\] removed reference to bt
