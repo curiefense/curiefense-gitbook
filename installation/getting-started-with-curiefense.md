@@ -13,7 +13,7 @@ In this guide, we will deploy Curiefense using Docker Compose, then test and con
 If you want to use Helm instead of Docker Compose, or if you want more control over the deployment options, then do this:
 
 1. Go to the [Deployment in Depth: First Tasks](deployment-first-steps/first-tasks.md) page and follow its instructions. 
-2. Go to the appropriate Deployment in Depth page \([Docker Compose](deployment-first-steps/docker-compose.md) or [Helm](deployment-first-steps/istio-via-helm.md)\) and follow its  instructions.
+2. Go to the appropriate Deployment in Depth page \([Docker Compose](deployment-first-steps/docker-compose.md) or [Helm](deployment-first-steps/istio-via-helm.md)\) and follow its instructions.
 3. Return here to the [Verify the Deployment](getting-started-with-curiefense.md#verify-the-deployment) section below, and continue.
 
 ## Let's begin
@@ -215,7 +215,7 @@ Note that the request was identified as a risk, because it contains the specifie
 
 However, Curiefense passed the request through the system, as seen in the green HTTP status code \(**200:** successful\). If it had been blocked, the code would instead be red with an error code.
 
-This behavior is expected. By default, Curiefense's security profiles are in report/monitor mode;  requests will be flagged but not blocked. This mode allows for testing and fine-tuning of new configurations without affecting traffic.
+This behavior is expected. By default, Curiefense's security profiles are in report/monitor mode; requests will be flagged but not blocked. This mode allows for testing and fine-tuning of new configurations without affecting traffic.
 
 Let's assume that we've tested our new policies and want to make the ACL active.
 
@@ -317,7 +317,7 @@ At this point, we have four profiles: the default `/` which we left in place, `/
 
 Note that the default has one Rate Limit attached to it \(shown as a "1" in the **RL** column\), because it already had this when it was duplicated. The other three profiles do not yet have any limits.
 
-For `/api/v1/` and `/api/v2/` ,  set the standard rate limit rule as you did before:
+For `/api/v1/` and `/api/v2/` , set the standard rate limit rule as you did before:
 
 ![](../.gitbook/assets/image.png)
 
