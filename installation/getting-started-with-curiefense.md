@@ -125,39 +125,39 @@ During the procedures described below, you will set up some simple rules and the
 
 ### Open the UI
 
-Open the UI management console by going to [http://curie.demo:30080/](http://curie.demo:30080/). In the left sidebar, select  **Document Editor** if it is not already selected.
+Open the UI management console by going to [http://curie.demo:30080/](http://curie.demo:30080/). In the left sidebar, select **Policies & Rules** if it is not already selected.
 
-At the top left of the page,  in the second pulldown control, select **Profiling Lists**.
+At the top left of the page, in the second pulldown control, select **Tag Rules**.
 
-### Create a Session Profiling list
+### Create a Tag Rules list
 
-Session profiling attaches tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs to traffic sources such as geolocations, IP addresses, CIDRs, and AS numbers. Subsequently, the tags are then used to make decisions about how the requests are handled.
+Tag Rules lists attach tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs to traffic sources such as geolocations, IP addresses, CIDRs, and AS numbers. Subsequently, the tags are then used to make decisions about how the requests are handled.
 
-Start by creating a new Profiling List:
+Start by creating a new Tag Rules List by selecting the "**+**" button at the top:
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-4.59.46-am.png)
+![](../.gitbook/assets/tag-rules-foo-bar-add.png)
 
-Next, in the **Tags** text box, enter the value `trusted` .
+Next, in the **Tags** text box on the left, enter the value `trusted` .
 
-Then, at the top of the \(currently empty\) list to the right, add a new entry by selecting the  **+**  button.  Enter `foo` for its name, `bar` for value, and `trust me` for annotation. Now click on the "add" link.
+Then, at the top of the \(currently empty\) list to the right, add a new entry by selecting the **Create New Section** button. An empty rule will appear.
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-5.04.49-am.png)
+![](../.gitbook/assets/tag-rules-empty-section.png)
+
+In the left pulldown, select **Header**. Enter `foo` for its name, and `bar` for its value. Then select "**Add**".
 
 Your screen should look similar to this:
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-5.03.11-am.png)
+![](../.gitbook/assets/tag-rules-foo-bar.png)
 
-We have created a simple profiling rule. Every request that contains a header named `foo` which matches the regex \(PCRE\) `bar` will receive a tag of `trusted`. 
-
-\(The Annotation of `trust me` is a label for internal admin use, and does not affect traffic processing.\)
+We have created a simple tag rule. Every request that contains a header named `foo` which matches the regex \(PCRE\) `bar` will receive a tag of `trusted`. 
 
 Now save the new configuration:
 
-![Save changes](../.gitbook/assets/screen-shot-2020-11-07-at-5.12.44-am.png)
+![](../.gitbook/assets/tag-rules-foo-bar-save.png)
 
-And then publish it:
+And then publish it by going to "Publish Changes" in the left sidebar, and selecting **Publish configuration**:
 
-![Publish configuration](../.gitbook/assets/screen-shot-2020-11-07-at-5.13.49-am.png)
+![](../.gitbook/assets/publish-changes.png)
 
 {% hint style="info" %}
 After publishing, your changes need time to propagate. Waiting 10-15 seconds should be enough.
@@ -181,7 +181,7 @@ Click on the `/with/header` entry, and notice the `trusted` tag on the right col
 
 Notice also that along the `trusted` tag you defined, Curiefense attached a number of tags that were generated automatically. [More information about this](../reference/tags.md#automatic-tags).
 
-Profiling Lists are a powerful feature of Curiefense \(and are explained in depth [here](../settings/policies-rules/tag-rules.md)\). We just demonstrated the ability to create a single-entry self-managed list that characterizes incoming requests based on a header. Curiefense allows you to attach tags based on complex combinations of headers, arguments, cookies, geolocation, methods, paths, and more. External data sources are also supported; sessions can be profiled based on data and rules defined by a third party, such as blocklists and whitelists.
+Tag Rules Lists are a powerful feature of Curiefense \(and are explained in depth [here](../settings/policies-rules/tag-rules.md)\). We just demonstrated the ability to create a single-entry self-managed list that characterizes incoming requests based on a header. Curiefense allows you to attach tags based on complex combinations of headers, arguments, cookies, geolocation, methods, paths, and more. External data sources are also supported; sessions can be profiled based on data and rules defined by a third party, such as blocklists and whitelists.
 
 Now that we know how to attach tags to incoming requests, let's tell Curiefense how to react to them.
 
