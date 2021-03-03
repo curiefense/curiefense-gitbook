@@ -12,7 +12,7 @@ To filter the display, type a search string into the Search box. For example, to
 
 ![](../.gitbook/assets/access-log-filtering-script.png)
 
-To search for \(or exclude\) the value of an entire parameter, it is often faster to hover the cursor over an existing request with that value. For example, to show all requests originating from IP address `13.212.190.213`, you could manually enter that address into the Search box. Or, just hover the mouse over that value within an existing request, and a "Filter for value" button will appear. Selecting the button will create the filter for you automatically.
+To search for \(or exclude\) the value of an entire parameter, it is often faster to hover the cursor over an existing request with that value. For example, to show all requests originating from IP address `13.212.190.213`, you could manually enter that address into the Search box. Or, find an existing request with that value and hover the mouse over it. A "Filter for value" button will appear; selecting it will create the filter for you automatically.
 
 ![](../.gitbook/assets/access-log-filter-for-value.png)
 
