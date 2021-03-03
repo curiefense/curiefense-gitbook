@@ -39,7 +39,7 @@ docker-compose up
 ## Verify the Deployment
 
 {% hint style="info" %}
-This tutorial assumes that host names **curie.demo** and **api.curie.demo** are mapped to the host machine. You may replace it with the IP of your host, or set your `/etc/hosts` file accordingly. For example, if docker-compose was executed locally, then
+This tutorial assumes that host names **curie.demo** and **api.curie.demo** are mapped to the host machine. You may replace it with the IP of your host, or set your`/etc/hosts` file accordingly. For example, if docker-compose was executed locally, then
 
 `127.0.0.1 curie.demo api.curie.demo`
 {% endhint %}
