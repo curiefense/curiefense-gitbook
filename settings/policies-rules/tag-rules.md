@@ -28,7 +28,7 @@ For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A
 | :--- | :--- |
 | **Name** | A description that will be displayed within the Curiefense interface. |
 | **Active** | By default, the Tag Rule List will be applied to incoming requests. To prevent this, unselect the checkbox. |
-| **Sections Relation** | For self-managed lists with multiple sections, this is the logical relation to use among the sections. |
+| **Sections Relation** | For Lists with multiple sections, this is the logical relation to use when evaluating the Match Conditions in the sections. |
 | **Tags** | One or more Tags \(separated by spaces\) that will be assigned to requests if the match conditions are fulfilled. Example: `internal team-devops`. |
 | **Source** | The source of the match conditions. See discussion below. |
 | **Action** | The action to take for requests that match the criteria in this list. By default, this is **Tag Only**; the specified tag\(s\) will be applied, and the traffic evaluation process will continue. If instead the Match Conditions describe a request for which the final disposition is already known, then there is no need for the complete evaluation process to occur. In this situation, the Action can be set here, and it will be applied immediately whenever a request meets the Match Conditions. |
@@ -38,7 +38,7 @@ For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A
 
 Tag Rule Lists can be either Internet-sourced or self-managed.
 
-* **Internet-sourced** Lists are based upon online sources \(e.g., Spamhaus DROP lists\). To use an Internet-sourced list, enter its URL into the **Source** field. For example, to create a list based on the Spamhaus ASN DROP list, you would enter [https://www.spamhaus.org/drop/asndrop.txt](https://www.spamhaus.org/drop/asndrop.txt) and select **update now**. Curiefense will then populate the list automatically. 
+* **Internet-sourced** Lists are based upon online sources \(e.g., Spamhaus DROP lists\). To use an Internet-sourced list, enter its URL into the **Source** field. For example, to create a list based on the Spamhaus ASN DROP list, you would enter [https://www.spamhaus.org/drop/asndrop.txt](https://www.spamhaus.org/drop/asndrop.txt) and select the **update now** control that will appear. Curiefense will then populate the list automatically. 
 * **Self-managed** Lists are created manually. The Source field entry will be `self-managed`.
 
 Note that Internet-sourced lists are not editable within the interface, because they are obtained automatically; Curiefense updates them every 24 hours \(or you can force an immediate update by selecting **update now**\). Typically, these will be Single-Section Lists.
@@ -53,14 +53,16 @@ Match conditions are combined into sections. An additional logical operator defi
 
 Many Tag Rules Lists will have only section. Here's an example. 
 
-![](../../.gitbook/assets/tag-rules-self-managed.png)
+![](../../.gitbook/assets/tag-rules-api-discovery.png)
 
-In the left-hand metadata, the **Sections control** shows that \(the number of\) **Sections** is 1. There is also a **Sections relation** toggle \(set to `AND` in the example above\). For a single-section list, this toggle is ignored.
+In the example, the **Sections relation** toggle is set to `AND`. For a single-section list, this toggle is ignored.
 
-On the right, at the top of the entries list, there is an **Entries relation** toggle \(set to `OR` in the example above\). This defines the logical operator to use when evaluating the criteria within the list. 
+On the right, each list entry after the first begins with a logical operator. This is used when evaluating the criteria within the list: 
 
-* `OR` means the **Tags** will be attached to each request that matches any of the entries in the list. 
-* `AND` means the **Tags** will only be attached to requests that match all of the entries in the list.
+* `OR` means the **Tags** will be attached to, and the **Action** taken for, each request that matches any of the entries in the list. 
+* `AND` means the **Tags** will only be attached to, and the **Action** taken for, requests that match all of the entries in the list.
+
+This operator can be toggled by selecting it.
 
 ### Adding a Match Condition
 
