@@ -1,6 +1,6 @@
 # WAF Rules
 
-![](../../.gitbook/assets/waf-rules.png)
+![](../../.gitbook/assets/waf-rules%20%281%29.png)
 
 This section displays all the WAF Rules defined within Curiefense. This has various uses; for example, looking up the underlying signature for a tag that appears in the Access Log, or getting the ID of a Rule to exclude in a WAF Policy.
 
