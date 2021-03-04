@@ -10,15 +10,15 @@ Early in the [traffic evaluation process](../../reference/multi-stage-traffic-fi
 
 This page allows you to administer **Tag Rule Lists**, which are combinations of [user-defined Tags](../../reference/tags.md#user-defined-tags) and the criteria for assigning them to requests. 
 
-{% hint style="info" %}
-The actions that can be performed as a result of the Tag assignments are administered separately in [ACL Policies](acl-policies.md) and [Rate Limits](rate-limits.md).
-{% endhint %}
-
 Each Tag Rule List consists of:
 
 * **Match conditions**: Definitions of possible characteristics that a request can match \(e.g., a list of IP addresses that it might originate from\), plus one or more logical operators to use when evaluating the match.
 * **One or more Tags to assign** when a match occurs. 
 * **An Action** to apply to the request.
+
+{% hint style="info" %}
+If the **Action** defined here is **Tag Only**, then the request will undergo further processing after the Tags are assigned. The actions that can be performed as a result of the Tag assignments are administered in [ACL Policies](acl-policies.md) and [Rate Limits](rate-limits.md).
+{% endhint %}
 
 For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A single request will receive Tags from all Lists which match it.
 
@@ -31,7 +31,7 @@ For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A
 | **Sections Relation** | For Lists with multiple sections, this is the logical relation to use when evaluating the Match Conditions in the sections. |
 | **Tags** | One or more Tags \(separated by spaces\) that will be assigned to requests if the match conditions are fulfilled. Example: `internal team-devops`. |
 | **Source** | The source of the match conditions. See discussion below. |
-| **Action** | The action to take for requests that match the criteria in this list. By default, this is **Tag Only**; the specified tag\(s\) will be applied, and the traffic evaluation process will continue. If instead the Match Conditions describe a request for which the final disposition is already known, then there is no need for the complete evaluation process to occur. In this situation, the Action can be set here, and it will be applied immediately whenever a request meets the Match Conditions. |
+| **Action** | The action to take for requests that match the criteria in this list. By default, this is **Tag Only**; the specified tag\(s\) will be applied, and the traffic evaluation process will continue. If instead the Match Conditions describe a request for which the final disposition is already known, then there is no need for the complete evaluation process to occur. In this situation, the **Action** can be set here, and it will be applied immediately whenever a request meets the Match Conditions. |
 | **Notes** | An optional field for including additional information. |
 
 ### Source
