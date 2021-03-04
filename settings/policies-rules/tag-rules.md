@@ -57,7 +57,7 @@ Many Tag Rules Lists will have only section. Here's an example.
 
 In the example, the **Sections relation** toggle is set to `AND`. For a single-section list, this toggle is ignored.
 
-On the right, each list entry after the first begins with a logical operator. This is used when evaluating the criteria within the list: 
+Within each section, there is an additional logical operator, shown at the beginning of each list entry after the first. This is used when evaluating the criteria within the list: 
 
 * `OR` means the **Tags** will be attached to, and the **Action** taken for, each request that matches any of the entries in the list. 
 * `AND` means the **Tags** will only be attached to, and the **Action** taken for, requests that match all of the entries in the list.
@@ -66,13 +66,17 @@ This operator can be toggled by selecting it.
 
 ### Adding a Match Condition
 
-To add a match condition, select **Add entry** at the bottom of the list. The following dialog will appear.
+To add a match condition, select the add control \("**+**"\) at the bottom of the list. The following dialog will appear.
 
-![](../../.gitbook/assets/tag-rules-criteria-add-path.png)
+![](../../.gitbook/assets/tag-rules-criteria-add-ip.png)
 
-For most of the categories, the dialog will appear as it is above. Multiple entries can be made at once, with each entry on a separate line. Each line contains the value, plus a pound sign \(\#\) followed by an **annotation** \(a label for display within the Curiefense interface\). Example:
+For most of the categories \(IP Address, Method, etc.\), the dialog will appear as it is above. Multiple entries can be made at once, with each entry on a separate line. Each line contains the value, plus a pound sign \(\#\) followed by an **annotation** \(a label for display within the Curiefense interface\). Example:
 
-![](../../.gitbook/assets/tag-rules-criteria-add-ip-examples.png)
+![](../../.gitbook/assets/tag-rules-criteria-add-ip-examples%20%281%29.png)
+
+The entries will then be added as follows:
+
+![](../../.gitbook/assets/tag-rules-criteria-after-ips-added.png)
 
 For some categories, one entry can be made at a time, with each entry requiring multiple lines. Annotations are not preceded by a pound sign. 
 
