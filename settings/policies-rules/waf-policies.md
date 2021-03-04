@@ -1,6 +1,6 @@
 # WAF Policies
 
-![](../../.gitbook/assets/waf-profiles.png)
+![](../../.gitbook/assets/waf-policies.png)
 
 The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a WAF Profile is described below.
 
