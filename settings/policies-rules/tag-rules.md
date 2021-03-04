@@ -17,7 +17,7 @@ Each Tag Rule List consists of:
 * **An Action** to apply to the request.
 
 {% hint style="info" %}
-If the **Action** defined here is **Tag Only**, then the request will undergo further processing after the Tags are assigned. The actions that can be performed as a result of the Tag assignments are administered in [ACL Policies](acl-policies.md) and [Rate Limits](rate-limits.md).
+If the **Action** defined here is **Tag Only**, then the request will undergo further processing after the Tags are assigned. The post-processing actions that are performed as a result of the Tag assignments are administered in [ACL Policies](acl-policies.md) and [Rate Limits](rate-limits.md).
 {% endhint %}
 
 For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A single request will receive Tags from all Lists which match it.
@@ -36,7 +36,7 @@ For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A
 
 ### Action
 
-The default Action for a Tag Rules List is **Tag Only**. This means that; the specified tag\(s\) will be applied, and the traffic evaluation process will continue. 
+The default Action for a Tag Rules List is **Tag Only**. This means that the specified tag\(s\) will be applied, and the traffic evaluation process will continue. 
 
 If instead the Match Conditions describe a request for which the final disposition is already known, then there is no need for the complete evaluation process to occur. In this situation, the **Action** can be set here, and it will be applied immediately whenever a request meets the Match Conditions.
 
@@ -91,7 +91,7 @@ Multiple entries can be made at once, with each entry on a separate line. Each l
 
 ![](../../.gitbook/assets/tag-rules-criteria-add-ip-examples%20%281%29.png)
 
-The entries will then be added as follows:
+Selecting the **Add** control would then produce the following:
 
 ![](../../.gitbook/assets/tag-rules-criteria-after-ips-added.png)
 
@@ -99,15 +99,17 @@ For some categories, one entry can be made at a time, with no annotations.
 
 ![](../../.gitbook/assets/tag-rules-criteria-add-cookies%20%281%29.png)
 
-{% hint style="info" %}
-Match criteria are case-insensitive.
-{% endhint %}
-
 Once created, these entries cannot be edited. If one needs to be modified, remove it and re-create it.
 
 Here are some sample entries for the various categories. Notice that boolean operators are available.
 
+![](../../.gitbook/assets/tag-rules-criteria-after-ips-added.png)
+
 ![](../../.gitbook/assets/tag-rules-example-criteria.png)
+
+{% hint style="info" %}
+Match criteria are case-insensitive.
+{% endhint %}
 
 ## Multiple-Section Lists
 
