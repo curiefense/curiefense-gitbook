@@ -48,9 +48,9 @@ A condition consists of a field and a value. Within a Rate Limit, they play a ro
 Note that the &lt;ASSIGNED-LOCATION&gt; mentioned above is included for illustration purposes only. This value is not part of a Rate Limit definition—it is defined in a [URL Map](url-maps.md).
 {% endhint %}
 
-### Condition Fields
+### Condition Definition
 
-A condition can be built upon any one of these four fields:
+A condition can be built upon any one of these four categories:
 
 | Field | Result |
 | :--- | :--- |
@@ -78,9 +78,9 @@ By default, this is set to "HTTP request,", which simply means to increment a co
 However, if the Event condition is changed to a different value, then the following applies.
 
 {% hint style="info" %}
-In the discussion below, **"Count Condition"** will refer to the condition \(or combination of conditions\) defined by the "Count by" input controls.
+In the discussion below, **"Count Condition"** will refer to the condition \(or combination of conditions\) defined by the **Count by** input controls.
 
-**"Event Condition"** will refer to the optional, additional condition defined by the "Event" input controls.
+**"Event Condition"** will refer to the optional, additional condition defined by the **Event** input controls.
 {% endhint %}
 
 **Adding an Event Condition changes the evaluation process.** An Event Condition is not logically combined with the preceding Count Condition; it is always evaluated separately.
@@ -112,9 +112,9 @@ When an incoming request exceeds the Threshold, the Action specified here will o
 
 | Action | Meaning |
 | :--- | :--- |
-| **Default** **\(503\)** | The request will be blocked and the requestor will receive a response of "503 Service Unavailable". |
+| **503 Service Unavailable** | The request will be blocked and the requestor will receive a response of "503 Service Unavailable". |
 | **Challenge** | For a browser-based web application, a [bot challenge](../../reference/the-challenge-process.md) will be issued to verify that the requestor is a human using a browser, and not a bot using a headless browser or emulator. If the challenge is failed, the request is blocked. |
-| **Monitor** | The request will not be blocked; it will merely be tagged with the Rate Limit's name, for subsequent viewing in the [Access Log](../../analytics/access-log.md) and other places. This Action is useful for testing new Rate Limit rules without actually affecting incoming traffic.  |
+| **Tag Only** | The request will not be blocked; it will merely be tagged with the Rate Limit's name, for subsequent viewing in the [Access Log](../../analytics/access-log.md) and other places. This Action is useful for testing new Rate Limit rules without actually affecting incoming traffic.  |
 | **Response** | Blocks the request, and responds with a custom error code \(0-999\) and response body.  |
 | **Redirect** | Blocks the request with a custom error code, and redirects the requestor to a specified URL. For example, the URL might be a page that says, "Your activity appears suspicious, and your access has been restricted. Contact support if you think this decision was made in error." |
 | **Ban** | Blocks the requestor for the specified amount of time. See further discussion below. |
@@ -133,22 +133,24 @@ However, after the minute has passed, the Rate Limit resets. The attacker is all
 The Ban action can be used to block \(or take some other Action in response to\) a Rate Limit violator for an extended period of time. 
 
 {% hint style="info" %}
-**Example**: As described above, a Rate Limit is created to allow three requests per minute, with an Action of _Default \(503\)_.  
+**Example**: As described above, a Rate Limit is created to allow three requests per minute, with an Action of _503 Service Unavailable_.  
   
-However, an additional Rate Limit rule is also defined: nine requests per three minutes, with an Action of _Ban_. The Ban has an Action of _Default \(503\),_ and a duration of one hour.  
+However, an additional Rate Limit rule is also defined: nine requests per three minutes, with an Action of _Ban_. The Ban has an Action of _503 Service Unavailable,_ and a duration of one hour.  
   
 [URL Maps](url-maps.md) allow for multiple Rate Limits to be assigned to a single URL. Thus, both of the above rules can be assigned to the login form.  
   
 Now an attacker tries to brute-force the login form, sending 60 requests per minute. The first three requests are allowed. The next six requests are blocked \(and a 503 error is issued\) by the first Rate Limit.   
   
 The tenth request triggers the second Rate Limit, and the Ban occurs. For the next hour, the attacker's requests will be blocked with a 503 error.
+{% endhint %}
 
+{% hint style="info" %}
 **Second example:** A hostile bot receives a [bot challenge](../../reference/the-challenge-process.md), which it fails. Curiefense will block the request. If the bot keeps re-submitting its request, it will continue to fail the challenges. However, each time the bot tries again, Curiefense has to issue a new challenge .  
   
 To solve this problem, a second Rate Limit is created with a Ban action. Now a persistent bot will simply be Banned, saving Curiefense the overhead of issuing continuous challenges.
 {% endhint %}
 
-Note that when setting up a Ban, the most common choices for its Action are to deny the violator's requests \(via _Default 503_, _Response_, or _Redirect_\). However, you can also choose _Monitor_ \(to observe the violator's actions during the ban period\), _Challenge_ \(to verify that the violating activity is not being done by bots\), or _Header_ \(to mark the requests for further scrutiny by the backend\).
+Note that when setting up a Ban, the most common choices for its Action are to deny the violator's requests \(via _503 Service Unavailable_, _Response_, or _Redirect_\). However, you can also choose _Tag Only_ \(to observe the violator's actions during the ban period\), _Challenge_ \(to verify that the violating activity is not being done by bots\), or _Header_ \(to mark the requests for further scrutiny by the backend\).
 
 ## Limiting the scope of a Rate Limit
 
@@ -156,14 +158,14 @@ Note that when setting up a Ban, the most common choices for its Action are to d
 
 By default, an active Rate Limit rule will be enforced upon all incoming requests targeting URLs to which this rule has been assigned.
 
-At the bottom of this page, you can add **Include** and/or **Exclude** parameters. These define the portion of the incoming traffic stream that will be evaluated for possible violation of the Rate Limit. In other words, they limit the scope of the Rate Limit's enforcement: 
+To change this behavior, you can add **Include** and/or **Exclude** parameters. These define the portion of the incoming traffic stream that will be evaluated for possible violation of the Rate Limit. In other words, they limit the scope of the Rate Limit's enforcement: 
 
 * The Include filter will limit enforcement to requests matching its parameters. All other requests in the traffic stream will not have this Rate Limit enforced upon them.
 * The Exclude filter will exempt requests from enforcement that otherwise would have been subject to it.
 
 \(Internally, Curiefense evaluates Exclude parameters first, and then Include parameters.\)
 
-To add one or more filters, select "**New entry**", define the parameters, then select the "**+**" button. If more than one Include filter is specified, they are combined with a logical AND.
+To add one or more filters, select **New entry**, define the parameters, then select the "**+**" button. If more than one Include filter is specified, they are combined with a logical AND.
 
 
 
