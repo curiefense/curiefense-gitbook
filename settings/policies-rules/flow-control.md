@@ -1,6 +1,6 @@
 # Flow Control
 
-![](../../.gitbook/assets/screen-shot-2021-02-25-at-10.36.42-pm.png)
+![](../../.gitbook/assets/session-flow-control.png)
 
 The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a Session Flow Control entry is described below.
 
@@ -24,7 +24,7 @@ However, a hostile bot that's attempting a credential stuffing attack has no nee
 | **Count** **by** | Defines the criteria by which Curiefense will associate requests with a single requestor. In other words, this is how Curiefense identifies requests as having originated from the same traffic source. By default, a single parameter is available; to add more, select **New entry**. Multiple parameters are evaluated with "AND"; requests must match all the parameters to be associated together.  |
 | **Action** | When the **Flow Control Sequence** is violated, this **Action** will be taken for the time period specified in **TTL**. |
 | **Notes** | Comments for use within the interface. |
-| **Include** | Includes all requests in the evaluation that contain one or more Tags on this list. |
+| **Include** | Includes all requests in the evaluation that contain one or more [Tags](../../reference/tags.md) on this list. |
 | **Exclude** | Excludes any request from evaluation if it contains a Tag on this list. |
 
 ## Flow Control Sequence
