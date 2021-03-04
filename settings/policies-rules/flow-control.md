@@ -20,11 +20,11 @@ However, a hostile bot that's attempting a credential stuffing attack has no nee
 | :--- | :--- |
 | **Name** | A name for this flow control entry, for display within the interface. |
 | **Active** | Whether or not this flow control entry is enforced. |
-| **TTL** | If a traffic source deviates from the **Flow Control Sequence** \(described below\), the TTL is the length of time that the **Action** will be performed. |
+| **TTL** | The time period within which the traffic source must complete the **Flow Control Sequence**. In the example screenshot above, a POST request will be rejected if a GET was not received within the previous 60 seconds. |
 | **Count** **by** | Defines the criteria by which Curiefense will associate requests with a single requestor. In other words, this is how Curiefense identifies requests as having originated from the same traffic source. By default, a single parameter is available; to add more, select **New entry**. Multiple parameters are evaluated with "AND"; requests must match all the parameters to be associated together.  |
-| **Action** | When the **Flow Control Sequence** is violated, this **Action** will be taken for the time period specified in **TTL**. |
+| **Action** | When the **Flow Control Sequence** is violated, this **Action** will be taken. |
 | **Notes** | Comments for use within the interface. |
-| **Include** | Includes all requests in the evaluation that contain one or more [Tags](../../reference/tags.md) on this list. |
+| **Include** | Includes all requests in the evaluation that contain one or more [Tags](../../reference/tags.md) on this list \(unless they match an **Exclude** parameter\). If this list is empty, all requests will be included.  |
 | **Exclude** | Excludes any request from evaluation if it contains a Tag on this list. |
 
 ## Flow Control Sequence
