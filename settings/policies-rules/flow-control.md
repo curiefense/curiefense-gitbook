@@ -1,6 +1,6 @@
 # Flow Control
 
-![](../../.gitbook/assets/session-flow-control.png)
+![](../../.gitbook/assets/session-flow-control%20%281%29.png)
 
 The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a Session Flow Control entry is described below.
 
