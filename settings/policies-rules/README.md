@@ -74,7 +74,13 @@ For example, `/conf/api/v1/configs/devops/d/urlmaps/e/__default__` shows that:
 
 ## **Document Versioning**
 
-The bottom section of this page shows a history of versions for this Document. In a later version of Curiefense, this section will allow for reversions. In the current version, reversions are only available in the API and in the [Publish Configuration](../publish-changes.md) section of the UI.
+The bottom section of this page shows a history of versions for this Document. 
+
+![](../../.gitbook/assets/revert-to-version.png)
+
+To revert this Document to a previous version, hover the cursor over the end of its listing. As shown above, a button will appear; selecting it will restore that version. 
+
+Reversions are also available in the API and in the [Publish Configuration](../publish-changes.md) section of the UI.
 
 
 
