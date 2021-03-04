@@ -1,6 +1,6 @@
 # Rate Limits
 
-![](../../.gitbook/assets/rate-limits-no-limitations.png)
+![](../../.gitbook/assets/rate-limits-no-limitations%20%281%29.png)
 
 Rate Limits are rules which define the number of requests with certain characteristics that are allowed within defined time frames. When a request is received that exceeds a Rate Limit, a specified action is performed.
 
@@ -10,7 +10,7 @@ The input controls at the top of this page are described here: [Policies & Rules
 
 A Rate Limit defines the number of times that requests can match certain conditions within a certain time frame. Once that limit has been reached, subsequent requests matching those conditions within the same time frame will trigger an action.
 
-The matching conditions are specified with the parameters in the "Count by" section and the optional Event. See [Matching Conditions](rate-limits.md#matching-conditions) below. 
+The matching conditions are specified with the parameters in the "Count by" section and the optional Event. See **Matching Conditions** below. 
 
 {% hint style="info" %}
 After a Rate Limit is defined on this page, it will not be active until it is assigned to one or more URLs. This is done in the [URL Maps](url-maps.md) Document.
@@ -18,7 +18,7 @@ After a Rate Limit is defined on this page, it will not be active until it is as
 
 By default, a Rate Limit will be enforced for all requests for the URL\(s\) to which it is assigned.
 
-Enforcement can be further limited to a subset of these requests: see [Including/Excluding Requests](rate-limits.md#including-excluding-requests) below.
+Enforcement can be further limited to a subset of these requests: see **Limiting the scope of a Rate Limit** below.
 
 ##  Meta Parameters
 
