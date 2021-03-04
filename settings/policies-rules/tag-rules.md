@@ -70,7 +70,9 @@ To add a match condition, select the add control \("**+**"\) at the bottom of th
 
 ![](../../.gitbook/assets/tag-rules-criteria-add-ip.png)
 
-For most of the categories \(IP Address, Method, etc.\), the dialog will appear as it is above. Multiple entries can be made at once, with each entry on a separate line. Each line contains the value, plus a pound sign \(\#\) followed by an **annotation** \(a label for display within the Curiefense interface\). Example:
+For most of the categories \(IP Address, Method, etc.\), the dialog will appear as it is above. Individual entries can be added by entering their value into the first text box, and an **annotation** \(a label for display within the Curiefense interface\) in the second text box, then selecting the **Add** control.
+
+Multiple entries can be made at once, with each entry on a separate line. Each line contains the value, plus a pound sign \(\#\) followed by the annotation. Example:
 
 ![](../../.gitbook/assets/tag-rules-criteria-add-ip-examples%20%281%29.png)
 
@@ -78,7 +80,7 @@ The entries will then be added as follows:
 
 ![](../../.gitbook/assets/tag-rules-criteria-after-ips-added.png)
 
-For some categories, one entry can be made at a time, with each entry requiring multiple lines. There are no annotations. 
+For some categories, one entry can be made at a time, with no annotations. 
 
 ![](../../.gitbook/assets/tag-rules-criteria-add-cookies%20%281%29.png)
 
@@ -86,11 +88,11 @@ For some categories, one entry can be made at a time, with each entry requiring 
 Match criteria are case-insensitive.
 {% endhint %}
 
+Once created, these entries cannot be edited. If one needs to be modified, remove it and re-create it.
+
 Here are some sample entries for the various categories. Notice that boolean operators are available.
 
 ![](../../.gitbook/assets/tag-rules-example-criteria.png)
-
-Once created, these entries cannot be edited. If one needs to be modified, remove it and re-create it.
 
 ## Multiple-Section Lists
 
@@ -100,7 +102,7 @@ Here's an example:
 
 ![](../../.gitbook/assets/tag-rules-two-sections%20%281%29.png)
 
-Each additional section works the same as the initial section. However, a multiple-section list also includes a logical operator for the relationship\(s\) between the individual sections. It is shown between the sections, and can be changed by toggling the **Sections Relation** control on the left.
+Each additional section works the same as the initial section. However, a multiple-section list also includes a logical operator for the relationship between the individual sections. It is shown between the sections, and can be changed by toggling the **Sections Relation** control on the left.
 
 In the example above, this is `AND`. Therefore, a request will receive the tag of `internal` if it matches any of the IPs in the first section, `AND` it also contains one of the HTTP methods specified in the second section. 
 
