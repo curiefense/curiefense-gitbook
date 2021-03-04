@@ -1,6 +1,6 @@
 # Tag Rules
 
-![](../../.gitbook/assets/tag-rules-google-crawlers.png)
+![](../../.gitbook/assets/tag-rules-google-crawlers%20%281%29.png)
 
 The input controls at the top of this page are described here: [Policies & Rules](./#document-editor-interface)[ interface](./#document-editor-interface). Specific editing of a Tag Rules List is described below.
 
@@ -18,6 +18,7 @@ Each Tag Rule List consists of:
 
 * **Match conditions**: Definitions of possible characteristics that a request can match \(e.g., a list of IP addresses that it might originate from\), plus one or more logical operators to use when evaluating the match.
 * **One or more Tags to assign** when a match occurs. 
+* **An Action** to apply to the request.
 
 For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A single request will receive Tags from all Lists which match it.
 
@@ -26,10 +27,11 @@ For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A
 | Field | Meaning |
 | :--- | :--- |
 | **Name** | A description that will be displayed within the Curiefense interface. |
-| **Sections control** | The number of match condition sections, and the logical operator\(s\) to use if there is more than one. See discussions below about Single-Section Lists and Multiple-Section Lists. |
+| **Active** | By default, the Tag Rule List will be applied to incoming requests. To prevent this, unselect the checkbox. |
+| **Sections Relation** | For self-managed lists with multiple sections, this is the logical relation to use among the sections. |
 | **Tags** | One or more Tags \(separated by spaces\) that will be assigned to requests if the match conditions are fulfilled. Example: `internal team-devops`. |
 | **Source** | The source of the match conditions. See discussion below. |
-| **Active** | By default, the Tag Rule List will be applied to incoming requests. To prevent this, unselect the checkbox. |
+| **Action** | The action to take for requests that match the criteria in this list. By default, this is **Tag Only**; the specified tag\(s\) will be applied, and the traffic evaluation process will continue. If instead the Match Conditions describe a request for which the final disposition is already known, then there is no need for the complete evaluation process to occur. In this situation, the Action can be set here, and it will be applied immediately whenever a request meets the Match Conditions. |
 | **Notes** | An optional field for including additional information. |
 
 ### Source
