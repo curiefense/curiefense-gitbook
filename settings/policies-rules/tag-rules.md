@@ -98,11 +98,9 @@ Match conditions can be combined into multiple sections. To add a section to an 
 
 Here's an example:
 
-![](../../.gitbook/assets/tag-rules-two-sections.png)
+![](../../.gitbook/assets/tag-rules-two-sections%20%281%29.png)
 
-Each additional section works the same as the initial section. Note that each section has its own **Entries relation** operator. 
+Each additional section works the same as the initial section. However, a multiple-section list also includes a logical operator for the relationship\(s\) between the individual sections. It is shown between the sections, and can be changed by toggling the **Sections Relation** control on the left.
 
-However, a multiple-section list also includes a logical operator for the relationship\(s\) between the individual sections. In the example above, this is `AND`. Therefore, a request will receive the tag of `internal` if it matches any of the IPs in the first section, `AND` it also contains one of the HTTP methods specified in the second section. 
-
-Note that the inter-section operator is shown in between the sections. To change the operator, select the toggle in the **Sections control** area on the left. 
+In the example above, this is `AND`. Therefore, a request will receive the tag of `internal` if it matches any of the IPs in the first section, `AND` it also contains one of the HTTP methods specified in the second section. 
 
