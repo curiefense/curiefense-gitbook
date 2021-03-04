@@ -45,7 +45,7 @@ In the following discussion, a **constraint** refers to the values in the UI inp
 
 Each incoming request is processed like this:
 
-![](../../.gitbook/assets/waf-profile-flowchart.png)
+![](../../.gitbook/assets/waf-profile-flowchart%20%282%29.png)
 
 This behavior is defined in the following fields in the UI. 
 
