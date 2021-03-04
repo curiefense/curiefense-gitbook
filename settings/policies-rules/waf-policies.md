@@ -28,12 +28,12 @@ At the top of the page, the following values are defined for incoming requests.
 
 ## Content Filtering and Whitelisting
 
-By default, an incoming request will be compared to all the [WAF Signatu](waf-rules.md)[res](waf-rules.md). If any parameter \(any header, cookie, or argument within it\) fails this evaluation, the request will be blocked.
+By default, an incoming request will be compared to all the [WAF Rules](waf-rules.md). If any parameter \(any header, cookie, or argument within it\) fails this evaluation, the request will be blocked.
 
 However, parameters can be whitelisted and exempted from this filtering. For each parameter, this can be done in two ways:
 
-* Full exemption is available by specifying a regex pattern which, if it matches the parameter's value, will exempt that parameter from WAF Signature evaluation.
-* Partial exemption is available by specifying a list of WAF Signatures which will not be evaluated, even if the regex pattern is not matched. 
+* Full exemption is available by specifying a regex pattern which, if it matches the parameter's value, will exempt that parameter from WAF Rule evaluation.
+* Partial exemption is available by specifying a list of WAF Rules which will not be evaluated, even if the regex pattern is not matched. 
 
 Along with this content whitelisting, a "positive security" form of content filtering is also available. Curiefense can be configured to require certain content in a specified parameter, and reject requests that do not contain it.
 
@@ -41,7 +41,7 @@ Along with this content whitelisting, a "positive security" form of content filt
 
 The bottom part of the UI defines Curiefense's behavior for both whitelisting and content filtering for each parameter. 
 
-In the following discussion, a **constraint** refers to the values in the UI input controls \(_Parameter_, _Matching Value_, _Restrict?_, and _Exclude Sig_\) that have been specified for one parameter.
+In the following discussion, a **constraint** refers to the values in the UI input controls \(_Parameter_, _Matching Value_, _Restrict?_, and _Exclude WAF Rule_\) that have been specified for one parameter.
 
 Each incoming request is processed like this:
 
@@ -70,7 +70,7 @@ This behavior is defined in the following fields in the UI.
       <td style="text-align:left"><b>Matching Value</b>
       </td>
       <td style="text-align:left">A regex pattern. If a parameter&apos;s value matches it, the parameter
-        will be exempted from WAF Signature filtering. If it does not match, the <b>Restrict?</b> option
+        will be exempted from WAF Rule filtering. If it does not match, the <b>Restrict?</b> option
         becomes relevant.</td>
     </tr>
     <tr>
@@ -78,22 +78,21 @@ This behavior is defined in the following fields in the UI.
       </td>
       <td style="text-align:left">If a parameter does not match the Matching Value, and <b>Restrict?</b> is
         selected, then the request is blocked. If <b>Restrict?</b> is not selected,
-        then the <b>Exclude Sig</b> option becomes relevant.</td>
+        then the <b>Exclude WAF Rule</b> option becomes relevant.</td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>Exclude Sig</b>
+      <td style="text-align:left"><b>Exclude WAF Rule</b>
       </td>
       <td style="text-align:left">
         <p>A parameter which fails its <b>Matching Value</b> comparison, and for which <b>Restrict?</b> is
-          not selected, will be filtered by all WAF Signatures except the ones whose
-          IDs are listed here. (For example, some WAF Signatures filter out special
-          characters; if a certain parameter can legitimately contain these characters,
-          it would make sense to exempt that parameter from those specific filters
-          .)
+          not selected, will be filtered by all WAF Rules except the ones whose IDs
+          are listed here. (For example, some WAF Rules filter out special characters;
+          if a certain parameter can legitimately contain these characters, it would
+          make sense to exempt that parameter from those specific filters .)
           <br />
-          <br />It is also possible to always exempt a parameter from specific WAF Signatures:</p>
+          <br />It is also possible to always exempt a parameter from specific WAF Rules:</p>
         <ul>
-          <li>List the signature IDs here</li>
+          <li>List the rule IDs here</li>
           <li>Ensure that <b>Restrict?</b> is not selected</li>
           <li>And specify a <b>Matching Value</b> regex pattern that the parameter would
             never match.</li>
