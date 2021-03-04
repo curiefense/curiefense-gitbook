@@ -105,9 +105,9 @@ Echo
 
 Also verify the following:
 
-* The UIServer is now available at [http://localhost:30080](http://localhost:30080) \(access logs are at [http://localhost:30080/accesslog](http://localhost:30080/accesslog)\)
-* Grafana is now available at [http://localhost:30300](http://localhost:30300)
-* The `confserver` is now available at [http://localhost:30000/api/v1/](http://localhost:30000/api/v1/)
+* The UIServer is now available at `http://localhost:30080` \(access logs are at `http://localhost:5601`\)
+* Grafana is now available at `http://localhost:30300/dashboards`
+* The `confserver` is now available at `http://localhost:30000/api/v1/`
 
 ## Clean Up
 
