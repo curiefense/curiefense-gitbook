@@ -81,6 +81,13 @@ This behavior is defined in the following fields in the UI.
         then the <b>Exclude WAF Rule</b> option becomes relevant.</td>
     </tr>
     <tr>
+      <td style="text-align:left"><b>Mask?</b>
+      </td>
+      <td style="text-align:left">Some requests might contain private data which should not be saved to
+        a traffic log. Parameters which match the Matching Value and for which
+        Mask is set will be masked / hashed when they are written to the logs.</td>
+    </tr>
+    <tr>
       <td style="text-align:left"><b>Exclude WAF Rule</b>
       </td>
       <td style="text-align:left">
