@@ -2,7 +2,7 @@
 
 ![](../../.gitbook/assets/acl-policies.png)
 
-An ACL \(Access Control List\) Policy is a set of sequential criteria by which a request is evaluated. The input controls at the top of this page are described here: [Policies & Rules interface](./#document-editor-interface). Specific editing of an ACL Policy is described below.
+An ACL \(Access Control List\) Policy is a set of sequential criteria by which a request is evaluated. The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of an ACL Policy is described below.
 
 {% hint style="info" %}
 This page defines ACL Policies. The Policies are assigned to URLs within the web application via [URL Maps](url-maps.md).

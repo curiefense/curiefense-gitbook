@@ -2,7 +2,7 @@
 
 ![](../../.gitbook/assets/waf-profiles.png)
 
-The input controls at the top of this page are described here: [Policies & Rules](./#document-editor-interface)[ interface](./#document-editor-interface). Specific editing of a WAF Profile is described below.
+The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a WAF Profile is described below.
 
 ## Overview
 

@@ -2,7 +2,7 @@
 
 ![](../../.gitbook/assets/screen-shot-2021-02-25-at-10.36.42-pm.png)
 
-The input controls at the top of this page are described here: [Policies & Rules](./#document-editor-interface)[ interface](./#document-editor-interface). Specific editing of a Session Flow Control entry is described below.
+The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a Session Flow Control entry is described below.
 
 ## Overview
 
