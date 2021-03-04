@@ -17,12 +17,12 @@ Curiefense processes incoming requests according to this traffic flow:
 This process is based on the Documents as follows:
 
 * \*\*\*\*[**Tag Rules** ](tag-rules.md)is the Document which defines tags for external lists and custom lists.
-* \*\*\*\*[**Rate Limits**](rate-limits.md) and [**Session Flow Control**](flow-control.md) parameters define session-based policies.
+* \*\*\*\*[**Rate Limits**](rate-limits.md) and [**Flow Control**](flow-control.md) parameters define session-based policies.
 * \*\*\*\*[**ACL Policies**](acl-policies.md) ****and [**WAF Policies**](waf-policies.md) define the actions to take when specific tags and/or other criteria are observed. [**URL Maps**](url-maps.md) assign these actions to internal URLs.
 
 ## Policies & Rules interface
 
-![](../../.gitbook/assets/document-editor-acl-profiles%20%281%29.png)
+![](../../.gitbook/assets/policies-rules-interface.png)
 
 This page is divided into three vertical sections. From top to bottom, they are:
 
@@ -38,13 +38,16 @@ After editing anything on this page, you must save your changes \(with the Save 
 
 ## Entry Administration
 
-The top section contains a toolbar with input controls. 
+The top section contains a toolbar with input controls. On the left, there are these: 
 
 * **Configuration** pulldown: Selects the branch/configuration for editing.
 * **Document** pulldown: Selects the Document to display for editing.
+* **Download** button: Downloads the currently displayed parameters.
+
+On the right are these:
+
 * **Entry** pulldown: Selects the Entry \(the ruleset\) that is being displayed for editing.
 * **Duplicate** button: Makes a copy of the currently displayed Entry.
-* **Download** button: Downloads the currently displayed parameters.
 * **Add** button: Creates a new Entry of the currently selected type.
 * **Save** button: Saves all changes that were made since the last Save action.
 * **Delete** button. Deletes the currently selected Entry.
