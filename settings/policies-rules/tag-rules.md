@@ -17,7 +17,7 @@ Each Tag Rule List consists of:
 * **An Action** to apply to the request.
 
 {% hint style="info" %}
-If the **Action** defined here is **Tag Only**, then the request will undergo further processing after the Tags are assigned. The post-processing actions that are performed as a result of the Tag assignments are administered in [ACL Policies](acl-policies.md) and [Rate Limits](rate-limits.md).
+If the **Action** defined here is **Tag Only** or **Header**, then the request will undergo further processing after the Tags are assigned. The post-processing actions that are performed as a result of the Tag assignments are administered in [ACL Policies](acl-policies.md) and [Rate Limits](rate-limits.md).
 {% endhint %}
 
 For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A single request will receive Tags from all Lists which match it.
@@ -31,23 +31,25 @@ For each incoming request, Curiefense will evaluate all active Tag Rule Lists. A
 | **Sections Relation** | For Lists with multiple sections, this is the logical relation to use when evaluating the Match Conditions in the sections. |
 | **Tags** | One or more Tags \(separated by spaces\) that will be assigned to requests if the match conditions are fulfilled. Example: `internal team-devops`. |
 | **Source** | The source of the match conditions. See discussion below. |
-| **Action** | The action to take for requests that match the criteria in this list. See discussion below. |
+| **Action** | The action to take for requests that fulfill the match conditions. See discussion below. |
 | **Notes** | An optional field for including additional information. |
 
 ### Action
 
 The default Action for a Tag Rules List is **Tag Only**. This means that the specified tag\(s\) will be applied, and the traffic evaluation process will continue. 
 
-If instead the Match Conditions describe a request for which the final disposition is already known, then there is no need for the complete evaluation process to occur. In this situation, the **Action** can be set here, and it will be applied immediately whenever a request meets the Match Conditions.
+A related Action is **Header**. The specified tag\(s\) will be applied, and the specified header will be added. Then the traffic evaluation process will continue.
+
+Sometimes the Match Conditions describe a request which should be rejected immediately; if so, there is no need for the complete evaluation process to occur. In this situation, one of the other **Actions** can be set here, and it will be applied immediately whenever a request meets the Match Conditions.
 
 | Action | Meaning |
 | :--- | :--- |
 | **Tag Only** | Apply the specified Tag\(s\), and continue processing the request. |
+|  | Apply the specified Tag\(s\) and add the specified header to it for receipt and evaluation by the user's backend. Then continue processing the request. To specify this parameter, separate the header and value with a colon. Example: `X-CustomHdr: Custom-Value` |
 | **503 Service Unavailable**  | The request will be blocked and the requestor will receive a response of "503 Service Unavailable". |
 | **Challenge** | For a browser-based web application, a [bot challenge](../../reference/the-challenge-process.md) will be issued to verify that the requestor is a human using a browser, and not a bot using a headless browser or emulator. If the challenge is failed, the request is blocked. |
 | **Response** | Blocks the request, and responds with a custom status code \(0-999\) and response body.  |
 | **Redirect** | Blocks the request with the specified status code, and redirects the requestor to a specified URL. For example, the URL might be a page that says, "Your activity appears suspicious, and your access has been restricted. Contact support if you think this decision was made in error." |
-| **Header** | Does not block the request, but adds the specified header to it for receipt and evaluation by the user's backend. |
 
 ### Source
 
