@@ -78,9 +78,9 @@ The entries will then be added as follows:
 
 ![](../../.gitbook/assets/tag-rules-criteria-after-ips-added.png)
 
-For some categories, one entry can be made at a time, with each entry requiring multiple lines. Annotations are not preceded by a pound sign. 
+For some categories, one entry can be made at a time, with each entry requiring multiple lines. There are no annotations. 
 
-![](../../.gitbook/assets/tag-rules-criteria-add-cookies.png)
+![](../../.gitbook/assets/tag-rules-criteria-add-cookies%20%281%29.png)
 
 {% hint style="info" %}
 Match criteria are case-insensitive.
@@ -88,7 +88,7 @@ Match criteria are case-insensitive.
 
 Here are some sample entries for the various categories. Notice that boolean operators are available.
 
-![](../../.gitbook/assets/session-profiles-criteria-list.png)
+![](../../.gitbook/assets/tag-rules-example-criteria.png)
 
 Once created, these entries cannot be edited. If one needs to be modified, remove it and re-create it.
 
