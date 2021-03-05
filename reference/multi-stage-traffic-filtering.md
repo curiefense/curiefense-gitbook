@@ -6,7 +6,7 @@ Curiefense evaluates incoming traffic in a multi-stage filtering process. An HTT
 
 When constructing its security posture, it can be helpful to understand the filtering stages. They are:
 
-* Tagging: Curiefense assigns [automatically-generated tags](tags.md#automatic-tags) and [user-defined tags](tags.md#user-defined-tags) to the requests.
+* Tagging: Curiefense assigns [automatically-generated tags](tags.md#automatic-tags) and [user-defined tags](tags.md#user-defined-tags) to the requests. During this process, requests will be blocked immediately if they match a [Tag Rules List that has a blocking action](../settings/policies-rules/tag-rules.md#action) defined for it.
 * \*\*\*\*[Rate Limit](../settings/policies-rules/rate-limits.md) enforcement.
 * [Session Flow Control](../settings/policies-rules/flow-control.md) enforcement.
 * \*\*\*\*[ACL Policies](../settings/policies-rules/acl-policies.md) enforcement.
