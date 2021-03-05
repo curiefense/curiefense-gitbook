@@ -35,8 +35,14 @@ To add a new URL Map, use the buttons at the top of the window to duplicate an e
 
 | Field | Value |
 | :--- | :--- |
-| **\(unlabeled\)** | The name of the URL Map is displayed for editing on the upper left. |
+| **Name** | The name of the URL Map for internal use. |
 | **Matching Names** | A regex for the subdomain\(s\) and/or domain\(s\). |
+
+When you create or revise a URL Map, it must have a unique combination of **Matching Name** and **Path Maps**. For this reason, when a new URL Map is created, the UI generates a unique Matching Name. 
+
+![](../../.gitbook/assets/url-map-unique-matching-name.png)
+
+This should be changed to a correct value before the URL Map is saved.
 
 ## Editing its Path Maps
 
