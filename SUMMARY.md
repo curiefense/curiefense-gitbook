@@ -21,7 +21,7 @@
   * [WAF Policies](settings/policies-rules/waf-policies.md)
   * [WAF Rules](settings/policies-rules/waf-rules.md)
 * [Search](settings/search.md)
-* [System DB](settings/system-db.md)
+* [Databases](settings/databases.md)
 * [Publish Changes](settings/publish-changes.md)
 
 ## Analytics

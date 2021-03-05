@@ -1,4 +1,4 @@
-# System DB
+# Databases
 
 ![](../.gitbook/assets/system-settings%20%281%29.png)
 
