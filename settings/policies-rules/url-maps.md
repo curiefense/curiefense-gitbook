@@ -38,7 +38,7 @@ To add a new URL Map, use the buttons at the top of the window to duplicate an e
 | **Name** | The name of the URL Map for internal use. |
 | **Matching Names** | A regex for the subdomain\(s\) and/or domain\(s\). |
 
-When you create or revise a URL Map, it must have a unique combination of **Matching Name** and **Path Maps**. For this reason, when a new URL Map is created, the UI generates a unique Matching Name. 
+When you create or revise a URL Map, each combination of **Matching Name** and **Path Map** must be unique. For this reason, when a new URL Map is created, the UI generates a unique Matching Name. 
 
 ![](../../.gitbook/assets/url-map-unique-matching-name.png)
 
@@ -61,12 +61,18 @@ Note that the buttons at the top of the window are for administering URL Maps \(
 | **Field** | **Value** |
 | :--- | :--- |
 | **Name** | A descriptive label for use within the interface. |
-| **Match** | An expression for the path, expressed as PCRE \(Perl Compatible Regular Expressions\).  |
+| **Match** | An expression for the path, expressed as PCRE \(Perl Compatible Regular Expressions\). See warning below. |
 | **WAF** | The [WAF Policy](waf-policies.md) applied to this path. Its name will be displayed in green if it is active; if displayed in red, it is currently disabled. |
 | **ACL** | The [ACL Policy](acl-policies.md) applied to this path. Its name will be displayed in green if it is active; if displayed in red, it is currently disabled. |
 | **RL** | The number of [Rate Limits](rate-limits.md) assigned to this resource. |
 
-In addition to editing the fields discussed above, this window also provides the ability to:
+{% hint style="warning" %}
+Ensure that URL Maps do not overlap. In other words, for every domain defined in a **Matching Name**, ensure that every possible path within it cannot match more than one **Match** expression.  
+  
+If an incoming request matches more than one **Path Map** definition, there is no way to predict which of them Curiefense will use when enforcing security policies.
+{% endhint %}
+
+In addition to editing the fields discussed above, the **Path Mapping** dialog also provides the ability to:
 
 * Activate or deactivate the WAF Policy \(by toggling its Active Mode checkbox\).
 * Activate or deactivate the ACL Policy \(by toggling its Active Mode checkbox\).
