@@ -29,7 +29,7 @@ The following types of operations are accessed as follows.
 * **tools** \(for publishing, etc.\)
 * **db** \(for accessing persistent data storage\)
 
-### **cURL and Curiefense CLI tool** \([more info](curl-examples.md)\)
+### **cURL** \([more info](curl-examples.md)\)
 
 * **blob** \(for manipulating blobs\)
 * **conf** \(for manipulating Configurations\)

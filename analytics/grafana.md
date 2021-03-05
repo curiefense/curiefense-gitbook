@@ -1,4 +1,4 @@
-# Dashboards
+# Grafana
 
 Out of the box, Curiefense stores metrics using [Prometheus](https://prometheus.io/), and provides dashboards and alerts via [Grafana](https://hub.docker.com/r/grafana/grafana/). 
 

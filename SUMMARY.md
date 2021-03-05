@@ -27,7 +27,7 @@
 ## Analytics
 
 * [Access Log \(ELK\)](analytics/access-log.md)
-* [Dashboards](analytics/dashboards.md)
+* [Grafana](analytics/grafana.md)
 
 ## GIT
 
