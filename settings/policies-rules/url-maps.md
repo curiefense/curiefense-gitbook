@@ -1,6 +1,6 @@
 # URL Maps
 
-![](../../.gitbook/assets/url-maps%20%281%29.png)
+![](../../.gitbook/assets/url-maps-initial.png)
 
 The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a URL Map is described below.
 
@@ -11,7 +11,7 @@ This page specifies a list of URLs and the security policies assigned to them.
 Every incoming HTTP/S request targets a specific URL. Curiefense finds the best match for that URL in the URL Maps, and applies the security policies defined for it.
 
 {% hint style="info" %}
-The "best match" is determined by regex evaluation. \(The order in which the URLs are listed in the interface does not matter.\) If no matching definition is found, Curiefense applies the rulesets from the default definition.
+The "best match" is determined by regex evaluation. The order in which the URLs are listed in the interface does not matter.
 {% endhint %}
 
 ## Components of a URL Map
@@ -20,6 +20,14 @@ A URL Map consists of:
 
 * **Host definition**: The \(sub\)domain\(s\) within which the Path Maps will be found.
 * **Path Maps**: one or more paths, and the security policies which will be applied to them.
+
+## The Default URL Map
+
+![](../../.gitbook/assets/url-maps-default%20%281%29.png)
+
+Every Curiefense deployment includes a default URL Map. If a request does not match any other URL Map, the default one is applied.
+
+To ensure that a default always exists, the **Matching Name** and **Path Map** for this URL Map are not editable.
 
 ## Creating a URL Map
 
