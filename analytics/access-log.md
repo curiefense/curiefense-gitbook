@@ -16,15 +16,15 @@ To search for \(or exclude\) the value of an entire parameter, it is often faste
 
 ![](../.gitbook/assets/access-log-filter-for-value.png)
 
-More powerful filtering capabilities are available immediately below the Search box, by selecting "Add filter" and manually constructing one or more filtering criteria. 
+More powerful filtering capabilities are available immediately below the Search box, by selecting **Add filter** and manually constructing one or more filtering criteria. 
 
-The access log display will change as filters are constructed and edited. To remove all filters, select the "Reset search" at the top of the graph.
+The access log display will change as filters are constructed and edited. To remove all filters, select **Reset search** at the top of the graph.
 
 It's helpful to spend a few minutes experimenting with these filtering capabilities. You can quickly drill down through large swaths of traffic, discovering events and patterns that can reveal many insights about your traffic. This is helpful when constructing and fine-tuning security policies, especially during attacks.
 
 ## Viewing Request Details
 
-The primary display shows a summary of each request. To view more information about a request, click on the twirl control \("&gt;"\) at the beginning of its listing. The display will expand to show its full details.
+The primary display shows a summary of each request. To view more information about a request, click on the twirl control \(**&gt;**\) at the beginning of its listing. The display will expand to show its full details.
 
 ![](../.gitbook/assets/access-log-expanded%20%281%29.png)
 
