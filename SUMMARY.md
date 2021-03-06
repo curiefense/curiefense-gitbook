@@ -23,6 +23,8 @@
 * [Search](settings/search.md)
 * [Databases](settings/databases.md)
 * [Publish Changes](settings/publish-changes.md)
+* [API](settings/api/README.md)
+  * [curl Examples](settings/api/curl-examples.md)
 
 ## Analytics
 
@@ -32,12 +34,6 @@
 ## GIT
 
 * [Version Control](git/version-control.md)
-
-## API
-
-* [API Introduction](api/introduction.md)
-* [API Namespaces and Endpoints](api/api-namespaces-and-endpoints.md)
-* [cURL Examples](api/curl-examples.md)
 
 ## Reference
 
