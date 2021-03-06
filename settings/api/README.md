@@ -41,21 +41,23 @@ The Curiefense API has the following namespaces:
 
 Each namespace contains various endpoints. For example, **tools** contains five:
 
-![](../../.gitbook/assets/swaggerhub-tools-endpoints.png)
+![](../../.gitbook/assets/api-tools.png)
 
 ## Exploring the API
 
-Swagger is a useful way to experiment and interact with the API. For example, clicking on "/configs" will display a list of endpoints. If you select this one:
+Swagger is a useful way to experiment with the API. For example, selecting **configs** will display a list of endpoints. If you select this one:
 
 ![](../../.gitbook/assets/api-example-get-cfg.png)
 
-... and then select the "Try it out" button, followed by the "Execute" button, this will be the result:
+... and then select the **Try it out** button, followed by the **Execute** button, this will be the result:
 
 ![](../../.gitbook/assets/api-example-get-cfg-results.png)
 
+This allows you to interact with the API, try different commands, and see what responses will be generated.
+
 ## Using curl
 
-As shown in the example above, exploring the API via Swagger will display sample curl commands for each namespace and endpoint, along with sample data structures and responses.
+As shown in the example above, Swagger will include sample curl commands for each namespace and endpoint. The curl commands can be copied and pasted for use elsewhere.
 
 ## API arguments
 
@@ -63,7 +65,7 @@ For some endpoints, arguments need to be supplied. Swagger will create defaults/
 
 ![](../../.gitbook/assets/api-example-create-cfg.png)
 
-Here a sample payload has been created, and is being displayed for editing.
+Here a sample payload has been created, and is being displayed for editing. After it is edited, selecting the **Execute** button will display the responses that are generated.
 
 
 
