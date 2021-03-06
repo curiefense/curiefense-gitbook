@@ -57,7 +57,7 @@ This allows you to interact with the API, try different commands, and see what r
 
 ## Using curl
 
-As shown in the example above, Swagger will include sample curl commands for each namespace and endpoint. The curl commands can be copied and pasted for use elsewhere.
+As shown in the example above, Swagger will include sample curl commands for each namespace and endpoint. The commands can be copied and pasted for use elsewhere.
 
 ## API arguments
 
