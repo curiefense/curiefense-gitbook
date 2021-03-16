@@ -9,8 +9,7 @@ Several tag formats are used.
 | Single Tag | Meaning |
 | :--- | :--- |
 | `test` | For testing single images |
-| `stable` | For the latest stable version of containers |
-| `latest-dev` | For the latest built image |
+| `main` | For stable images built from the main branch |
 
 Images can also have two-part tags to identify what is in the image. The parts are:
 
@@ -36,20 +35,9 @@ Images can also have two-part tags to identify what is in the image. The parts a
   * Pushes logs into the PostgreSQL server \(`logdb`\)
   * Aggregates metrics
   * Serves metrics over HTTP port 2112 for the Prometheus scraper.
-* Secrets: 
-  * This container uses a postgres account \(`postgres`\) with read-write permissions. Its password is passed either in the `CURIELOGGER_DBPASSWORD` environment variable, or in a file whose path is contained in the `CURIELOGGER_DBPASSWORD_FILE` environment variable.
 * Network details:
   * Port 9001 receives logs from Envoy over GRPC
   * Port 2112 exposes Prometheus metrics over HTTP
-
-### curielogserver
-
-* A REST API server used by `uiserver` to read log records from `logdb`.
-* Flask is the web interface for the REST API. Nginx serves as the frontend for the Flask web application.
-* Secrets:
-  * This container uses a postgres account \(`logserver_ro`\) with read-only permissions. Its password is passed in a file whose path is contained in the `CURIELOGSERVER_DBPASSWORD_FILE` environment variable
-* Network details:
-  * Port 80 exposes an API to retrieve logs
 
 ### curiesync
 
@@ -103,7 +91,7 @@ Images can also have two-part tags to identify what is in the image. The parts a
 ### UIServer
 
 * Serves the user interface. A Vue js app developed as single page app with NodeJS and serves the management console UI. 
-* The UI displays access logs to the user, and displays Curiefense's configuration for editing. API calls for configuration and access logs are routed to `confserver` and `curielogserver` by the Nginx inside the container. Nginx also used to serve the static parts of the UI such as HTML, CSS and JS.
+* The UI displays Curiefense's configuration for editing. API calls for configuration are routed to `confserver` by the Nginx inside the container or Pod. Nginx also used to serve the static parts of the UI such as HTML, CSS and JS.
 * Secrets: This image will enable TLS on the nginx server if a TLS certificate and key are provided:
   * For Kubernetes \(e.g. Helm\) deployments, the certificate is expected at `/run/secrets/uisslcrt/uisslcrt` and the key at `/run/secrets/uisslkey/uisslkey`
   * For Docker Compose deployments, the certificate is expected at `/run/secrets/uisslcrt` and the key at `/run/secrets/uisslkey`
@@ -117,7 +105,7 @@ Images can also have two-part tags to identify what is in the image. The parts a
 
 * Acts as a reverse proxy to `TARGET_ADDRESS:TARGET_PORT`.
 * Filters traffic according to the active configuration.
-* Sends access logs over GRPC to`curielogserver`.
+* Sends access logs over GRPC to`curielogger`.
 * Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is described in `curiefense/curieproxy/README.md`.
 * Network details:
   * Port 80 receives unencrypted traffic from users, which will be proxied to `TARGET_ADDRESS:TARGET_PORT` \(reachable at [http://localhost:30081](http://localhost:30081) in the sample  deployments\)
@@ -136,7 +124,7 @@ Images can also have two-part tags to identify what is in the image. The parts a
 
 * Acts as a reverse proxy to `TARGET_ADDRESS:TARGET_PORT`.
 * Filters traffic according to the active configuration.
-* Sends access logs over GRPC to`curielogserver`.
+* Sends access logs over GRPC to`curielogger`.
 * Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is described in `curiefense/curieproxy/README.md`.
 * In Helm deployments, two EnvoyFilters are defined in `curiefense/deploy/istio-helm/chart/charts/gateways/templates/`:
   * `curiefense_lua_filter.yaml` orders Envoy to apply the Lua HTTP filter to incoming requests.

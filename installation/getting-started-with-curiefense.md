@@ -91,9 +91,7 @@ This diagram will help us understand the containers we just deployed, their conn
 | :--- | :--- |
 | curieproxy | Envoy built with our modules |
 | curiesync | ensures configurations are always in sync with latest policies and rules changes |
-| curielogger | pushes Envoy access log to postgresql and metrics to prometheus |
 | confserver | API server to manage configuration |
-| curielogserver | REST API interface for reading and analyzing logs from PostgreSQL |
 | uiserver | UI Management Console |
 | echo | Dummy web server for testing |
 | logdb \* | stores access log |
@@ -113,7 +111,7 @@ Before diving in and making changes, let's discuss a few concepts of Curiefense'
   4. Using a single configuration server, you can maintain configurations of multiple deployments \(e.g. production, devops, qa, rc, etc.\) by keeping each in a separate branch, and you can merge them the git way at any point in time, via the API and/or UI.
 * Configurations are organized in Documents and Entries. More on this [here](../#data-structures).
 
-![](../.gitbook/assets/data-structures%20%281%29.png)
+![](../.gitbook/assets/data-structures%20%282%29.png)
 
 ## Policy and Rules Configuration
 

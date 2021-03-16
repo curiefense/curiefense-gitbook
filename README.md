@@ -62,7 +62,7 @@ Curiefense maintains its security parameters as Entries, which are contained in 
 
 A Configuration is a complete definition of Curiefense's behavior for a specific environment. An organization can maintain multiple Configurations \(e.g., development, staging, and production\).
 
-![](.gitbook/assets/data-structures.png)
+![](.gitbook/assets/data-structures%20%281%29.png)
 
 Each Configuration contains six Documents \(one of each type: ACL Profiles, Rate Limits, etc.\) Each Document contains at least one Entry, i.e., an individual security rule or definition. Documents are edited and managed in the [Policies & Rules](settings/policies-rules/) UI or via API.
 
@@ -86,7 +86,7 @@ Some activities \(such as rate limiting\) require local data storage. Internally
 
 ## Monitoring
 
-Each time a request goes through Curiefense, a detailed log message is pushed to the Logs DB. \(Out of the box, Curiefense is setup to work with PostgreSQL, but any RDBMS can be used.\)
+Each time a request goes through Curiefense, a detailed log message is pushed to elasticsearch.
 
 Traffic data is available in several ways:
 
