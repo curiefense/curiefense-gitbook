@@ -89,9 +89,8 @@ This diagram will help us understand the containers we just deployed, their conn
 | :--- | :--- |
 | curieproxy | Envoy built with our modules |
 | curiesync | ensures configurations are always in sync with latest policies and rules changes |
-| curielogger | pushes Envoy access log to postgresql and metrics to prometheus |
+| curielogger | pushes Envoy access log to elasticsearch and metrics to prometheus |
 | confserver | API server to manage configuration |
-| curielogserver | REST API interface for reading and analyzing logs from PostgreSQL |
 | uiserver | UI Management Console |
 | echo | Dummy web server for testing |
 | logdb \* | stores access log |
