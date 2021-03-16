@@ -210,6 +210,52 @@ Deploy this secret to the cluster:
 kubectl apply -f s3cfg.yaml
 ```
 
+### Database configuration
+
+Curiefense requires two database accounts. They will be automatically provisioned by the `logdb` container:
+
+* One with read/write authorization \(described below as `BASE64_READWRITE_USERNAME` and`BASE64_READWRITE_PASSWORD`\). If the `logdb` container is used \(which is the default\), `BASE64_READWRITE_USERNAME` must be set to `postgres`.
+* One with read-only permissions \(described below as 
+
+  `BASE64_READONLY_USERNAME` and `BASE64_READONLY_PASSWORD`\). If the `logdb` container is used \(which is the default\), `BASE64_READONLY_USERNAME` must be set to `logserver_ro`.
+
+Create a local file called `dbsecret.yaml`, with the contents below, containing database credentials. Replace `BASE64_READWRITE_USERNAME`, `BASE64_READONLY_USERNAME`, `BASE64_READWRITE_PASSWORD` and `BASE64_READONLY_PASSWORD` with the correct base64-encoded values.
+
+```text
+---
+apiVersion: v1
+kind: Secret
+data:
+  username: "BASE64_READWRITE_USERNAME"
+  password: "BASE64_READWRITE_PASSWORD"
+metadata:
+  namespace: curiefense
+  labels:
+    app.kubernetes.io/name: curiefense-db-credentials
+  name: curiefense-db-credentials
+type: Opaque
+---
+apiVersion: v1
+kind: Secret
+data:
+  username: "BASE64_READONLY_USERNAME"
+  password: "BASE64_READONLY_PASSWORD"
+metadata:
+  namespace: curiefense
+  labels:
+    app.kubernetes.io/name: curiefense-db-readonly-credentials
+  name: curiefense-db-readonly-credentials
+type: Opaque
+```
+
+Deploy this secret to the cluster:
+
+```text
+kubectl apply -f dbsecret.yaml
+```
+
+An example file with weak default credentials is provided at `deploy/curiefense-helm/example-dbsecret.yaml`.
+
 ## Setup TLS
 
 Using TLS is optional.
@@ -396,31 +442,21 @@ For a full list of ports used by Curiefense containers, see the [Reference page 
 
 Helm charts are divided as follows:
 
-* `curiefense-admin` - confserver and UIServer.
+* `curiefense-admin` - confserver, curielogserver and UIServer.
 * `curiefense-dashboards` - Grafana and Prometheus.
-* `curiefense-log` - log storage: elasticsearch \(default\); log forwarders for elasticsearch: logstash \(default\), fluentd; log display interface: kibana \(default\)
-* `curiefense-proxy` - curielogger, curiesync and redis \(used for synchronization\).
+* `curiefense-log` - logdb, namely: PostgreSQL.
+* `curiefense-proxy` - curielogger, curiesync and redis.
 
 #### Chart configuration variables <a id="markdown-header-configuration-variables"></a>
 
 Configuration variables in `deploy/curiefense-helm/curiefense/values.yaml` can be modified or overridden to fit your deployment needs:
 
 * Variables in the `images` section define the Docker image names for each component. Override this if you want to host images on your own private registry.
-* `storage.storage_class_name` is the StorageClass that is used for dynamic provisioning of Persistent Volumes. It defaults to `null` \(default storage class, which works by default on EKS, GKE and minikube\).
-* `storage.*_storage_size` variables define the size of persistent volumes. The defaults are fine for a test or small-scale deployment.
-* `settings.curieconf_manifest_url` is the URL of the AWS S3 bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
-* `settings.curiefense_es_forwarder` defines whether logs are forwarded to elasticsearch using fluentd or logstash \(default\). Has no effect if `settings.curiefense_logdb_type` is set to `elasticsearch`.
-* `settings.curiefense_es_hosts` is the hostname for the elasticsearch cluster. Changing it is required only if the elasticsearch cluster supplied by this chart is not used, and replaced with an externally-managed cluster.
-* `settings.curiefense_logstash_url` is the url of the logstash server. Changing it is required only if the logstash instance supplied by this chart is not used, and replaced with an externally-managed instance.
-* `settings.curiefense_fluentd_url` is the url of the fluentd server. Changing it is required only if the fluentd instance supplied by this chart is not used, and replaced with an externally-managed instance.
-* `settings.curiefense_kibana_url` is the url of the kibana server. Changing it is required only if the kibana instance supplied by this chart is not used, and replaced with an externally-managed instance.
-* `settings.curiefense_bucket_type` is the type of cloud bucket that is used to transfer configurations from `confserver` to envoy proxies \(supported values: `s3` or `gs`\).
-* `settings.curiefense_es_index_name` is the name of the elasticsearch index where logs are stored.
-* `settings.docker_tag` defines the image tag versions that should be used. `deploy.sh` will override this to deploy a version that matches the current working directory, unless the `DOCKER_TAG` environment variable is set.
-* `settings.redis_port` is the port on which redis listens. This value must be set identically in the Istio chart's `values.yaml`.
-* `settings.uiserver_enable_tls` is a boolean that defines whether TLS is enabled on the UI server. If it is enabled, then a certificate and key must have been provisioned \(see above\).
-* Variables in the `requests` define default CPU requirements for pods.
-* Variables in the `enable` allow disabling parts of a deployment, which can be supplied outside of this chart \(ex. kibana, logstash, fluentd, elasticsearch, prometheus...\).
+* `storage_class_name` is the StorageClass that is used for dynamic provisioning of Persistent Volumes. It defaults to `null` \(default storage class, which works by default on EKS, GKE and minikube\).
+* `..._storage_size` variables define the size of persistent volumes. The defaults are fine for a test or small-scale deployment.
+* `curieconf_manifest_url` is the URL of the AWS S3 bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
+* `curiefense_db_hostname` defines the hostname of the postgres server that will be used to store logs. Defaults to the provided `logdb` StatefulSet. Override this to replace the postgres instance with one you supply, or an AWS Aurora instance.
+* `docker_tag` defines the image tag versions that should be used. `deploy.sh` will override this to deploy a version that matches the current working directory, unless the `DOCKER_TAG` environment variable is set.
 
 ### Istio chart <a id="markdown-header-istio"></a>
 

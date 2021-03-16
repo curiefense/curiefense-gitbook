@@ -86,7 +86,7 @@ Some activities \(such as rate limiting\) require local data storage. Internally
 
 ## Monitoring
 
-Each time a request goes through Curiefense, a detailed log message is pushed to elasticsearch.
+Each time a request goes through Curiefense, a detailed log message is pushed to the Logs DB. \(Out of the box, Curiefense is setup to work with PostgreSQL, but any RDBMS can be used.\)
 
 Traffic data is available in several ways:
 
