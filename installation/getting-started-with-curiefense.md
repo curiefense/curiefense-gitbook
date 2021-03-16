@@ -107,7 +107,7 @@ This diagram will help us understand the containers we just deployed, their conn
 Before diving in and making changes, let's discuss a few concepts of Curiefense's configuration.
 
 * Git is the storage management used to keep track of changes. This means:
-  1. Data can be store anywhere a git repository can \(local, remote, hosted, etc\).
+  1. Data can be stored anywhere a git repository can \(local, remote, hosted, etc\).
   2. Every change you made can be reverted.
   3. You can automate deployments based on tagging.
   4. Using a single configuration server, you can maintain configurations of multiple deployments \(e.g. production, devops, qa, rc, etc.\) by keeping each in a separate branch, and you can merge them the git way at any point in time, via the API and/or UI.
