@@ -35,6 +35,10 @@ In the interface, the tags are listed below their associated actions. Evaluation
 | **Allow** | Passes the request to the WAF for further inspection. |
 | **Deny** | Blocks the request. |
 
+{% hint style="info" %}
+An ACL Policy that blocks requests via the **Enforce Deny** Action will only apply to the paths/URLs in the [URL Map](url-maps.md) where this ACL Policy has been assigned. If you want to block requests globally for specific Tags, this can be done by defining the appropriate [Action](tag-rules.md#action) within the relevant [Tag Rules](tag-rules.md).
+{% endhint %}
+
 {% hint style="warning" %}
 **Be very cautious when adding the "all" tag to an action column.** In most situations, that action will be taken for _all_ requests for which a match was not found in any columns to the left. 
 
@@ -46,4 +50,6 @@ In other columns, "all" can have serious consequences. For example, placing it i
 
 Summary: before using the "all" tag in an ACL Policy, carefully consider its ramifications.
 {% endhint %}
+
+
 
