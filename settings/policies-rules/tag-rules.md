@@ -45,11 +45,15 @@ Sometimes the Match Conditions describe a request which should be rejected immed
 | Action | Meaning |
 | :--- | :--- |
 | **Tag Only** | Apply the specified Tag\(s\), and continue processing the request. |
-|  | Apply the specified Tag\(s\) and add the specified header to it for receipt and evaluation by the user's backend. Then continue processing the request. To specify this parameter, separate the header and value with a colon. Example: `X-CustomHdr: Custom-Value` |
+| **Header** | Apply the specified Tag\(s\) and add the specified header to it for receipt and evaluation by the user's backend. Then continue processing the request. To specify this parameter, separate the header and value with a colon. Example: `X-CustomHdr: Custom-Value` |
 | **503 Service Unavailable**  | The request will be blocked and the requestor will receive a response of "503 Service Unavailable". |
 | **Challenge** | For a browser-based web application, a [bot challenge](../../reference/the-challenge-process.md) will be issued to verify that the requestor is a human using a browser, and not a bot using a headless browser or emulator. If the challenge is failed, the request is blocked. |
 | **Response** | Blocks the request, and responds with a custom status code \(0-999\) and response body.  |
 | **Redirect** | Blocks the request with the specified status code, and redirects the requestor to a specified URL. For example, the URL might be a page that says, "Your activity appears suspicious, and your access has been restricted. Contact support if you think this decision was made in error." |
+
+{% hint style="info" %}
+Note that the Actions defined here are global for their Tags. To define tag-related actions for a set of paths/URLs, set up the Actions within an [ACL Policy](acl-policies.md) and then assign the ACL Policy to the paths in a [URL Map](url-maps.md).  
+{% endhint %}
 
 ### Source
 
