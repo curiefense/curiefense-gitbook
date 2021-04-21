@@ -349,7 +349,7 @@ curl http://$(kubectl -n istio-system get svc istio-ingressgateway -o jsonpath='
 Run this to ensure that the logs have been recorded and are reachable from the UI server:
 
 ```text
-kubectl exec -ti -n curiefense elasticsearch-0 -- curl http://127.0.0.1:9200/_search -H "Content-Type: application/json" -d '{"query": {"match": {"path": "/TEST_STRING"}}}'
+kubectl exec -ti -n curiefense elasticsearch-0 -- curl http://127.0.0.1:9200/_search -H "Content-Type: application/json" -d '{"query": {"match": {"request.attributes.path": "/TEST_STRING"}}}'
 ```
 
 Check that a result is return, and that it does contains `TEST_STRING`.
