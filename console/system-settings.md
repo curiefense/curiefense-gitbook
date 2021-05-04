@@ -9,7 +9,3 @@ The settings are:
 * **buckets**: the complete list of buckets to which a Configuration can be pushed.
 * **branch\_buckets:** the _default_ list of buckets for each branch. When a Configuration is published, the default buckets for the branch will be initially selected in the Publish Configuration interface \(but they can be changed before publishing\).
 
-
-
-
-

@@ -132,7 +132,7 @@ Images can also have two-part tags to identify what is in the image. The parts a
 
 ## Additional Images for Istio-Helm Deployments
 
-### curieproxy-istio 
+### curieproxy-istio
 
 * Acts as a reverse proxy to `TARGET_ADDRESS:TARGET_PORT`.
 * Filters traffic according to the active configuration.

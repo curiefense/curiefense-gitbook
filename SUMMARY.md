@@ -29,9 +29,7 @@
 
 ## GIT
 
----
-
-* [Version Control](version-control.md)
+* [Version Control](git/version-control.md)
 
 ## API
 

@@ -1,6 +1,6 @@
 # Tags
 
-When an incoming request is received, Curiefense generates internal tags and assigns them to it. 
+When an incoming request is received, Curiefense generates internal tags and assigns them to it.
 
 Some tags are assigned early, and are used to make decisions about how the request is handled. For example, if a request's IP is found on the Spamhaus DROP list, it might be assigned a tag of "spamhaus". Then an [ACL Profile](../console/document-editor/acl-profiles.md) might block the request because it contains that tag.
 
@@ -10,9 +10,9 @@ Some tags are defined by the user, while others are generated automatically by C
 
 ## User-Defined Tags
 
-[Profiling Lists](../console/document-editor/profiling-lists.md) are user-defined lists of criteria with one or more associated tags. Requests which match the criteria will be assigned those tags. 
+[Profiling Lists](../console/document-editor/profiling-lists.md) are user-defined lists of criteria with one or more associated tags. Requests which match the criteria will be assigned those tags.
 
-A Profiling List can be based on an external list \(e.g., the Spamhaus DROP list\), or a user-defined custom list \(e.g., a list of IP addresses used by the internal QA team\). 
+A Profiling List can be based on an external list \(e.g., the Spamhaus DROP list\), or a user-defined custom list \(e.g., a list of IP addresses used by the internal QA team\).
 
 ## Automatic Tags
 

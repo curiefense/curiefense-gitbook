@@ -2,7 +2,7 @@
 
 Curiefense includes a command line tool: `curieconf_cli`.
 
-In the discussion below, some examples will be given using the command line via this tool. Others will be shown for both `curieconf_cli` and `curl`. 
+In the discussion below, some examples will be given using the command line via this tool. Others will be shown for both `curieconf_cli` and `curl`.
 
 ## Operations on Configurations
 
@@ -52,7 +52,7 @@ CURL: curl -XGET $api_url/configs/
 CLI:  curieconf_cli conf list
 ```
 
-Retrieve a complete configuration: 
+Retrieve a complete configuration:
 
 ```text
 CURL: -XGET $api_url/configs/{config}/ 
@@ -73,14 +73,14 @@ Create a new configuration, name is provided and overrides posted data:
  CLI:  curieconf_cli conf create -n {config} [{filename}]
 ```
 
-Update an existing configuration: 
+Update an existing configuration:
 
 ```text
 CURL: curl -XPUT $api_url/configs/{config}/ 
 CLI:  curieconf_cli conf update {config} [{filename}]
 ```
 
-Delete a configuration: 
+Delete a configuration:
 
 ```text
 CURL: -XDELETE $api_url/configs/{config}/ 
@@ -94,7 +94,7 @@ Clone a configuration, new name is in POST data:
  CLI:  CLI uses the other clone URL
 ```
 
-Clone a configuration, new name is in the URL: 
+Clone a configuration, new name is in the URL:
 
 ```text
 CURL: -XPOST $api_url/configs/{config}/clone/{new_name}/ 
@@ -122,7 +122,7 @@ CURL: curl -XPUT $api_url/configs/{config}/v/{version}/revert/
 CLI:  curieconf_cli conf revert {config} {version}
 ```
 
-#### Format for full config dumps and batch updates: <a id="markdown-header-format-for-full-config-dumps-and-batch-updates"></a>
+### Format for full config dumps and batch updates: <a id="markdown-header-format-for-full-config-dumps-and-batch-updates"></a>
 
 ```text
 {

@@ -6,11 +6,11 @@ The input controls at the top of this page are described here: [Document Editor 
 
 ## Overview
 
-A WAF Profile is a set of security policies that are used by the Curiefense WAF \(Web Application Firewall\). Every deployment includes a default WAF Profile, and additional Profiles can be created. 
+A WAF Profile is a set of security policies that are used by the Curiefense WAF \(Web Application Firewall\). Every deployment includes a default WAF Profile, and additional Profiles can be created.
 
-Every URL that Curiefense protects has a WAF Profile assigned to it in [URL Maps](url-maps.md). \(If none is assigned explicitly, the default is used.\) A request sent to a URL might, or might not, be filtered according to the assigned Profile. 
+Every URL that Curiefense protects has a WAF Profile assigned to it in [URL Maps](url-maps.md). \(If none is assigned explicitly, the default is used.\) A request sent to a URL might, or might not, be filtered according to the assigned Profile.
 
-#### Reasons why WAF filtering might not occur:
+### Reasons why WAF filtering might not occur:
 
 * The request was blocked before WAF filtering would have occurred. \(Before the WAF is used, [several other stages of filtering occur first](../../reference/multi-stage-traffic-filtering.md).\)
 * The applicable [ACL Profile](acl-profiles.md) resulted in an Action of Bypass, which exempts the request from WAF filtering. 
@@ -23,8 +23,8 @@ At the top of the page, the following values are defined for incoming requests.
 | Constraint | Meaning |
 | :--- | :--- |
 | **Max Length** | The maximum allowable length of a header, cookie, or argument. |
-| **Max Count** | The maximum number of headers, cookies, or arguments allowed.  |
-| **Ignore Alphanumeric input** | When this is selected, the WAF will not inspect requests that only contain alphanumeric characters. This reduces computational overhead by not evaluating benign requests. \(Hostile requests such as SQLi, XSS, etc., will contain some non-alphanumeric characters.\)  |
+| **Max Count** | The maximum number of headers, cookies, or arguments allowed. |
+| **Ignore Alphanumeric input** | When this is selected, the WAF will not inspect requests that only contain alphanumeric characters. This reduces computational overhead by not evaluating benign requests. \(Hostile requests such as SQLi, XSS, etc., will contain some non-alphanumeric characters.\) |
 
 ## Content Filtering and Whitelisting
 
@@ -39,7 +39,7 @@ Along with this content whitelisting, a "positive security" form of content filt
 
 ## Parameter Content Constraints
 
-The bottom part of the UI defines Curiefense's behavior for both whitelisting and content filtering for each parameter. 
+The bottom part of the UI defines Curiefense's behavior for both whitelisting and content filtering for each parameter.
 
 In the following discussion, a **constraint** refers to the values in the UI input controls \(_Parameter_, _Matching Value_, _Restrict?_, and _Exclude Sig_\) that have been specified for one parameter.
 
@@ -47,7 +47,7 @@ Each incoming request is processed like this:
 
 ![](../../.gitbook/assets/waf-profile-flowchart.png)
 
-This behavior is defined in the following fields in the UI. 
+This behavior is defined in the following fields in the UI.
 
 <table>
   <thead>

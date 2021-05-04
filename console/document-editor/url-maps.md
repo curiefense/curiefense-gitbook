@@ -40,7 +40,7 @@ Note that the buttons at the top of the window are for administering URL Maps \(
 
 To edit an existing Path Map definition, click on the "expand" button at the end of its listing. The edit window shown below will appear.
 
-![](../../.gitbook/assets/url-maps-editing.png)
+![](../../.gitbook/assets/url-maps-editing%20%281%29%20%282%29.png)
 
 | **Field** | **Value** |
 | :--- | :--- |

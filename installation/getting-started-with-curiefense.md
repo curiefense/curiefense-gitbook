@@ -6,7 +6,7 @@ description: >-
 
 # Getting Started with Curiefense
 
-**Prerequisite**: Ubuntu 20.04 LTS
+**Prerequisite**: Ubuntu 21.04
 
 In this guide, we will deploy Curiefense using Docker Compose, then test and configure.
 
@@ -28,7 +28,7 @@ sudo usermod -aG docker $(whoami) && sudo -i -u $(whoami)
 
 Grab the latest code from github to get started:
 
-```
+```text
 git clone https://github.com/curiefense/curiefense.git
 cd curiefense/deploy/compose/
 docker-compose up
@@ -46,33 +46,28 @@ At this point you should have the following http interfaces:
 
 | Interface | URL |
 | :--- | :--- |
-| Management UI | http://curie.demo:30080/ |
-| Swagger API | http://curie.demo:30000/api/v1/ |
-| Echo web server | http://curie.demo:30081/ |
-| Grafana | http://curie.demo:30300/ |
+| Management UI | [http://curie.demo:30080/](http://curie.demo:30080/) |
+| Swagger API | [http://curie.demo:30000/api/v1/](http://curie.demo:30000/api/v1/) |
+| Echo web server | [http://curie.demo:30081/](http://curie.demo:30081/) |
+| Grafana | [http://curie.demo:30300/](http://curie.demo:30300/) |
 
 Make sure everything is working by testing the echo server:
 
 ```text
 curl curie.demo:30081
 
-Request served by 1cebc4ed2938
+Request served by echo
 
 HTTP/1.1 GET /
 
 Host: curie.demo:30081
-X-Envoy-Expected-Rq-Timeout-Ms: 15000
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-Accept-Encoding: gzip, deflate
-X-Request-Id: 50d6bdea-58ed-4c9d-9d26-c8eeff432817
-Cookie: csrftoken=u97m660E9Pji8PvSpAGWU3K4pVsl2N4mTscK00bvO8Jkb7h3nTTQQR8FuArzPgIk; CSRF-Token-X3TDN=bEYiHVfq9RvWY4UbyeLN4CWrfqyLevuj; redirect_to=%2F
-Upgrade-Insecure-Requests: 1
 X-Forwarded-For: 172.18.0.1
 X-Forwarded-Proto: http
 X-Envoy-Internal: true
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/81.0
-Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
-Content-Length: 0
+X-Request-Id: 0bced763-5d06-4724-875d-c5936b948d80
+X-Envoy-Expected-Rq-Timeout-Ms: 15000
+User-Agent: curl/7.74.0
+Accept: */*
 ```
 
 ## Deployed Containers Overview
@@ -88,15 +83,17 @@ This diagram will help us understand the containers we just deployed, their conn
 | Container Name | Purpose and Functionality |
 | :--- | :--- |
 | curieproxy | Envoy built with our modules |
-| curiesync | ensures configurations are always in sync with latest policies and rules changes |
-| curielogger | pushes Envoy access log to postgresql and metrics to prometheus |
+| curiesync | Ensures configurations are always in sync with latest policies and rules changes |
+| curietasker | Runs periodic maintenance tasks |
+| curielogger | Pushes Envoy access log to postgresql and metrics to prometheus |
 | confserver | API server to manage configuration |
-| curielogserver | REST API interface for reading and analyzing logs from PostgreSQL |
 | uiserver | UI Management Console |
 | echo | Dummy web server for testing |
-| logdb \* | stores access log |
-| grafana \* | dashboards |
-| prometheus \* | stores time series metrics |
+| elasticsearch \* | Stores access log |
+| kibana | Displays logs |
+| filebeat | Sends logs to elasticsearch |
+| grafana \* | Dashboards |
+| prometheus \* | Stores time series metrics |
 | redis \* | Synchronizes session and rules across deployments and Envoy containers |
 |  | \(\*\) You may replace these containers with your own if desired. |
 
@@ -123,21 +120,21 @@ During the procedures described below, you will set up some simple rules and the
 
 ### Open the UI
 
-Open the UI management console by going to [http://curie.demo:30080/](http://curie.demo:30080/). In the left sidebar, select  **Document Editor** if it is not already selected.
+Open the UI management console by going to [http://curie.demo:30080/](http://curie.demo:30080/). In the left sidebar, select **Policies & Rules** if it is not already selected.
 
-At the top left of the page,  in the second pulldown control, select **Profiling Lists**.
+At the top left of the page, in the second pulldown control, select **Tag Rules**.
 
-### Create a Session Profiling list
+### Create a Session Tag list
 
-Session profiling attaches tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs to traffic sources such as geolocations, IP addresses, CIDRs, and AS numbers. Subsequently, the tags are then used to make decisions about how the requests are handled.
+Session tagging attaches tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs to traffic sources such as geolocations, IP addresses, CIDRs, and AS numbers. Subsequently, the tags are then used to make decisions about how the requests are handled.
 
-Start by creating a new Profiling List:
+Start by creating a new Tag List:
 
 ![](../.gitbook/assets/screen-shot-2020-11-07-at-4.59.46-am.png)
 
 Next, in the **Tags** text box, enter the value `trusted` .
 
-Then, at the top of the \(currently empty\) list to the right, add a new entry by selecting the  **+**  button.  Enter `foo` for its name, `bar` for value, and `trust me` for annotation. Now click on the "add" link.
+Then, at the top of the \(currently empty\) list to the right, add a new entry by selecting the **+** button. Enter `foo` for its name, `bar` for value, and `trust me` for annotation. Now click on the "add" link.
 
 ![](../.gitbook/assets/screen-shot-2020-11-07-at-5.04.49-am.png)
 
@@ -145,7 +142,7 @@ Your screen should look similar to this:
 
 ![](../.gitbook/assets/screen-shot-2020-11-07-at-5.03.11-am.png)
 
-We have created a simple profiling rule. Every request that contains a header named `foo` which matches the regex \(PCRE\) `bar` will receive a tag of `trusted`. 
+We have created a simple profiling rule. Every request that contains a header named `foo` which matches the regex \(PCRE\) `bar` will receive a tag of `trusted`.
 
 \(The Annotation of `trust me` is a label for internal admin use, and does not affect traffic processing.\)
 
@@ -185,7 +182,7 @@ Now that we know how to attach tags to incoming requests, let's tell Curiefense 
 
 ### Create an ACL \(Access Control List\)
 
-We're going to block all requests with the `trusted` tag. 
+We're going to block all requests with the `trusted` tag.
 
 In the left menu, navigate to **Document Editor**. By default, **ACL Profiles** should already be selected.
 
@@ -213,23 +210,23 @@ Note that the request was identified as a risk, because it contains the specifie
 
 However, Curiefense passed the request through the system, as seen in the green HTTP status code \(**200:** successful\). If it had been blocked, the code would instead be red with an error code.
 
-This behavior is expected. By default, Curiefense's security profiles are in report/monitor mode;  requests will be flagged but not blocked. This mode allows for testing and fine-tuning of new configurations without affecting traffic.
+This behavior is expected. By default, Curiefense's security profiles are in report/monitor mode; requests will be flagged but not blocked. This mode allows for testing and fine-tuning of new configurations without affecting traffic.
 
 Let's assume that we've tested our new policies and want to make the ACL active.
 
 #### Activate the ACL
 
-Navigate to **Document Editor** and then choose to edit **URL Maps** in the upper dropdown list**.** 
+Navigate to **Document Editor** and then choose to edit **URL Maps** in the upper dropdown list**.**
 
-URL Maps assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. \(They are explained in depth [here](../console/document-editor/url-maps.md).\) 
+URL Maps assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. \(They are explained in depth [here](../console/document-editor/url-maps.md).\)
 
 We're going to edit Curiefense's default security profile: the one that applies to every URL which does not otherwise have any policies assigned to it.
 
-Expand the **default** profile \(the one assigned to path `/`\) by selecting it. Then activate the profile by checking the **Active Mode** checkbox. 
+Expand the **default** profile \(the one assigned to path `/`\) by selecting it. Then activate the profile by checking the **Active Mode** checkbox.
 
 ![](../.gitbook/assets/screen-shot-2020-11-07-at-5.49.48-am.png)
 
-Save your changes and publish the configuration again. 
+Save your changes and publish the configuration again.
 
 After the change propagates, Curiefense should block the request:
 
@@ -285,7 +282,7 @@ Now that we're somewhat familiar with the system, let's set up multi-layered rat
 Rate limits in Curiefense are reusable "stand-alone" rules that can be attached to different paths in [URL Maps](../console/document-editor/url-maps.md).
 {% endhint %}
 
-Previously, we used the default Rate Limit that comes with Curiefense, and applied it to the entire domain. Now we will create three specific Rate Limits for the login process of an API, and attach them to the relevant endpoints. 
+Previously, we used the default Rate Limit that comes with Curiefense, and applied it to the entire domain. Now we will create three specific Rate Limits for the login process of an API, and attach them to the relevant endpoints.
 
 #### Creating a URL Map for the API
 
@@ -315,11 +312,11 @@ At this point, we have four profiles: the default `/` which we left in place, `/
 
 Note that the default has one Rate Limit attached to it \(shown as a "1" in the **RL** column\), because it already had this when it was duplicated. The other three profiles do not yet have any limits.
 
-For `/api/v1/` and `/api/v2/` ,  set the standard rate limit rule as you did before:
+For `/api/v1/` and `/api/v2/` , set the standard rate limit rule as you did before:
 
 ![](../.gitbook/assets/image.png)
 
-For `/api/v[1-2]/login`, we will create three new rate limit rules. 
+For `/api/v[1-2]/login`, we will create three new rate limit rules.
 
 #### Create New Rate Limits
 
@@ -382,7 +379,7 @@ do
 done
 ```
 
-As traffic gets blocked \(returning a 503 error by default\) we can look at the **Access Log**. When expanding a 503 line, you can see the Risk Details, which include the rate limit rule that was violated \(in this case, Dictionary Harvesting\). 
+As traffic gets blocked \(returning a 503 error by default\) we can look at the **Access Log**. When expanding a 503 line, you can see the Risk Details, which include the rate limit rule that was violated \(in this case, Dictionary Harvesting\).
 
 You can also see the system has generated a tag named after the rule name. Lastly, notice that every request is logged with all details.
 
@@ -394,7 +391,7 @@ The demonstration above is only the beginning of what can be done with Rate Limi
 
 Here's a common example. Rate Limits like the ones demonstrated above will block a requestor who exceeds a defined limit within the given timespan. However, once the limit resets, the requestor would be able to try again, and could repeat this cycle as often as desired. To prevent this, you can configure Curiefense to ban a requestor \(and block all of their requests\) when multiple rate limits are violated.
 
-A full explanation of Curiefense's Rate Limits and their capabilities is available [here](../console/document-editor/rate-limits.md).  
+A full explanation of Curiefense's Rate Limits and their capabilities is available [here](../console/document-editor/rate-limits.md).
 
 ## Grafana Dashboards
 
@@ -417,12 +414,4 @@ You now have a working Curiefense installation to experiment with. Its capabilit
 Note that this tutorial was a Quick Start guide, and therefore, it used many default options for the deployment. You might want to change some of them; for example, you might want Curiefense to use TLS for its UI server and for communicating with the backend.
 
 Modifying the deployment is straightforward. For Docker Compose, just go through the procedures described [here](deployment-first-steps/docker-compose.md) and then re-run `docker-compose up`. For Helm, go through the procedures [here](deployment-first-steps/istio-via-helm.md).
-
-
-
-
-
-
-
-
 

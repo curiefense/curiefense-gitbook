@@ -50,7 +50,7 @@ These variables are described below.
 
 ### CURIE\_BUCKET\_LINK
 
-Curiefense uses the storage defined here for synchronizing configuration changes between `confserver` and the Curiefense sidecars. 
+Curiefense uses the storage defined here for synchronizing configuration changes between `confserver` and the Curiefense sidecars.
 
 By default, this points to the `local_bucket` Docker volume:
 
@@ -65,7 +65,7 @@ For multi-node deployments, or to use S3 for a single node, replace this value w
 CURIE_BUCKET_LINK=s3:///BUCKETNAME/prod/manifest.json
 ```
 
-In that case, you will need to supply AWS credentials in  `deploy/compose/curiesecrets/s3cfg`, following this template:
+In that case, you will need to supply AWS credentials in `deploy/compose/curiesecrets/s3cfg`, following this template:
 
 ```text
 [default]

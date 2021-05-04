@@ -2,13 +2,13 @@
 
 Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
 
-Curiefense is [fully controllable programmatically](api/introduction.md). All  configuration data \(security rulesets, policies, etc.\) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
+Curiefense is [fully controllable programmatically](api/introduction.md). All configuration data \(security rulesets, policies, etc.\) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
 
-Curiefense also has a UI console, discussed in the [Console](console/document-editor/) section. 
+Curiefense also has a UI console, discussed in the [Console](console/document-editor/) section.
 
 ## Version
 
-This documentation is for **version 1.0**.
+This documentation is for **version main**, which is \(normally\) stable and more recent than the latest release.
 
 \(To view docs for a different version, choose it at the top of the left sidebar.\)
 
@@ -18,15 +18,15 @@ Curiefense provides traffic filtering that can be configured differently for mul
 
 ![Components of Curiefense](.gitbook/assets/curiefense-operation.png)
 
-In the diagram above, the **Server** represents a resource protected by Curiefense \(a site, app, service, or API\). The **User** is a traffic source attempting to access that resource. 
+In the diagram above, the **Server** represents a resource protected by Curiefense \(a site, app, service, or API\). The **User** is a traffic source attempting to access that resource.
 
 Incoming traffic passes through Envoy, which is using Curiefense as an HTTP filter. Hostile requests are blocked.
 
 The other components in the diagram represent the Curiefense platform, as follows:
 
 * **Curiefense proxy** \(represented by the Curiefense logo\): Plugs into Envoy and performs traffic filtering. 
-* **Logs DB**. Curiefense stores traffic data \(headers, payloads, etc.\) from all requests here.
 * **Metrics**. A Prometheus store of traffic metrics.
+* **Elasticsearch**. Stores access logs.
 * **Dashboard**. Grafana dashboard\(s\) with visual displays of traffic metrics.
 * **Web UI**. Curiefense's web console for configuring the platform.
 * **Config Server:** A service which:
@@ -40,7 +40,7 @@ For detailed information about the specific containers and services which perfor
 
 ## Deployment Options
 
-Curiefense can run in variety of environments, depending on your specific needs. It can be adapted to many different use cases. 
+Curiefense can run in variety of environments, depending on your specific needs. It can be adapted to many different use cases.
 
 Deployment instructions for several different environments are available in the [Installation](installation/deployment-first-steps/) section of this manual and on the [Getting Started](installation/getting-started-with-curiefense.md) page. More will be added in the future.
 
@@ -72,7 +72,7 @@ A Configuration also includes data blobs, which currently are used to store the 
 
 A Configuration is the atomic unit for all of Curiefense's parameters. Any edits to a Configuration result in a new Configuration being committed. Configurations are versioned, and can be reverted at any time.
 
-When a Configuration is created or modified \(whether by the UI console or an API call\), the admin pushes it to a Cloud Storage bucket. An important feature of Curiefense is simultaneous publishing to multiple environments. 
+When a Configuration is created or modified \(whether by the UI console or an API call\), the admin pushes it to a Cloud Storage bucket. An important feature of Curiefense is simultaneous publishing to multiple environments.
 
 ![](.gitbook/assets/architecture-multiple-buckets.png)
 

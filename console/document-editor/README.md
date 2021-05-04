@@ -36,7 +36,7 @@ After editing anything on this page, you must save your changes \(with the Save 
 
 ## Entry Administration
 
-The top section contains a toolbar with input controls. 
+The top section contains a toolbar with input controls.
 
 * **Configuration** pulldown: Selects the branch/configuration for editing.
 * **Document** pulldown: Selects the Document to display for editing.
@@ -58,7 +58,7 @@ The UI in this section will vary, depending on the type of Document being edited
 * [WAF Profiles](waf-profiles.md)
 * [WAF Signatures](waf-signatures.md)
 
-At the bottom of this section, the URL of the current entry is shown in gray. It reflects the structure of the data. 
+At the bottom of this section, the URL of the current entry is shown in gray. It reflects the structure of the data.
 
 For example, `/conf/api/v1/configs/devops/d/urlmaps/e/__default__` shows that:
 
@@ -69,8 +69,4 @@ For example, `/conf/api/v1/configs/devops/d/urlmaps/e/__default__` shows that:
 ## **Document Versioning**
 
 The bottom section of this page shows a history of versions for this Document. In a later version of Curiefense, this section will allow for reversions. In the current version, reversions are only available in the API and in the [Publish Configuration](../publish-configuration.md) section of the UI.
-
-
-
-
 

@@ -8,7 +8,7 @@ The input controls at the top of this page are described here: [Document Editor 
 
 Early in the [traffic evaluation process](../../reference/multi-stage-traffic-filtering.md) \(immediately after the pre-processing Cloud Functions are performed\), Curiefense assigns **Tags** to an incoming request. Subsequently, the Tags can be used to make decisions about how the request is processed. After processing, a request's Tags remain associated with it, and they are available for display in the [Access Log](../../analytics/access-log.md).
 
-This page allows you to administer **Profiling Lists**, which are combinations of [user-defined Tags](../../reference/tags.md#user-defined-tags) and the criteria for assigning them to requests. 
+This page allows you to administer **Profiling Lists**, which are combinations of [user-defined Tags](../../reference/tags.md#user-defined-tags) and the criteria for assigning them to requests.
 
 {% hint style="info" %}
 The actions that can be performed as a result of the Tag assignments are administered separately in [Rate Limits](rate-limits.md).
@@ -48,9 +48,9 @@ Match conditions consist of two parts:
 
 ### Match Criteria for an Internet-sourced Profile
 
-For a Profile based on an online source, simply enter its URL into the **Source** field. For example, to create a list based on the Spamhaus ASN DROP list, you would enter [https://www.spamhaus.org/drop/asndrop.txt](https://www.spamhaus.org/drop/asndrop.txt). Curiefense will then populate the list automatically. 
+For a Profile based on an online source, simply enter its URL into the **Source** field. For example, to create a list based on the Spamhaus ASN DROP list, you would enter [https://www.spamhaus.org/drop/asndrop.txt](https://www.spamhaus.org/drop/asndrop.txt). Curiefense will then populate the list automatically.
 
-If the list contains more than category--which is unlikely for an Internet-sourced Profile, but not impossible--also choose the appropriate value for Entries Relation, as discussed below. 
+If the list contains more than category--which is unlikely for an Internet-sourced Profile, but not impossible--also choose the appropriate value for Entries Relation, as discussed below.
 
 At this point, the new Profiling List should be complete. Before exiting the page, be sure to save your work.
 
@@ -64,7 +64,7 @@ For most of the categories, the dialog will appear as it is above. Multiple entr
 
 ![](../../.gitbook/assets/session-profiles-criteria-add-ip-examples.png)
 
-For some categories, one entry can be made at a time, with each entry requiring multiple lines. Annotations are not preceded by a pound sign. 
+For some categories, one entry can be made at a time, with each entry requiring multiple lines. Annotations are not preceded by a pound sign.
 
 ![](../../.gitbook/assets/session-profiles-criteria-add-cookies.png)
 

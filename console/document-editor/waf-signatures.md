@@ -6,7 +6,5 @@ This section displays all the WAF Signatures defined within Curiefense. This has
 
 Curiefense comes with many WAF Signatures. You can view them by choosing different IDs in the pulldown on the upper right.
 
-Note that this list is for reference only. The entries cannot be edited. 
-
-
+Note that this list is for reference only. The entries cannot be edited.
 

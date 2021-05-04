@@ -21,7 +21,7 @@ At the bottom of this page is a [Reference section](istio-via-helm.md#markdown-h
 
 An AWS S3 bucket must be available to synchronize configurations between the `confserver` and the Curiefense Istio sidecars. The following Curiefense variables must be set:
 
-*  In `deploy/istio-helm/chart/values.yaml`:
+* In `deploy/istio-helm/chart/values.yaml`:
   * Set`curieconf_manifest_url` to the bucket URL.
 * In `deploy/curiefense-helm/curiefense/values.yaml`:
   * Set `curieconf_manifest_url` to the bucket URL.
@@ -39,7 +39,7 @@ Below are instructions for several ways to achieve this:
 
 ### Option 1: Using minikube
 
-This section describes the install for a single-node test setup \(which is generally not useful for production\). 
+This section describes the install for a single-node test setup \(which is generally not useful for production\).
 
 #### Install minikube
 
@@ -74,7 +74,7 @@ chmod 700 get_helm.sh
 apt install socat
 ```
 
-\(Alternately, Helm can be manually downloaded as a binary release, as explained at  [https://helm.sh/docs/intro/install/](https://helm.sh/docs/intro/install/). If you choose to do this, ensure that you obtain **v2.13.1**.\)
+\(Alternately, Helm can be manually downloaded as a binary release, as explained at [https://helm.sh/docs/intro/install/](https://helm.sh/docs/intro/install/). If you choose to do this, ensure that you obtain **v2.13.1**.\)
 
 Now install Helm to the Kubernetes cluster:
 
@@ -105,7 +105,7 @@ chmod 700 get_helm.sh
 ./get_helm.sh -v v2.16.7
 ```
 
-\(Alternately, Helm can be manually downloaded as a binary release, as explained at  [https://helm.sh/docs/intro/install/](https://helm.sh/docs/intro/install/). If you choose to do this, ensure that you obtain **v2.16.7**.\)
+\(Alternately, Helm can be manually downloaded as a binary release, as explained at [https://helm.sh/docs/intro/install/](https://helm.sh/docs/intro/install/). If you choose to do this, ensure that you obtain **v2.16.7**.\)
 
 Now we must define RBAC authorizations. Helm needs to be able to deploy applications to both the `curiefense` and `istio-system` namespaces.
 
@@ -215,7 +215,7 @@ kubectl apply -f s3cfg.yaml
 Curiefense requires two database accounts. They will be automatically provisioned by the `logdb` container:
 
 * One with read/write authorization \(described below as `BASE64_READWRITE_USERNAME` and`BASE64_READWRITE_PASSWORD`\). If the `logdb` container is used \(which is the default\), `BASE64_READWRITE_USERNAME` must be set to `postgres`.
-* One with read-only permissions \(described below as 
+* One with read-only permissions \(described below as
 
   `BASE64_READONLY_USERNAME` and `BASE64_READONLY_PASSWORD`\). If the `logdb` container is used \(which is the default\), `BASE64_READONLY_USERNAME` must be set to `logserver_ro`.
 
@@ -315,7 +315,7 @@ cd ~/curiefense/deploy/curiefense-helm
 
 ## Deploy the \(Sample\) App
 
-The application to be protected by Curiefense should now be deployed. These instructions are for the sample application `bookinfo`. 
+The application to be protected by Curiefense should now be deployed. These instructions are for the sample application `bookinfo`.
 
 ### Create the namespace
 
@@ -375,7 +375,7 @@ Expected output:
 <title>Simple Bookstore App</title>
 ```
 
-If this error occurs:  `Could not resolve host: a6fdxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx.us-west-2.elb.amazonaws.com` ...the ELB is not ready yet. Wait and retry until it becomes available \(typically a few minutes\).
+If this error occurs: `Could not resolve host: a6fdxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx.us-west-2.elb.amazonaws.com` ...the ELB is not ready yet. Wait and retry until it becomes available \(typically a few minutes\).
 
 ### Check that logs reach the accesslog UI <a id="markdown-header-check-that-logs-reach-the-accesslog-ui"></a>
 
@@ -426,11 +426,11 @@ If you are using Amazon EKS, you will also need to allow inbound connections for
 
 ## Access Curiefense Services <a id="markdown-header-access-curiefense-services"></a>
 
-The UIServer is now available on port 30080 over HTTP, and on port 30443 over HTTPS. 
+The UIServer is now available on port 30080 over HTTP, and on port 30443 over HTTPS.
 
-Grafana is now available on port 30300 over HTTP. 
+Grafana is now available on port 30300 over HTTP.
 
-For the `bookinfo` sample app, the Book Review product page is now available on port 30081 over HTTP, and on port 30444 over HTTPS. 
+For the `bookinfo` sample app, the Book Review product page is now available on port 30081 over HTTP, and on port 30444 over HTTPS.
 
 The confserver is now available on port 30000 over HTTP.
 
@@ -478,6 +478,4 @@ Configuration variables in `deploy/istio-helm/chart/values.yaml` can be modified
 * `curiefense_namespace` should contain the name of the namespace where Curiefense components defined in `deploy/curiefense-helm/` are running.
 * `redis_host` defines the hostname of the redis server that will be used by `curieproxy`. Defaults to the provided redis StatefulSet. Override this to replace the redis instance with one you supply.
 * `initial_curieconf_pull` defines whether a configuration should be pulled from the AWS S3 bucket before running Envoy \(`true`\), or if traffic should be allowed to flow with a default configuration until the next synchronization \(typically every 10s\).
-
-
 

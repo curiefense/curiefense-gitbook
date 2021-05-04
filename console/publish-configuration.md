@@ -11,11 +11,3 @@ To do so, follow these steps:
 3. On the right is a list of Target Buckets. The default buckets for this branch \(which are defined in [System Settings](system-settings.md)\) should be selected already. If different buckets are needed, select them instead.
 4. Select the **Publish Configuration** button on the top right.
 
-
-
-
-
-
-
-
-

@@ -10,13 +10,13 @@ After completing the tasks below, proceed to the tasks for the specific method b
 * [Deployment into Istio via Helm Cha](istio-via-helm.md)[rts](istio-via-helm.md)
 * [Deployment via Docker Compose](docker-compose.md)
 
-During this process, you might find it helpful to read the descriptions \(which include the purpose, secrets, and network/port details\) of the services and their containers: 
+During this process, you might find it helpful to read the descriptions \(which include the purpose, secrets, and network/port details\) of the services and their containers:
 
 * [Services and Container Images](../../reference/services-container-images.md)
 
 ## Clone the Repository
 
-Clone the repository, if you have not already done so: 
+Clone the repository, if you have not already done so:
 
 ```text
 git clone https://github.com/curiefense/curiefense.git
@@ -26,7 +26,7 @@ This documentation assumes it has been cloned to `~/curiefense`.
 
 ## Select and Prepare for TLS
 
-Curiefense can use TLS, but this is optional. \(If you do not choose to set it up, HTTPS will be disabled.\) 
+Curiefense can use TLS, but this is optional. \(If you do not choose to set it up, HTTPS will be disabled.\)
 
 At this point in the setup process, you should decide whether or not to do so:
 

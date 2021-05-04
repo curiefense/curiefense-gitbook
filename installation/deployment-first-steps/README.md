@@ -7,9 +7,3 @@ The full deployment process for Curiefense:
   * [Docker Compose](docker-compose.md)
   * [Istio via Helm](istio-via-helm.md)
 
-## 
-
-
-
-
-
