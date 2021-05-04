@@ -27,18 +27,6 @@ To enable TLS for the nginx server that is used by `uiserver`, go to `curiefense
 * Edit `ui.crt` and add the certificate.
 * Edit `ui.key` and add the key.
 
-## Set Database Credentials
-
-The logdb database has two accounts:
-
-* The`postgres` account has write access, and is used by `curielogger`.
-* The`logserver_ro` account has read-only access, and is used by `curielogserver`.
-
-If you wish to change the default passwords for these accounts, you must edit the files in which they are defined:
-
-* The password for `postgres` is defined in `curiesecrets/logdb/postgres_password.txt`. 
-* The password for `logserver_ro`is defined in `curiesecrets/logdb/ro_password.txt`.
-
 ## Set Deployment Variables
 
 Docker Compose deployments can be configured in two ways:
@@ -79,7 +67,7 @@ The address of the destination service for which Curiefense acts as a reverse pr
 
 ### DOCKER\_TAG
 
-Defaults to `latest` \(the latest stable image\). To run a version that matches the contents of your working directory, use the following command:
+Defaults to `main` \(the latest stable image, automatically built from the `main` branch\). To run a version that matches the contents of your working directory, use the following command:
 
 ```text
 DOCKER_TAG="$(git describe --tag --long --dirty)-$(git rev-parse --short=12 HEAD:curiefense)"
@@ -105,7 +93,7 @@ Echo
 
 Also verify the following:
 
-* The UIServer is now available at [http://localhost:30080](http://localhost:30080) \(access logs are at [http://localhost:30080/accesslog](http://localhost:30080/accesslog)\)
+* The UIServer is now available at [http://localhost:30080](http://localhost:30080)
 * Grafana is now available at [http://localhost:30300](http://localhost:30300)
 * The `confserver` is now available at [http://localhost:30000/api/v1/](http://localhost:30000/api/v1/)
 
