@@ -33,7 +33,7 @@ Access to a Kubernetes cluster is required. Dynamic provisioning of persistent v
 
 Below are instructions for several ways to achieve this:
 
-* Using minikube, Kubernetes 1.14.9 \(dynamic provisioning is enabled by default\)
+* Using minikube, Kubernetes 1.20.2 \(dynamic provisioning is enabled by default\)
 * Using Google GKE, Kubernetes 1.16.13 \(RBAC and dynamic provisioning are enabled by default\)
 * Using Amazon EKS, Kubernetes 1.18 \(RBAC and dynamic provisioning are enabled by default\)
 
