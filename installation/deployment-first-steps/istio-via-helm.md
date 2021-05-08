@@ -27,15 +27,20 @@ An AWS S3 bucket must be available to synchronize configurations between the `co
   * Set `curieconf_manifest_url` to the bucket URL.
   * Set `curiefense_db_hostname` to the hostname \(or FQDN\) of the database server if you choose to supply your own database. If you choose to use the instance from our `curiefense` chart, use the default `logdb` value.
 
-## Create a Kubernetes Cluster Running Helm
+## Create a Kubernetes Cluster
 
-Access to a Kubernetes cluster running Helm v2 is required. Dynamic provisioning of persistent volumes must be supported. To set a StorageClass other than the default, change or override variable `storage_class_name` in `deploy/curiefense-helm/curiefense/values.yaml`.
+Access to a Kubernetes cluster is required. Dynamic provisioning of persistent volumes must be supported. To set a StorageClass other than the default, change or override variable `storage_class_name` in `deploy/curiefense-helm/curiefense/values.yaml`.
 
 Below are instructions for several ways to achieve this:
 
-* Using minikube, Kubernetes 1.14.9 and Helm v2.13.1 \(dynamic provisioning is enabled by default\)
-* Using Google GKE, Kubernetes 1.16.13 \(with RBAC\) and Helm v2.16.7 \(dynamic provisioning is enabled by default\)
-* Using Amazon EKS, Kubernetes 1.18 \(with RBAC\) and Helm v2.16.7 \(dynamic provisioning is enabled by default\)
+* Using minikube, Kubernetes 1.14.9 \(dynamic provisioning is enabled by default\)
+* Using Google GKE, Kubernetes 1.16.13 \(RBAC and dynamic provisioning are enabled by default\)
+* Using Amazon EKS, Kubernetes 1.18 \(RBAC and dynamic provisioning are enabled by default\)
+
+You will need to install the following clients:
+
+* Install kubectl \([https://kubernetes.io/docs/tasks/tools/install-kubectl/](https://kubernetes.io/docs/tasks/tools/install-kubectl/)\) -- use the same version as your cluster.
+* Install Helm v3 \([https://helm.sh/docs/intro/install/](https://helm.sh/docs/intro/install/)\)
 
 ### Option 1: Using minikube
 
@@ -43,16 +48,13 @@ This section describes the install for a single-node test setup \(which is gener
 
 #### Install minikube
 
-Starting from a fresh ubuntu 20.04 VM:
+Starting from a fresh ubuntu 21.04 VM:
 
 * Install docker \([https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)\)
-* Install kubectl \([https://kubernetes.io/docs/tasks/tools/install-kubectl/](https://kubernetes.io/docs/tasks/tools/install-kubectl/)\) -- use **version 1.14.9**.
 * Install minikube \([https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/)\)
-* Allow your user to interact with docker: `sudo usermod -aG docker $USER && newgrp docker`
 
 ```text
-minikube start --kubernetes-version=v1.14.9 --driver=docker --memory='8g' --cpus 6
-eval $(minikube docker-env)
+minikube start --kubernetes-version=v1.20.2 --driver=docker --memory='8g' --cpus 6
 minikube addons enable ingress
 ```
 
@@ -62,33 +64,7 @@ Start a `screen` or `tmux`, and keep the following command running:
 minikube tunnel
 ```
 
-#### **Install Helm v2.13.1**
-
-Run the following commands:
-
-```text
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh -v v2.13.1
-# socat is required but not installed by get_helm.sh
-apt install socat
-```
-
-\(Alternately, Helm can be manually downloaded as a binary release, as explained at [https://helm.sh/docs/intro/install/](https://helm.sh/docs/intro/install/). If you choose to do this, ensure that you obtain **v2.13.1**.\)
-
-Now install Helm to the Kubernetes cluster:
-
-```text
-helm init
-```
-
 ### Option 2: Using Google GKE
-
-This option uses a more recent Kubernetes, with RBAC enabled.
-
-#### Install kubectl
-
-Follow instructions at [https://kubernetes.io/docs/tasks/tools/install-kubectl/](https://kubernetes.io/docs/tasks/tools/install-kubectl/). Use **version 1.16.13**.
 
 #### **Create a cluster**
 
@@ -97,48 +73,15 @@ gcloud container clusters create curiefense-gks --num-nodes=1 --machine-type=n1-
 gcloud container clusters get-credentials curiefense-gks
 ```
 
-#### **Install Helm v2.16.7**
 
-```text
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh -v v2.16.7
-```
-
-\(Alternately, Helm can be manually downloaded as a binary release, as explained at [https://helm.sh/docs/intro/install/](https://helm.sh/docs/intro/install/). If you choose to do this, ensure that you obtain **v2.16.7**.\)
-
-Now we must define RBAC authorizations. Helm needs to be able to deploy applications to both the `curiefense` and `istio-system` namespaces.
-
-To do that, we provide an example configuration, which installs Tiller in the `kube-system` namespaces, and grants it cluster-admin permissions.
-
-```text
-kubectl -n kube-system create serviceaccount tiller
-kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-```
-
-Finally, install Helm to the Kubernetes cluster:
-
-```text
-helm init --service-account tiller
-```
 
 ### Option 3: Using Amazon EKS
-
-This option uses a more recent Kubernetes, with RBAC enabled.
-
-#### Install kubectl
-
-Follow instructions at [https://kubernetes.io/docs/tasks/tools/install-kubectl/](https://kubernetes.io/docs/tasks/tools/install-kubectl/). Use **version 1.18**.
 
 **Create a cluster**
 
 ```text
 eksctl create cluster --name curiefense-eks-2 --version 1.18 --nodes 1 --nodes-max 1 --managed --region us-east-2 --node-type m5.xlarge
 ```
-
-**Install Helm v2.16.7**
-
-Follow all the "**Install Helm v2.16.7**" instructions shown above in the Google GKE section.
 
 ## Reset State
 
@@ -210,55 +153,9 @@ Deploy this secret to the cluster:
 kubectl apply -f s3cfg.yaml
 ```
 
-### Database configuration
+## Setup TLS for the UI server
 
-Curiefense requires two database accounts. They will be automatically provisioned by the `logdb` container:
-
-* One with read/write authorization \(described below as `BASE64_READWRITE_USERNAME` and`BASE64_READWRITE_PASSWORD`\). If the `logdb` container is used \(which is the default\), `BASE64_READWRITE_USERNAME` must be set to `postgres`.
-* One with read-only permissions \(described below as
-
-  `BASE64_READONLY_USERNAME` and `BASE64_READONLY_PASSWORD`\). If the `logdb` container is used \(which is the default\), `BASE64_READONLY_USERNAME` must be set to `logserver_ro`.
-
-Create a local file called `dbsecret.yaml`, with the contents below, containing database credentials. Replace `BASE64_READWRITE_USERNAME`, `BASE64_READONLY_USERNAME`, `BASE64_READWRITE_PASSWORD` and `BASE64_READONLY_PASSWORD` with the correct base64-encoded values.
-
-```text
----
-apiVersion: v1
-kind: Secret
-data:
-  username: "BASE64_READWRITE_USERNAME"
-  password: "BASE64_READWRITE_PASSWORD"
-metadata:
-  namespace: curiefense
-  labels:
-    app.kubernetes.io/name: curiefense-db-credentials
-  name: curiefense-db-credentials
-type: Opaque
----
-apiVersion: v1
-kind: Secret
-data:
-  username: "BASE64_READONLY_USERNAME"
-  password: "BASE64_READONLY_PASSWORD"
-metadata:
-  namespace: curiefense
-  labels:
-    app.kubernetes.io/name: curiefense-db-readonly-credentials
-  name: curiefense-db-readonly-credentials
-type: Opaque
-```
-
-Deploy this secret to the cluster:
-
-```text
-kubectl apply -f dbsecret.yaml
-```
-
-An example file with weak default credentials is provided at `deploy/curiefense-helm/example-dbsecret.yaml`.
-
-## Setup TLS
-
-Using TLS is optional.
+Using TLS is optional. Follow these steps if only if you want to use TLS for the UI server, and you do not rely on istio to manage TLS.
 
 The UIServer can be made to be reachable over HTTPS. To do that, two secrets have to be created to hold the TLS certificate and TLS key.
 
@@ -303,35 +200,37 @@ Deploy the Istio service mesh:
 
 ```text
 cd ~/curiefense/deploy/istio-helm 
-./deploy.sh
+DOCKER_TAG=main ./deploy.sh
 ```
 
 And then the Curiefense components:
 
 ```text
 cd ~/curiefense/deploy/curiefense-helm
-./deploy.sh
+DOCKER_TAG=main ./deploy.sh
 ```
 
 ## Deploy the \(Sample\) App
 
-The application to be protected by Curiefense should now be deployed. These instructions are for the sample application `bookinfo`.
+The application to be protected by Curiefense should now be deployed. These instructions are for the sample application `bookinfo` which is deployed in the `default` kubernetes namespace. Detailed instruction are available [on the istio website](https://istio.io/v1.9/docs/examples/bookinfo/).
 
-### Create the namespace
+### Enable Istio injection
 
-Create the Kubernetes namespace, and add the `istio-injection=enabled` label that will make Istio automatically inject necessary sidecars to applications that are deployed in this namespace.
+Add the `istio-injection=enabled` label that will make Istio automatically inject necessary sidecars to applications that are deployed in the `default` namespace.
 
 ```text
-kubectl create namespace bookinfo
-kubectl label namespace bookinfo istio-injection=enabled
+kubectl label namespace default istio-injection=enabled
 ```
 
 ### Install the application
 
 ```text
-git clone https://github.com/istio/istio/ -b 1.5.10
-kubectl apply -n bookinfo -f istio/samples/bookinfo/platform/kube/bookinfo.yaml
-kubectl apply -n bookinfo -f istio/samples/bookinfo/networking/bookinfo-gateway.yaml
+cd ~
+wget 'https://github.com/istio/istio/releases/download/1.9.3/istio-1.9.3-linux-amd64.tar.gz'
+tar -xf istio-1.9.3-linux-amd64.tar.gz
+cd ~/istio-1.9.3/
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 ```
 
 ### Test bookinfo <a id="markdown-header-test-bookinfo"></a>
@@ -339,7 +238,7 @@ kubectl apply -n bookinfo -f istio/samples/bookinfo/networking/bookinfo-gateway.
 Check that `bookinfo` Pods are running \(wait a bit if they are not\):
 
 ```text
-kubectl get -n bookinfo pod -l app=ratings
+kubectl get pod -l app=ratings
 ```
 
 Sample output example:
@@ -352,7 +251,7 @@ ratings-v1-f745cf57b-cjg69   2/2     Running   0          79s
 Check that the application is working by querying its API directly without going through the Istio service mesh:
 
 ```text
-kubectl exec -n bookinfo -it "$(kubectl get -n bookinfo pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep "<title>"
+kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 ```
 
 Expected output:
@@ -363,11 +262,19 @@ Expected output:
 
 ### Test access to bookinfo through Istio <a id="markdown-header-test-access-to-bookinfo-through-istio"></a>
 
+Set the GATEWAY\_URL variable by following instructions on the [Istio website](https://istio.io/v1.9/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+
+Alternatively, with minikube, this command can be used instead:
+
 ```text
-curl -sS http://$(kubectl -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')/productpage|grep "<title>"
+export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):80
 ```
 
-\(Replace "ip" with "hostname" if running in an environment where the LoadBalancer yields a FQDN, as is the case with Amazon's ELB.\)
+Check that bookinfo is reachable through Istio:
+
+```text
+curl -sS http://$GATEWAY_URL/productpage | grep -o "<title>.*</title>"
+```
 
 Expected output:
 
@@ -377,23 +284,25 @@ Expected output:
 
 If this error occurs: `Could not resolve host: a6fdxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx.us-west-2.elb.amazonaws.com` ...the ELB is not ready yet. Wait and retry until it becomes available \(typically a few minutes\).
 
-### Check that logs reach the accesslog UI <a id="markdown-header-check-that-logs-reach-the-accesslog-ui"></a>
+### Check that logs stored in the Elasticsearch cluster <a id="markdown-header-check-that-logs-reach-the-accesslog-ui"></a>
 
-Run this query \(add random characters at the end\)
+Run this query:
 
 ```text
-curl http://$(kubectl -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')/productpage/TEST_STRING
+curl http://$GATEWAY_URL/TEST_STRING
 ```
-
-\(Replace "ip" with "hostname" if running in an environment where the LoadBalancer yields a FQDN, as is the case with Amazon's ELB.\)
 
 Run this to ensure that the logs have been recorded and are reachable from the UI server:
 
 ```text
-kubectl exec -n curiefense -it "$(kubectl get -n curiefense pod -l app.kubernetes.io/name=uiserver -o jsonpath='{.items[0].metadata.name}')" -c uiserver -- curl 'http://localhost/logs/api/v1/exec/' -H 'Content-Type: application/json;charset=utf-8' --data-raw '{"statement":"SELECT  Path FROM logs ORDER BY StartTime DESC LIMIT 1024","parameters":[]}'
+kubectl exec -ti -n curiefense elasticsearch-0 -- curl http://127.0.0.1:9200/_search -H "Content-Type: application/json" -d '{"query": {"bool": {"must":{"match":{"request.attributes.uri": "/TEST_STRING"}}}}}'|grep -Eo '"uri":"/TEST_STRING"'
 ```
 
-Check that `TEST_STRING` appears in the output.
+Expected output:.
+
+```text
+"uri":"/TEST_STRING"
+```
 
 ## Expose Curiefense Services using NodePorts <a id="markdown-header-expose-curiefense-services-using-nodeports"></a>
 
