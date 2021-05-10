@@ -21,11 +21,10 @@ At the bottom of this page is a [Reference section](istio-via-helm.md#markdown-h
 
 An AWS S3 bucket must be available to synchronize configurations between the `confserver` and the Curiefense Istio sidecars. The following Curiefense variables must be set:
 
-* In `deploy/istio-helm/chart/values.yaml`:
+* In `deploy/istio-helm/charts/gateways/istio-ingress/values.yaml`:
   * Set`curieconf_manifest_url` to the bucket URL.
 * In `deploy/curiefense-helm/curiefense/values.yaml`:
   * Set `curieconf_manifest_url` to the bucket URL.
-  * Set `curiefense_db_hostname` to the hostname \(or FQDN\) of the database server if you choose to supply your own database. If you choose to use the instance from our `curiefense` chart, use the default `logdb` value.
 
 ## Create a Kubernetes Cluster
 
@@ -72,8 +71,6 @@ minikube tunnel
 gcloud container clusters create curiefense-gks --num-nodes=1 --machine-type=n1-standard-4
 gcloud container clusters get-credentials curiefense-gks
 ```
-
-
 
 ### Option 3: Using Amazon EKS
 
@@ -286,7 +283,7 @@ If this error occurs: `Could not resolve host: a6fdxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
 
 ### Check that logs stored in the Elasticsearch cluster <a id="markdown-header-check-that-logs-reach-the-accesslog-ui"></a>
 
-Run this query:
+Run this query to access the protected website, bookinfo, and thus generate an access log entry:
 
 ```text
 curl http://$GATEWAY_URL/TEST_STRING
@@ -325,8 +322,9 @@ kubectl get nodes -o wide
 If you are using minikube, also run the following commands on the host in order to expose services on the Internet:
 
 ```text
-sudo iptables -t nat -A PREROUTING -p tcp --match multiport --dports 30000,30080,30081,30300,30443 -j DNAT --to 172.17.0.2
-sudo iptables -I FORWARD -p tcp --match multiport --dports 30000,30080,30081,30300,30443,30444 -j  ACCEPT
+sudo iptables -t nat -A PREROUTING -p tcp --match multiport --dports 30000,30080,30300,30443 -j DNAT --to $(minikube ip)
+sudo iptables -t nat -A PREROUTING -p tcp --dport 30081 -j DNAT --to $(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+sudo iptables -I FORWARD -p tcp --match multiport --dports 80,30000,30080,30300,30443,30444 -j  ACCEPT
 ```
 
 ### For Amazon EKS only: <a id="markdown-header-amazon-eks"></a>
@@ -341,7 +339,7 @@ Grafana is now available on port 30300 over HTTP.
 
 For the `bookinfo` sample app, the Book Review product page is now available on port 30081 over HTTP, and on port 30444 over HTTPS.
 
-The confserver is now available on port 30000 over HTTP.
+The confserver is now available on port 30000 over HTTP: try reaching http://IP/api/v1/.
 
 For a full list of ports used by Curiefense containers, see the [Reference page on services and containers](../../reference/services-container-images.md).
 
