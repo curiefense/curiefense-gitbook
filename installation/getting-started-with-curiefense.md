@@ -165,8 +165,7 @@ Now it is time to test our configuration. Let's run the following curl commands:
 
 ```text
 curl http://curie.demo:30081/no/header
-curl http://curie.demo
-:30081/with/header -H "foo: bar"
+curl http://curie.demo:30081/with/header -H "foo: bar"
 ```
 
 Navigating to **Access Log** in the left sidebar should show a screen similar to this:
