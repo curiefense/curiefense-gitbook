@@ -289,7 +289,7 @@ Run this query to access the protected website, bookinfo, and thus generate an a
 curl http://$GATEWAY_URL/TEST_STRING
 ```
 
-Run this to ensure that the logs have been recorded and are reachable from the UI server:
+Run this to ensure that the logs have been recorded:
 
 ```text
 kubectl exec -ti -n curiefense elasticsearch-0 -- curl http://127.0.0.1:9200/_search -H "Content-Type: application/json" -d '{"query": {"bool": {"must":{"match":{"request.attributes.uri": "/TEST_STRING"}}}}}'|grep -Eo '"uri":"/TEST_STRING"'
