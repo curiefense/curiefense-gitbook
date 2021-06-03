@@ -4,6 +4,7 @@ This page describes the tasks necessary to deploy Curiefense using Docker Compos
 
 This process consists of the following tasks, described sequentially below:
 
+* [Clone the Repository](docker-compose.md#clone-the-repository)
 * [TLS Setup](docker-compose.md#tls-setup)
 * [Set Database Credentials](docker-compose.md#set-database-credentials)
 * [Set Deployment Variables](docker-compose.md#set-deployment-variables)
@@ -12,6 +13,16 @@ This process consists of the following tasks, described sequentially below:
 * [Clean Up](docker-compose.md#clean-up)
 
 If during this process you need to rebuild an image, see the instructions here: [Building/Rebuilding an Image](../../reference/services-container-images.md#building-rebuilding-images).
+
+## Clone the Repository
+
+Clone the repository, if you have not already done so:
+
+```text
+git clone https://github.com/curiefense/curiefense.git
+```
+
+This documentation assumes it has been cloned to `~/curiefense`.
 
 ## TLS Setup
 

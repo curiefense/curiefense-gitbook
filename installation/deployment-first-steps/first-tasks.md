@@ -2,7 +2,6 @@
 
 This page describes the initial tasks that must be performed when deploying Curiefense:
 
-* [Clone the repository](./#clone-the-repository).
 * [Select and prepare for TLS](./#select-and-prepare-for-tls).
 
 After completing the tasks below, proceed to the tasks for the specific method being used:
@@ -19,10 +18,10 @@ During this process, you might find it helpful to read the descriptions \(which 
 Clone the repository, if you have not already done so:
 
 ```text
-git clone https://github.com/curiefense/curiefense.git
+git clone https://github.com/curiefense/curiefense-helm.git
 ```
 
-This documentation assumes it has been cloned to `~/curiefense`.
+This documentation assumes it has been cloned to `~/curiefense-helm`.
 
 ## Select and Prepare for TLS
 

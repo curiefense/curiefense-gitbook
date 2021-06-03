@@ -4,6 +4,7 @@ The instructions below show how to install Curiefense on a Kubernetes cluster, e
 
 The following tasks, each described below in sequence, should be performed:
 
+* [Clone the Helm Repository](istio-via-helm.md#clone-the-helm-repository)
 * [Setup Synchronization](istio-via-helm.md#markdown-header-prerequisites)
 * [Create a Kubernetes Cluster Running Helm](istio-via-helm.md#create-a-kubernetes-cluster-running-helm)
 * [Reset State](istio-via-helm.md#reset-state)
@@ -17,18 +18,28 @@ The following tasks, each described below in sequence, should be performed:
 
 At the bottom of this page is a [Reference section](istio-via-helm.md#markdown-header-description-of-the-pods) describing the charts and configuration variables.
 
+## Clone the Helm Repository
+
+Clone the repository, if you have not already done so:
+
+```text
+git clone https://github.com/curiefense/curiefense-helm.git
+```
+
+This documentation assumes it has been cloned to `~/curiefense-helm`.
+
 ## Setup Synchronization <a id="markdown-header-prerequisites"></a>
 
 An AWS S3 bucket must be available to synchronize configurations between the `confserver` and the Curiefense Istio sidecars. The following Curiefense variables must be set:
 
-* In `deploy/istio-helm/charts/gateways/istio-ingress/values.yaml`:
+* In `~/curiefense-helm/istio-helm/charts/gateways/istio-ingress/values.yaml`:
   * Set`curieconf_manifest_url` to the bucket URL.
-* In `deploy/curiefense-helm/curiefense/values.yaml`:
+* In `~/curiefense-helm/curiefense-helm/curiefense/values.yaml`:
   * Set `curieconf_manifest_url` to the bucket URL.
 
 ## Create a Kubernetes Cluster
 
-Access to a Kubernetes cluster is required. Dynamic provisioning of persistent volumes must be supported. To set a StorageClass other than the default, change or override variable `storage_class_name` in `deploy/curiefense-helm/curiefense/values.yaml`.
+Access to a Kubernetes cluster is required. Dynamic provisioning of persistent volumes must be supported. To set a StorageClass other than the default, change or override variable `storage_class_name` in `~/curiefense-helm/curiefense-helm/curiefense/values.yaml`.
 
 Below are instructions for several ways to achieve this:
 
@@ -189,21 +200,21 @@ Deploy this secret to the cluster:
 kubectl apply -f uiserver-tls.yaml
 ```
 
-An example file with self-signed certificates is provided at `deploy/curiefense-helm/example-uiserver-tls.yaml`.
+An example file with self-signed certificates is provided at `~/curiefense-helm/curiefense-helm/example-uiserver-tls.yaml`.
 
 ## Deploy Istio and Curiefense Images
 
 Deploy the Istio service mesh:
 
 ```text
-cd ~/curiefense/deploy/istio-helm 
+cd ~/curiefense-helm/istio-helm 
 DOCKER_TAG=main ./deploy.sh
 ```
 
 And then the Curiefense components:
 
 ```text
-cd ~/curiefense/deploy/curiefense-helm
+cd ~/curiefense-helm/curiefense-helm
 DOCKER_TAG=main ./deploy.sh
 ```
 
@@ -308,7 +319,7 @@ Run the following commands to expose Curiefense services through NodePorts. Warn
 Start with this command:
 
 ```text
-kubectl apply -f ~/curiefense/deploy/curiefense-helm/expose-services.yaml
+kubectl apply -f ~/curiefense-helm/curiefense-helm/expose-services.yaml
 ```
 
 The following command can be used to determine the IP address of your cluster nodes on which services will be exposed:
@@ -356,18 +367,17 @@ Helm charts are divided as follows:
 
 #### Chart configuration variables <a id="markdown-header-configuration-variables"></a>
 
-Configuration variables in `deploy/curiefense-helm/curiefense/values.yaml` can be modified or overridden to fit your deployment needs:
+Configuration variables in `~/curiefense-helm/curiefense-helm/curiefense/values.yaml` can be modified or overridden to fit your deployment needs:
 
 * Variables in the `images` section define the Docker image names for each component. Override this if you want to host images on your own private registry.
 * `storage_class_name` is the StorageClass that is used for dynamic provisioning of Persistent Volumes. It defaults to `null` \(default storage class, which works by default on EKS, GKE and minikube\).
 * `..._storage_size` variables define the size of persistent volumes. The defaults are fine for a test or small-scale deployment.
 * `curieconf_manifest_url` is the URL of the AWS S3 bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
-* `curiefense_db_hostname` defines the hostname of the postgres server that will be used to store logs. Defaults to the provided `logdb` StatefulSet. Override this to replace the postgres instance with one you supply, or an AWS Aurora instance.
 * `docker_tag` defines the image tag versions that should be used. `deploy.sh` will override this to deploy a version that matches the current working directory, unless the `DOCKER_TAG` environment variable is set.
 
 ### Istio chart <a id="markdown-header-istio"></a>
 
-Components added or modified by Curiefense are defined in `deploy/istio-helm/chart/charts/gateways`. Compared to the upstream Istio Kubernetes distribution, we add or change the following Pods:
+Components added or modified by Curiefense are defined in `~/curiefense-helm/istio-helm/charts/gateways/istio-ingress/`. Compared to the upstream Istio Kubernetes distribution, we add or change the following Pods:
 
 * An `initContainer` called `curiesync-initialpull` has been added. It synchronizes configuration before running Envoy.
 * A container called `curiesync` has been added. It periodically fetches the configuration that should be applied from an S3 bucket \(configurable with the `curieconf_manifest_url` variable\), and makes it available to Envoy. This configuration is used by the LUA code that inspects traffic.
@@ -377,12 +387,12 @@ Components added or modified by Curiefense are defined in `deploy/istio-helm/cha
 
 #### Chart configuration variables <a id="markdown-header-configuration-variables_1"></a>
 
-Configuration variables in `deploy/istio-helm/chart/values.yaml` can be modified or overridden to fit your deployment needs:
+Configuration variables in `~/curiefense-helm/istio-helm/chart/values.yaml` can be modified or overridden to fit your deployment needs:
 
 * `gw_image` defines the name of the image that contains our filtering code and modified Envoy binary.
 * `curiesync_image` defines the name of the image that contains scripts that synchronize local Envoy configuration with the AWS S3 bucket defined in `curieconf_manifest_url`.
 * `curieconf_manifest_url` is the URL of the AWS S3 bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
-* `curiefense_namespace` should contain the name of the namespace where Curiefense components defined in `deploy/curiefense-helm/` are running.
+* `curiefense_namespace` should contain the name of the namespace where Curiefense components defined in `~/curiefense-helm/curiefense-helm/` are running.
 * `redis_host` defines the hostname of the redis server that will be used by `curieproxy`. Defaults to the provided redis StatefulSet. Override this to replace the redis instance with one you supply.
 * `initial_curieconf_pull` defines whether a configuration should be pulled from the AWS S3 bucket before running Envoy \(`true`\), or if traffic should be allowed to flow with a default configuration until the next synchronization \(typically every 10s\).
 
