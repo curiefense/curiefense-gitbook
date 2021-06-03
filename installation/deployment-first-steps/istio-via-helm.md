@@ -49,7 +49,7 @@ This section describes the install for a single-node test setup \(which is gener
 
 Starting from a fresh ubuntu 21.04 VM:
 
-* Install docker \([https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)\)
+* Install docker \([https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)\), and allow your user to interact with docker with `sudo usermod -aG docker $USER && newgrp docker`
 * Install minikube \([https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/)\)
 
 ```text
