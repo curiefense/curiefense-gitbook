@@ -105,7 +105,7 @@ helm delete -n istio-system istiod
 helm delete -n istio-system istio-base
 ```
 
-Ensure that `helm ls -a` outputs nothing.
+Ensure that `helm ls -a --all-namespaces` outputs nothing.
 
 ## Create Namespaces
 
