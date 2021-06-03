@@ -98,9 +98,11 @@ If you have a clean machine where Curiefense has never been installed, skip this
 Otherwise, run these commands:
 
 ```text
-kubectl delete namespaces bookinfo
-helm delete --purge curiefense
-helm delete --purge istio-cf
+helm delete curiefense
+helm delete -n curiefense curiefense
+helm delete -n istio-system istio-ingress
+helm delete -n istio-system istiod
+helm delete -n istio-system istio-base
 ```
 
 Ensure that `helm ls -a` outputs nothing.
