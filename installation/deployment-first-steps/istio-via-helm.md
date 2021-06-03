@@ -334,7 +334,7 @@ If you are using minikube, also run the following commands on the host in order 
 
 ```text
 sudo iptables -t nat -A PREROUTING -p tcp --match multiport --dports 30000,30080,30300,30443 -j DNAT --to $(minikube ip)
-sudo iptables -t nat -A PREROUTING -p tcp --dport 30081 -j DNAT --to $(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to $(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 sudo iptables -I FORWARD -p tcp --match multiport --dports 80,30000,30080,30300,30443,30444 -j  ACCEPT
 ```
 
@@ -348,7 +348,7 @@ The UIServer is now available on port 30080 over HTTP, and on port 30443 over HT
 
 Grafana is now available on port 30300 over HTTP.
 
-For the `bookinfo` sample app, the Book Review product page is now available on port 30081 over HTTP, and on port 30444 over HTTPS.
+For the `bookinfo` sample app, the Book Review product page is now available on port 80 over HTTP, and on port 30444 over HTTPS.
 
 The confserver is now available on port 30000 over HTTP: try reaching http://IP/api/v1/.
 
