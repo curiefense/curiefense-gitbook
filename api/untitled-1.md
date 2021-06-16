@@ -4,6 +4,15 @@ Curiefense includes a command line tool: `curieconf_cli`.
 
 In the discussion below, some examples will be given using the command line via this tool. Others will be shown for both `curieconf_cli` and `curl`.
 
+## Installing the cli tool
+
+From a folder containing a clone of the curiefense repository, run the following commands:
+
+```text
+(cd curiefense/curieconf/utils; pip install -e .)
+(cd curiefense/curieconf/client; pip install -e .)
+```
+
 ## Operations on Configurations
 
 List all existing configurations:
