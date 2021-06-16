@@ -35,7 +35,7 @@
 
 * [API Introduction](api/introduction.md)
 * [API Namespaces and Endpoints](api/api-namespaces-and-endpoints.md)
-* [cURL and CLI Tool](api/untitled-1.md)
+* [cURL and CLI Tool](api/curl-and-cli-tool.md)
 
 ## Reference
 
