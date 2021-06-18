@@ -118,7 +118,7 @@ Images can also have two-part tags to identify what is in the image. The parts a
 * Acts as a reverse proxy to `TARGET_ADDRESS:TARGET_PORT`.
 * Filters traffic according to the active configuration.
 * Sends access logs over GRPC to`curielogserver`.
-* Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is described in `curiefense/curieproxy/README.md`.
+* Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is built automatically [using GitHub actions](https://github.com/curiefense/envoy/blob/main/.github/workflows/build-envoy-for-curiefense.yml), from the curiefense [fork](https://github.com/curiefense/envoy) of envoy, which pushes it to an [image on docker hub](https://hub.docker.com/r/curiefense/envoy-cf/tags?page=1&ordering=last_updated). This image is referenced by the first line of the [Dockerfile](https://github.com/curiefense/curiefense/blob/main/curiefense/images/curieproxy-envoy/Dockerfile#L1) that is used to build the curieproxy-envoy docker image.
 * Network details:
   * Port 80 receives unencrypted traffic from users, which will be proxied to `TARGET_ADDRESS:TARGET_PORT` \(reachable at [http://localhost:30081](http://localhost:30081) in the sample  deployments\)
   * Port 443 receives TLS-encrypted traffic from users,  which will be proxied to `TARGET_ADDRESS:TARGET_PORT` \(reachable at [http://localhost:30444](http://localhost:30444) in the sample docker-compose deployment\)
@@ -137,7 +137,8 @@ Images can also have two-part tags to identify what is in the image. The parts a
 * Acts as a reverse proxy to `TARGET_ADDRESS:TARGET_PORT`.
 * Filters traffic according to the active configuration.
 * Sends access logs over GRPC to`curielogserver`.
-* Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is described in `curiefense/curieproxy/README.md`.
+* * Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is built automatically [using GitHub actions](https://github.com/curiefense/istio-proxy/blob/cf-1.9.3/.github/workflows/build-envoy-for-curiefense.yml) from the curiefense [fork](https://github.com/curiefense/istio-proxy) of istio
+    * , which pushes it to an [image on docker hub](https://hub.docker.com/r/curiefense/envoy-istio-cf/tags?page=1&ordering=last_updated). This image is referenced by the first line of the [Dockerfile](https://github.com/curiefense/curiefense/blob/main/curiefense/images/curieproxy-istio/Dockerfile#L1) that is used to build the curieproxy-envoy docker image.
 * In Helm deployments, two EnvoyFilters are defined in `curiefense/deploy/istio-helm/chart/charts/gateways/templates/`:
   * `curiefense_lua_filter.yaml` orders Envoy to apply the Lua HTTP filter to incoming requests.
   * `curiefense_access_logs_filter.yaml` orders Envoy to send access logs to `curielogger`.
