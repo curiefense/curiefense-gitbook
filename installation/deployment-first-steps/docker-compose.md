@@ -99,7 +99,18 @@ After deployment, the Echo service should be running and protected behind Curief
 
 ```text
 $ curl http://localhost:30081/
-Echo
+Request served by echo
+
+HTTP/1.1 GET /
+
+Host: localhost:30081
+X-Envoy-Internal: true
+X-Request-Id: 57dd8be5-6040-491a-903e-7ef3734ab9db
+X-Envoy-Expected-Rq-Timeout-Ms: 15000
+User-Agent: curl/7.74.0
+Accept: */*
+X-Forwarded-For: 172.18.0.1
+X-Forwarded-Proto: http
 ```
 
 Also verify the following:
