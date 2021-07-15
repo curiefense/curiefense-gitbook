@@ -152,3 +152,9 @@ If for some reason you need to rebuild the images, run the following command:
 $ curiefense/images/build-docker-images.sh
 ```
 
+To build images with a custom tag, the `DOCKER_TAG` environment variable may be set:
+
+```bash
+$ DOCKER_TAG=mytag curiefense/images/build-docker-images.sh
+```
+
