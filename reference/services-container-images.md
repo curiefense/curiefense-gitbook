@@ -8,9 +8,7 @@ Several tag formats are used.
 
 | Single Tag | Meaning |
 | :--- | :--- |
-| `test` | For testing single images |
-| `stable` | For the latest stable version of containers |
-| `latest-dev` | For the latest built image |
+| `main` | For the latest built image, from the main branch of the github repository |
 
 Images can also have two-part tags to identify what is in the image. The parts are:
 
