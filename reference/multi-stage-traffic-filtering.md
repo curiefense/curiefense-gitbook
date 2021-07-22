@@ -1,6 +1,6 @@
 # Multi-Stage Traffic Filtering
 
-![](../.gitbook/assets/traffic-flow-v1.3.7.png)
+![](../.gitbook/assets/traffic-flow-v1.3.7%20%282%29.png)
 
 Curiefense evaluates incoming traffic in a multi-stage filtering process. An HTTP/S request which passes all security tests will be forwarded to the backend. 
 
