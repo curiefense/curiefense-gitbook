@@ -1,14 +1,14 @@
 # Multi-Stage Traffic Filtering
 
-![](../.gitbook/assets/traffic-cf-v1.2.6.png)
+![](../.gitbook/assets/traffic-flow-v1.3.7.png)
 
 Curiefense evaluates incoming traffic in a multi-stage filtering process. An HTTP/S request which passes all security tests will be forwarded to the backend. 
 
 When constructing its security posture, it can be helpful to understand the filtering stages. They are:
 
-* Tagging: Curiefense assigns [automatically-generated tags](tags.md#automatic-tags) and [user-defined tags](tags.md#user-defined-tags) to the requests. During this process, requests will be blocked immediately if they match a [Tag Rules List that has a blocking action](../settings/policies-rules/tag-rules.md#action) defined for it.
-* \*\*\*\*[Rate Limit](../settings/policies-rules/rate-limits.md) enforcement.
+* Tag Rules: Curiefense assigns [automatically-generated tags](tags.md#automatic-tags) and [user-defined tags](tags.md#user-defined-tags) to the requests. During this process, requests will be blocked immediately if they match a [Tag Rules List that has a blocking action](../settings/policies-rules/tag-rules.md#action) defined for it.
 * [Session Flow Control](../settings/policies-rules/flow-control.md) enforcement.
+* \*\*\*\*[Rate Limit](../settings/policies-rules/rate-limits.md) enforcement.
 * \*\*\*\*[ACL Policies](../settings/policies-rules/acl-policies.md) enforcement.
 * \*\*\*\*[WAF Policies](../settings/policies-rules/waf-policies.md) and [WAF Rules](../settings/policies-rules/waf-rules.md) enforcement.
 * Transmission of request to the backend.
