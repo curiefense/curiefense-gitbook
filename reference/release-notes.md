@@ -58,7 +58,7 @@ description: >-
 * \[e2e\] Remove test for feature that does not exist anymore
 * \[helm\] Remove references & variables for postgres & curielogserver
 * \[deploy\] Remove remaining postgres configuration values
-* Remove the [ROADMAP.md](http://roadmap.md/) file in favor of [RELEASES.md](http://releases.md/)
+* Remove the ROADMAP.md file in favor of RELEASES.md
 * Remove ILM for ES 6.x as it was added in 7.x
 * Remove logstashs' from e2e-ci.yml
 
@@ -69,10 +69,10 @@ description: >-
 * \[ci\] use more recent shellcheck version, fix remaining errors
 * \[e2e\] Fix ratelimit countby tests
 * \[e2e\] Fix WAF Rules tests
-* \[e2e\] Fix arguments passed to [deploy.sh](http://deploy.sh/). Fixes e2e tests.
+* \[e2e\] Fix arguments passed to deploy.sh. Fixes e2e tests.
 * \[e2e\] Fix elasticsearch port for tests on minikube
 * \[ci\] Fix deployment & tests following Istio update
-* \[e2e\] Fix latency tests \([deploy-gke.sh](http://deploy-gke.sh/)\)
+* \[e2e\] Fix latency tests \(deploy-gke.sh\)
 * \[ci\] Fix environment for rust & lua tests
 * \[docker-compose\] Fix curieproxy metrics scrape
 * \[ui\] Fix referral bug in url maps editor
