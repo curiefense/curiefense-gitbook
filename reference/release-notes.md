@@ -64,8 +64,6 @@ description: >-
 
 ### Fixed
 
-
-
 * \[ci\] use more recent shellcheck version, fix remaining errors
 * \[e2e\] Fix ratelimit countby tests
 * \[e2e\] Fix WAF Rules tests
