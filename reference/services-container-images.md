@@ -22,36 +22,27 @@ Images can also have two-part tags to identify what is in the image. The parts a
 * A REST API server to read, write, and maintain versioning of Curiefense's configuration.
 * Flask is the web interface. Git is the storage engine for historical and versioned configuration. Nginx serves as the frontend for the Flask web application.
 * Secrets:
-  * If an S3 bucket is used as a synchronization mechanism between `confserver` and `curieproxy` instances \(this is the default with Helm deployments\), then this container requires credentials to access it.
-  * In Docker Compose environments, S3 credentials are defined in `deploy/compose/curiesecrets/s3cfg` before deployment, then mounted in `/var/run/secrets/s3cfg`. 
-  * In Helm environments, S3 credentials are [defined in a local file and deployed to the cluster](../installation/deployment-first-steps/istio-via-helm.md#setup-secrets). They are expected to be in a Secret object called `s3cfg`, in the same namespace as `confserver`, which is mounted to make credentials available in `/var/run/secrets/s3cfg/s3cfg`.
+  * If an S3 bucket of Google Storage bucket is used as a synchronization mechanism between `confserver` and `curieproxy` instances \(S3 is the default with Helm deployments\), then this container requires credentials to access it.
+  * In Docker Compose environments, S3 credentials are defined in `deploy/compose/curiesecrets/s3cfg` before deployment, then mounted in `/var/run/secrets/s3cfg`.  By default, Docker Compose environments use a "local bucket" \(shared volume\) so that an S3 bucket is not necessary to test curiefense locally.
+  * In Helm environments, S3 credentials are [defined in a local file and deployed to the cluster](../installation/deployment-first-steps/istio-via-helm.md#setup-secrets). They are expected to be in a Secret object called `s3cfg`, in the same namespace as `confserver`, which is mounted to make credentials available in `/var/run/secrets/s3cfg/s3cfg`. Google Storage bucket credentials are mounted to `/var/run/secrets/gs/`.
 * Network details:
   * Port 80 is the configuration API. A Swagger interface is available at endpoint `/api/v1/` \(reachable at [http://localhost:30000/api/v1](http://localhost:30000/api/v1) in the sample Docker Compose and Helm deployments\).
 
 ### curielogger
 
-* Receives access logs from Envoy \(`curieproxy`images\) over gRPC, and does the following:
-  * Pushes logs into the PostgreSQL server \(`logdb`\)
-  * Aggregates metrics
+* Receives access logs from Envoy \(`curieproxy`images\) over gRPC or from nginx over syslog, and does the following:
+  * Pushes logs to elasticsearch through either fluentd or filebeat, 
+  * Aggregates metrics,
   * Serves metrics over HTTP port 2112 for the Prometheus scraper.
-* Secrets: 
-  * This container uses a postgres account \(`postgres`\) with read-write permissions. Its password is passed either in the `CURIELOGGER_DBPASSWORD` environment variable, or in a file whose path is contained in the `CURIELOGGER_DBPASSWORD_FILE` environment variable.
 * Network details:
   * Port 9001 receives logs from Envoy over GRPC
+  * Port 9514 receives logs from nginx over syslog
   * Port 2112 exposes Prometheus metrics over HTTP
-
-### curielogserver
-
-* A REST API server used by `uiserver` to read log records from `logdb`.
-* Flask is the web interface for the REST API. Nginx serves as the frontend for the Flask web application.
-* Secrets:
-  * This container uses a postgres account \(`logserver_ro`\) with read-only permissions. Its password is passed in a file whose path is contained in the `CURIELOGSERVER_DBPASSWORD_FILE` environment variable
-* Network details:
-  * Port 80 exposes an API to retrieve logs
 
 ### curiesync
 
 * Periodically \(every 10 seconds\) polls the bucket located at `CURIE_BUCKET_LINK`, and extracts the active configuration to `/config`, which is shared with `curiefense`.
+* In Helm deployments, `curiesync` runs first as an `initContainer` to fetch the correct configuration before istio is started. It then runs in a regular container, to sync periodically.
 * Secrets: the same as described in `confserver`, above.
 * Network details:
   * No exposed network service
@@ -67,18 +58,6 @@ Images can also have two-part tags to identify what is in the image. The parts a
   * These can be changed upon the first connection. 
 * Network details:
   * Port 3000 allows access to the Grafana UI over http \(reachable at [http://localhost:30300](http://localhost:30300) in the sample Docker Compose and Helm deployments\).
-
-### logdb
-
-* PostgreSQL server that stores access logs.
-* Two accounts are used:
-  * `postgres` has write access, is used by `curielogger`.
-  * `logserver_ro` has read-only access, is used by `curielogserver`.
-* Secrets:
-  * The password for the `logserver_ro` account is passed in a file whose path is contained in the `POSTGRES_READONLY_PASSWORD_FILE` environment variable.
-  * The password for the `postgres` account is passed in a file whose path is contained in the `POSTGRES_PASSWORD_FILE` environment variable.
-* Network details:
-  * Port 5432 for PostgreSQL access
 
 ### prometheus
 
@@ -101,7 +80,7 @@ Images can also have two-part tags to identify what is in the image. The parts a
 ### UIServer
 
 * Serves the user interface. A Vue js app developed as single page app with NodeJS and serves the management console UI. 
-* The UI displays access logs to the user, and displays Curiefense's configuration for editing. API calls for configuration and access logs are routed to `confserver` and `curielogserver` by the Nginx inside the container. Nginx also used to serve the static parts of the UI such as HTML, CSS and JS.
+* The UI displays access logs to the user, and displays Curiefense's configuration for editing. API calls for configuration and access logs are routed to `confserver` by the Nginx inside the container. Nginx also serves the static parts of the UI such as HTML, CSS and JS.
 * Secrets: This image will enable TLS on the nginx server if a TLS certificate and key are provided:
   * For Kubernetes \(e.g. Helm\) deployments, the certificate is expected at `/run/secrets/uisslcrt/uisslcrt` and the key at `/run/secrets/uisslkey/uisslkey`
   * For Docker Compose deployments, the certificate is expected at `/run/secrets/uisslcrt` and the key at `/run/secrets/uisslkey`
@@ -116,7 +95,7 @@ Images can also have two-part tags to identify what is in the image. The parts a
 * Acts as a reverse proxy to `TARGET_ADDRESS:TARGET_PORT`.
 * Filters traffic according to the active configuration.
 * Sends access logs over GRPC to`curielogserver`.
-* Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is built automatically [using GitHub actions](https://github.com/curiefense/envoy/blob/main/.github/workflows/build-envoy-for-curiefense.yml), from the curiefense [fork](https://github.com/curiefense/envoy) of envoy, which pushes it to an [image on docker hub](https://hub.docker.com/r/curiefense/envoy-cf/tags?page=1&ordering=last_updated). This image is referenced by the first line of the [Dockerfile](https://github.com/curiefense/curiefense/blob/main/curiefense/images/curieproxy-envoy/Dockerfile#L1) that is used to build the curieproxy-envoy docker image.
+* Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is built automatically [using GitHub actions](https://github.com/curiefense/envoy/blob/main/.github/workflows/build-envoy-for-curiefense.yml), from the curiefense [fork](https://github.com/curiefense/envoy) of envoy, which pushes it to an [image on docker hub](https://hub.docker.com/r/curiefense/envoy-cf/tags?page=1&ordering=last_updated). This image is referenced in the beginning of the [Dockerfile](https://github.com/curiefense/curiefense/blob/main/curiefense/images/curieproxy-envoy/Dockerfile) that is used to build the curieproxy-envoy docker image.
 * Network details:
   * Port 80 receives unencrypted traffic from users, which will be proxied to `TARGET_ADDRESS:TARGET_PORT` \(reachable at [http://localhost:30081](http://localhost:30081) in the sample  deployments\)
   * Port 443 receives TLS-encrypted traffic from users,  which will be proxied to `TARGET_ADDRESS:TARGET_PORT` \(reachable at [http://localhost:30444](http://localhost:30444) in the sample docker-compose deployment\)
@@ -124,7 +103,8 @@ Images can also have two-part tags to identify what is in the image. The parts a
 
 ### echo
 
-* Simple http server that displays `Echo`.
+* Simple http server that echoes received HTTP requests.
+* Uses the public `jmalloc/echo-server` image.
 * Network details:
   * Listens on port 5678
 
@@ -135,11 +115,10 @@ Images can also have two-part tags to identify what is in the image. The parts a
 * Acts as a reverse proxy to `TARGET_ADDRESS:TARGET_PORT`.
 * Filters traffic according to the active configuration.
 * Sends access logs over GRPC to`curielogserver`.
-* * Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is built automatically [using GitHub actions](https://github.com/curiefense/istio-proxy/blob/cf-1.9.3/.github/workflows/build-envoy-for-curiefense.yml) from the curiefense [fork](https://github.com/curiefense/istio-proxy) of istio
-    * , which pushes it to an [image on docker hub](https://hub.docker.com/r/curiefense/envoy-istio-cf/tags?page=1&ordering=last_updated). This image is referenced by the first line of the [Dockerfile](https://github.com/curiefense/curiefense/blob/main/curiefense/images/curieproxy-istio/Dockerfile#L1) that is used to build the curieproxy-envoy docker image.
-* In Helm deployments, two EnvoyFilters are defined in `curiefense/deploy/istio-helm/chart/charts/gateways/templates/`:
-  * `curiefense_lua_filter.yaml` orders Envoy to apply the Lua HTTP filter to incoming requests.
-  * `curiefense_access_logs_filter.yaml` orders Envoy to send access logs to `curielogger`.
+* * Uses a custom-built Envoy binary, compiled with symbols needed by Lua. The custom Envoy compilation is built automatically [using GitHub actions](https://github.com/curiefense/istio-proxy/blob/cf-1.9.3/.github/workflows/build-envoy-for-curiefense.yml) from the curiefense [fork](https://github.com/curiefense/istio-proxy) of istio, which pushes it to an [image on docker hub](https://hub.docker.com/r/curiefense/envoy-istio-cf/tags?page=1&ordering=last_updated). This image is referenced in the beginning of the [Dockerfile](https://github.com/curiefense/curiefense/blob/main/curiefense/images/curieproxy-istio/Dockerfile) that is used to build the curieproxy-envoy docker image.
+* In Helm deployments, two EnvoyFilters are defined:
+  * \`\`[`curiefense_lua_filter.yaml`](https://github.com/curiefense/curiefense-helm/blob/main/istio-helm/charts/gateways/istio-ingress/templates/curiefense_lua_filter.yaml) orders Envoy to apply the Lua HTTP filter to incoming requests.
+  * \`\`[`curiefense_access_logs_filter.yaml`](https://github.com/curiefense/curiefense-helm/blob/main/istio-helm/charts/gateways/istio-ingress/templates/curiefense_access_logs_filter.yaml) orders Envoy to send access logs to `curielogger`.
 * Network details:
   * Port 80 receives unencrypted traffic from users, which will be proxied to TARGET\_ADDRESS:TARGET\_PORT \(reachable at [http://localhost:30081](http://localhost:30081) in the sample  deployments\)
   * Port 8001 is the Envoy administration interface
