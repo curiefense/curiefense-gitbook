@@ -114,7 +114,7 @@ When an incoming request exceeds the Threshold, the Action specified here will o
 | :--- | :--- |
 | **503 Service Unavailable** | The request will be blocked and the requestor will receive a response of "503 Service Unavailable". |
 | **Challenge** | For a browser-based web application, a [bot challenge](../../reference/the-challenge-process.md) will be issued to verify that the requestor is a human using a browser, and not a bot using a headless browser or emulator. If the challenge is failed, the request is blocked. |
-| **Tag Only** | The request will not be blocked; it will merely be tagged with the Rate Limit's name, for subsequent viewing in the [Access Log](../../analytics/access-log.md) and other places. This Action is useful for testing new Rate Limit rules without actually affecting incoming traffic.  |
+| **Tag Only** | The request will not be blocked; it will merely be tagged with the Rate Limit's name, for subsequent viewing in the [Access Log](../../analytics/kibana.md) and other places. This Action is useful for testing new Rate Limit rules without actually affecting incoming traffic.  |
 | **Response** | Blocks the request, and responds with a custom error code \(0-999\) and response body.  |
 | **Redirect** | Blocks the request with a custom error code, and redirects the requestor to a specified URL. For example, the URL might be a page that says, "Your activity appears suspicious, and your access has been restricted. Contact support if you think this decision was made in error." |
 | **Ban** | Blocks the requestor for the specified amount of time. See further discussion below. |

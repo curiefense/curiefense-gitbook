@@ -6,7 +6,7 @@ The input controls at the top of this page are described here: [Policies & Rules
 
 ## Overview
 
-Early in the [traffic evaluation process](../../reference/multi-stage-traffic-filtering.md), Curiefense assigns **Tags** to an incoming request. Subsequently, the Tags can be used to make decisions about how the request is processed. After processing, a request's Tags remain associated with it, and they are available for display in the [Access Log](../../analytics/access-log.md).
+Early in the [traffic evaluation process](../../reference/multi-stage-traffic-filtering.md), Curiefense assigns **Tags** to an incoming request. Subsequently, the Tags can be used to make decisions about how the request is processed. After processing, a request's Tags remain associated with it, and they are available for display in the [Access Log](../../analytics/kibana.md).
 
 This page allows you to administer **Tag Rule Lists**, which are combinations of [user-defined Tags](../../reference/tags.md#user-defined-tags) and the criteria for assigning them to requests. 
 

@@ -90,6 +90,6 @@ Each time a request goes through Curiefense, a detailed log message is pushed to
 
 Traffic data is available in several ways:
 
-* The Curiefense graphical client provides an [Access Log](analytics/access-log.md) which provides comprehensive details for requests.
+* The Curiefense graphical client provides an [Access Log](analytics/kibana.md) which provides comprehensive details for requests.
 * Curiefense is also integrated with [Kibana](https://www.elastic.co/kibana/), [Grafana](https://github.com/grafana/grafana) and [Prometheus](https://github.com/prometheus/prometheus), for traffic dashboards and other displays.
 

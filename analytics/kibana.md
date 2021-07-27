@@ -1,4 +1,4 @@
-# Access Log \(ELK\)
+# Kibana
 
 ![](../.gitbook/assets/access-log.png)
 

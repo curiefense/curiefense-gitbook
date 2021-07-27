@@ -4,7 +4,7 @@ When an incoming request is received, Curiefense generates internal tags and ass
 
 Some tags are assigned early, and are used to make decisions about how the request is handled. For example, if a request's IP is found on the Spamhaus DROP list, it might be assigned a tag of "spamhaus". Then an [ACL Policy](../settings/policies-rules/acl-policies.md) might block the request because it contains that tag.
 
-Some tags can be generated during processing; they reflect the decisions that were made. For example, a request that was blocked because it violated a [Rate Limit](../settings/policies-rules/rate-limits.md) will be assigned a tag containing that Rate Limit's name. The tag will be shown in the [Access Log](../analytics/access-log.md).
+Some tags can be generated during processing; they reflect the decisions that were made. For example, a request that was blocked because it violated a [Rate Limit](../settings/policies-rules/rate-limits.md) will be assigned a tag containing that Rate Limit's name. The tag will be shown in the [Access Log](../analytics/kibana.md).
 
 Some tags are defined by the user, while others are generated automatically by Curiefense.
 
