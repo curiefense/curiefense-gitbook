@@ -10,7 +10,7 @@ description: >-
 
 In this Quick Start guide, we will deploy Curiefense using Docker Compose, then test and configure. 
 
-You can also: 
+Or, you can: 
 
 * Go through the process at [Docker Compose deployment in depth](deployment-first-steps/docker-compose.md) for more control over the deployment options.
 * Use Helm instead, by following the instructions here: [Istio via Helm](deployment-first-steps/istio-via-helm.md). 
