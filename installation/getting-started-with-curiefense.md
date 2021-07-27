@@ -8,13 +8,15 @@ description: >-
 
 **Prerequisite**: Ubuntu 20.04 LTS
 
-In this guide, we will deploy Curiefense using Docker Compose, then test and configure.
+In this Quick Start guide, we will deploy Curiefense using Docker Compose, then test and configure. 
 
-If you want to use Helm instead of Docker Compose, or if you want more control over the deployment options, then do this:
+You can also: 
 
-1. Go to the [Deployment in Depth: First Tasks]() page and follow its instructions. 
-2. Go to the appropriate Deployment in Depth page \([Docker Compose](deployment-first-steps/docker-compose.md) or [Helm](deployment-first-steps/istio-via-helm.md)\) and follow its instructions.
-3. Return here to the [Verify the Deployment](getting-started-with-curiefense.md#verify-the-deployment) section below, and continue.
+* Go through the process at [Docker Compose deployment in depth](deployment-first-steps/docker-compose.md) for more control over the deployment options.
+* Use Helm instead, by following the instructions here: [Istio via Helm](deployment-first-steps/istio-via-helm.md). 
+* Deploy for NGINX instead, by following the instructions here: [NGINX deployment](deployment-first-steps/nginx.md).
+
+If you choose any of these options, after you follow the instructions on the appropriate page, return here to the [Verify the Deployment](getting-started-with-curiefense.md#verify-the-deployment) section below, and continue.
 
 ## Let's begin
 
