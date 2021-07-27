@@ -1,6 +1,6 @@
 # Overview
 
-Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
+Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/) **and** [**NGINX**](https://nginx.org/en/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
 
 Curiefense is [fully controllable programmatically](api/introduction.md). All configuration data \(security rulesets, policies, etc.\) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
 
@@ -91,5 +91,5 @@ Each time a request goes through Curiefense, a detailed log message is pushed to
 Traffic data is available in several ways:
 
 * The Curiefense graphical client provides an [Access Log](analytics/access-log.md) which provides comprehensive details for requests.
-* Curiefense is also integrated with [Grafana](https://github.com/grafana/grafana) and [Prometheus](https://github.com/prometheus/prometheus), for traffic dashboards and other displays.
+* Curiefense is also integrated with [Kibana](https://www.elastic.co/kibana/), [Grafana](https://github.com/grafana/grafana) and [Prometheus](https://github.com/prometheus/prometheus), for traffic dashboards and other displays.
 
