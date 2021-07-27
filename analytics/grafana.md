@@ -33,7 +33,7 @@ Opening the Provisioned folder will reveal the default Curiefense dashboards:
 
 ![](../.gitbook/assets/grafana-provisioned-items.png)
 
-Selecting a dashboard will open it. Then specify the date/time range to display.
+Selecting a dashboard will open it. Then specify the date/time range to display. 
 
 ## Default Dashboards
 
