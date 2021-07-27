@@ -163,6 +163,62 @@ Deploy this secret to the cluster:
 kubectl apply -f s3cfg.yaml
 ```
 
+### Alternative to AWS: GS credentials
+
+Create a bucket, and a service account that has read/write access to the bucket. Obtain a private key for this account, which should look like this:
+
+```text
+{
+  "type": "service_account",
+  "project_id": "PROJECT",
+  "private_key_id": "1234abcd1234abcd1234abcd1234abcd1234abcd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIE.....ABCD=\n-----END PRIVATE KEY-----\n",
+  "client_email": "....@PROJECT.iam.gserviceaccount.com",
+  "client_id": "123412341234123412341",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/....%40PROJECT.iam.gserviceaccount.com"
+}
+```
+
+Create a local file called `gs.yaml`, with the contents below, replacing both occurrences of `BASE64_GS_PRIVATE_KEY` with the previously obtained base64 string:
+
+```text
+---
+apiVersion: v1
+kind: Secret
+data:
+  gs.json: "BASE64_GS_PRIVATE_KEY"
+metadata:
+  labels:
+    app.kubernetes.io/name: gs
+  name: gs
+  namespace: curiefense
+type: Opaque
+---
+apiVersion: v1
+kind: Secret
+data:
+  gs.json: "BASE64_GS_PRIVATE_KEY"
+metadata:
+  labels:
+    app.kubernetes.io/name: gs
+  name: gs
+  namespace: istio-system
+type: Opaque
+```
+
+Deploy this secret to the cluster:
+
+```text
+kubectl apply -f gs.yaml
+```
+
+Set the `curieconf_manifest_url` variables in `curiefense-helm/curiefense/values.yaml` and `istio-helm/charts/gateways/istio-ingress/values.yaml` to the following URL: `gs://BUCKET_NAME/prod/manifest.json` \(replace BUCKET\_NAME with the actual name of the bucket\).
+
+Also set the `curiefense_bucket_type` variables in the same values.yaml files to `gs`.
+
 ## Setup TLS for the UI server
 
 Using TLS is optional. Follow these steps if only if you want to use TLS for the UI server, and you do not rely on istio to manage TLS.
