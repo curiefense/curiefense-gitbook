@@ -6,9 +6,9 @@
 
 * [Getting Started with Curiefense](installation/getting-started-with-curiefense.md)
 * [Deployment in Depth](installation/deployment-first-steps/README.md)
-  * [First Tasks](installation/deployment-first-steps/first-tasks.md)
   * [Docker Compose](installation/deployment-first-steps/docker-compose.md)
   * [Istio via Helm](installation/deployment-first-steps/istio-via-helm.md)
+  * [NGINX](installation/deployment-first-steps/nginx.md)
 
 ## Settings
 

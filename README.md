@@ -1,6 +1,6 @@
 # Overview
 
-Curiefense is an **API-first, GitOps-based web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/) **and** [**NGINX**](https://nginx.org/en/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
+Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/) **and** [**NGINX**](https://nginx.org/en/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
 
 Curiefense is [fully controllable programmatically](settings/api/). All configuration data \(security rulesets, policies, etc.\) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
 
@@ -25,7 +25,7 @@ Incoming traffic passes through Envoy, which is using Curiefense as an HTTP filt
 The other components in the diagram represent the Curiefense platform, as follows:
 
 * **Curiefense proxy** \(represented by the Curiefense logo\): Plugs into Envoy and performs traffic filtering. 
-* **Logs DB**. Curiefense stores traffic data \(headers, payloads, etc.\) from all requests here.
+* **Logs DB**. Elasticsearch stores access logs.
 * **Metrics**. A Prometheus store of traffic metrics.
 * **Dashboard**. Grafana dashboard\(s\) with visual displays of traffic metrics.
 * **Web UI**. Curiefense's web console for configuring the platform.
@@ -40,7 +40,7 @@ For detailed information about the specific containers and services which perfor
 
 ## Deployment Options
 
-Curiefense can run in variety of environments, depending on your specific needs. It can be adapted to many different use cases. 
+Curiefense can run in a variety of environments, depending on your specific needs. It can be adapted to many different use cases. 
 
 Deployment instructions for several different environments are available in the [Installation](installation/deployment-first-steps/) section of this manual and on the [Getting Started](installation/getting-started-with-curiefense.md) page. More will be added in the future.
 

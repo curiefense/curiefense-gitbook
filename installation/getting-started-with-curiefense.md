@@ -12,7 +12,7 @@ In this guide, we will deploy Curiefense using Docker Compose, then test and con
 
 If you want to use Helm instead of Docker Compose, or if you want more control over the deployment options, then do this:
 
-1. Go to the [Deployment in Depth: First Tasks](deployment-first-steps/first-tasks.md) page and follow its instructions. 
+1. Go to the [Deployment in Depth: First Tasks]() page and follow its instructions. 
 2. Go to the appropriate Deployment in Depth page \([Docker Compose](deployment-first-steps/docker-compose.md) or [Helm](deployment-first-steps/istio-via-helm.md)\) and follow its instructions.
 3. Return here to the [Verify the Deployment](getting-started-with-curiefense.md#verify-the-deployment) section below, and continue.
 
