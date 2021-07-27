@@ -222,7 +222,7 @@ DOCKER_TAG=main ./deploy.sh
 
 ## Deploy the \(Sample\) App
 
-The application to be protected by Curiefense should now be deployed. These instructions are for the sample application `bookinfo` which is deployed in the `default` kubernetes namespace. Detailed instruction are available [on the istio website](https://istio.io/v1.9/docs/examples/bookinfo/).
+The application to be protected by Curiefense should now be deployed. These instructions are for the sample application `bookinfo` which is deployed in the `default` kubernetes namespace. Installation instructions are summarized below. More detailed instruction are available [on the istio website](https://istio.io/v1.9/docs/examples/bookinfo/).
 
 ### Enable Istio injection
 
@@ -332,7 +332,7 @@ kubectl get nodes -o wide
 
 ### For minikube only: <a id="markdown-header-minikube"></a>
 
-If you are using minikube, also run the following commands on the host in order to expose services on the Internet:
+If you are using minikube, also run the following commands on the host in order to expose services on the Internet \(ex. if you are running this on a cloud VM\):
 
 ```text
 sudo iptables -t nat -A PREROUTING -p tcp --match multiport --dports 30000,30080,30300,30443 -j DNAT --to $(minikube ip)
@@ -350,9 +350,9 @@ The UIServer is now available on port 30080 over HTTP, and on port 30443 over HT
 
 Grafana is now available on port 30300 over HTTP.
 
-For the `bookinfo` sample app, the Book Review product page is now available on port 80 over HTTP, and on port 30444 over HTTPS.
+For the `bookinfo` sample app, the Book Review product page is now available on port 80 over HTTP, and on port 30444 over HTTPS. Try reaching `http://IP/productpage`.
 
-The confserver is now available on port 30000 over HTTP: try reaching http://IP/api/v1/.
+The confserver is now available on port 30000 over HTTP: try reaching `http://IP:30000/api/v1/`.
 
 For a full list of ports used by Curiefense containers, see the [Reference page on services and containers](../../reference/services-container-images.md).
 
@@ -362,10 +362,10 @@ For a full list of ports used by Curiefense containers, see the [Reference page 
 
 Helm charts are divided as follows:
 
-* `curiefense-admin` - confserver, curielogserver and UIServer.
+* `curiefense-admin` - confserver, and UIServer.
 * `curiefense-dashboards` - Grafana and Prometheus.
-* `curiefense-log` - logdb, namely: PostgreSQL.
-* `curiefense-proxy` - curielogger, curiesync and redis.
+* `curiefense-log` - elasticsearch, filebeat, fluentd, kibana, logstash.
+* `curiefense-proxy` - curielogger and redis.
 
 #### Chart configuration variables <a id="markdown-header-configuration-variables"></a>
 
@@ -374,7 +374,7 @@ Configuration variables in `~/curiefense-helm/curiefense-helm/curiefense/values.
 * Variables in the `images` section define the Docker image names for each component. Override this if you want to host images on your own private registry.
 * `storage_class_name` is the StorageClass that is used for dynamic provisioning of Persistent Volumes. It defaults to `null` \(default storage class, which works by default on EKS, GKE and minikube\).
 * `..._storage_size` variables define the size of persistent volumes. The defaults are fine for a test or small-scale deployment.
-* `curieconf_manifest_url` is the URL of the AWS S3 bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
+* `curieconf_manifest_url` is the URL of the AWS S3 or Google Cloud Storage bucket that is used to synchronize configurations between the `confserver` and the Curiefense Istio sidecars.
 * `docker_tag` defines the image tag versions that should be used. `deploy.sh` will override this to deploy a version that matches the current working directory, unless the `DOCKER_TAG` environment variable is set.
 
 ### Istio chart <a id="markdown-header-istio"></a>
@@ -382,14 +382,14 @@ Configuration variables in `~/curiefense-helm/curiefense-helm/curiefense/values.
 Components added or modified by Curiefense are defined in `~/curiefense-helm/istio-helm/charts/gateways/istio-ingress/`. Compared to the upstream Istio Kubernetes distribution, we add or change the following Pods:
 
 * An `initContainer` called `curiesync-initialpull` has been added. It synchronizes configuration before running Envoy.
-* A container called `curiesync` has been added. It periodically fetches the configuration that should be applied from an S3 bucket \(configurable with the `curieconf_manifest_url` variable\), and makes it available to Envoy. This configuration is used by the LUA code that inspects traffic.
+* A container called `curiesync` has been added. It periodically fetches the configuration that should be applied from an S3 or GS bucket \(configurable with the `curieconf_manifest_url` variable\), and makes it available to Envoy. This configuration is used by the LUA code that inspects traffic.
 * The container called `istio-proxy` now uses our custom Docker image, embedding our HTTP Filter, written in Lua.
 * An `EnvoyFilter` has been added. It forwards access logs to `curielogger` \(see `curiefense_access_logs_filter.yaml`\).
 * An `EnvoyFilter` has been added. It runs Curiefense's Lua code to inspect incoming traffic on the Ingress Gateways \(see `curiefense_lua_filter.yaml`\).
 
 #### Chart configuration variables <a id="markdown-header-configuration-variables_1"></a>
 
-Configuration variables in `~/curiefense-helm/istio-helm/chart/values.yaml` can be modified or overridden to fit your deployment needs:
+Configuration variables in `~/curiefense-helm/istio-helm/charts/gateways/istio-ingress/values.yaml` can be modified or overridden to fit your deployment needs:
 
 * `gw_image` defines the name of the image that contains our filtering code and modified Envoy binary.
 * `curiesync_image` defines the name of the image that contains scripts that synchronize local Envoy configuration with the AWS S3 bucket defined in `curieconf_manifest_url`.
