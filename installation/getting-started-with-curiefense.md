@@ -87,11 +87,11 @@ This section describes the newly-described components of Curiefense. Feel free t
 
 This diagram will help us understand the containers we just deployed, their connections, and the data flow:
 
-![Curiefense Components -- Flow and Relations ](../.gitbook/assets/screen-shot-2020-11-06-at-4.22.43-pm.png)
+![](../.gitbook/assets/isometric-services.png)
 
 | Container Name | Purpose and Functionality |
 | :--- | :--- |
-| curieproxy | Envoy built with our modules |
+| curieproxy | \(represented by the column with the Curiefense logo\) performs traffic filtering |
 | curiesync | ensures configurations are always in sync with latest policies and rules changes |
 | confserver | API server to manage configuration |
 | uiserver | UI Management Console |
@@ -121,7 +121,7 @@ Curiefense runs every incoming request \(and in some cases, responses as well\) 
 
 During the procedures described below, you will set up some simple rules and then run some requests through Curiefense. By the end of this process, you will understand how to create security rules and policies, you will observe them being applied, and you will see how Curiefense reports on incoming requests and its reactions to them.
 
-![Curiefense analysis and filtering mechanisms](../.gitbook/assets/4_sec_layers-02.png)
+![](../.gitbook/assets/filtering-stages.png)
 
 ### Open the UI
 
