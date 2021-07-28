@@ -16,21 +16,22 @@ This documentation is for **version 1.4.0.**
 
 Curiefense provides traffic filtering that can be configured differently for multiple environments \(e.g. dev/qa/prod\), all of which can be administered from one central cluster if desired. Here is an overview of its components.
 
-![Components of Curiefense](.gitbook/assets/curiefense-operation.png)
+![Curiefense Components -- Flow and Relations](.gitbook/assets/isometric-services.png)
 
 In the diagram above, the **Server** represents a resource protected by Curiefense \(a site, app, service, or API\). The **User** is a traffic source attempting to access that resource. 
 
-Incoming traffic passes through Envoy, which is using Curiefense as an HTTP filter. Hostile requests are blocked.
+Incoming traffic passes through Curiefense. Hostile requests are blocked.
 
 The other components in the diagram represent the Curiefense platform, as follows:
 
-* **Curiefense proxy** \(represented by the Curiefense logo\): Plugs into Envoy and performs traffic filtering. 
-* **Logs DB**. Elasticsearch stores access logs.
+* **Curiefense proxy** \(represented by the column with the Curiefense logo\): Performs traffic filtering. 
+* **Elasticsearch** stores access logs.
+* **Access Logs**: Traffic data viewable via Kibana.
 * **Metrics**. A Prometheus store of traffic metrics.
 * **Dashboard**. Grafana dashboard\(s\) with visual displays of traffic metrics.
-* **Web UI**. Curiefense's web console for configuring the platform.
+* **Web Console**. Curiefense's web UI for configuring the platform.
 * **Config Server:** A service which:
-  * Receives configuration edits from the **Web UI**
+  * Receives configuration edits from the **Web Console**
   * Receives configuration edits from API calls \(not shown in the diagram\)
   * Creates a new configuration version in response to edits
   * Stores the new version in one or more **Cloud Storage** buckets
