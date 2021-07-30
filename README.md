@@ -24,17 +24,17 @@ Incoming traffic passes through Curiefense. Hostile requests are blocked.
 
 The other components in the diagram represent the Curiefense platform, as follows:
 
-* **Curiefense proxy** \(represented by the column with the Curiefense logo\): Performs traffic filtering. 
+* **Curiefense proxy** \(represented by the column with the Curiefense logo\): Integrated with Envoy or NGINX; performs traffic filtering. 
 * **Elasticsearch** stores access logs.
 * **Access Logs**: Traffic data viewable via Kibana.
 * **Metrics**. A Prometheus store of traffic metrics.
 * **Dashboard**. Grafana dashboard\(s\) with visual displays of traffic metrics.
 * **Web Console**. Curiefense's web UI for configuring the platform.
 * **Config Server:** A service which:
-  * Receives configuration edits from the **Web Console**
-  * Receives configuration edits from API calls \(not shown in the diagram\)
-  * Creates a new configuration version in response to edits
-  * Stores the new version in one or more **Cloud Storage** buckets
+  * Receives configuration edits from the **Web Console.**
+  * Receives configuration edits from API calls \(not shown in the diagram\).
+  * Creates a new configuration version in response to edits.
+  * Stores the new version in one or more **Cloud Storage** buckets.
 * **Cloud Storage**: Stores versioned configurations. Each **Curiefense proxy** periodically checks **Cloud Storage**: when a new version is found there, the proxy downloads it and updates its security posture.
 
 For detailed information about the specific containers and services which perform the roles described above, see the reference page on [Services and Container Images](reference/services-container-images.md).
@@ -54,6 +54,8 @@ Conceptually, there are three primary roles performed by Curiefense:
 * **Configuration** \(allowing admins to define security policies, assign them to URLs, etc.\)
 * **Filtering** \(applying the defined Configurations to incoming traffic and blocking hostile requests\)
 * **Monitoring** \(displaying traffic data in real-time and in historical logs\).
+
+Each is discussed below.
 
 ## Configuration
 
@@ -83,7 +85,7 @@ When a Configuration is [published](settings/publish-changes.md), it can be push
 
 Traffic filtering is performed by the Curiefense proxy, as shown in the first diagram above. In other words, this is where the security policies defined in the Configurations are enforced.
 
-Some activities \(such as rate limiting\) require local data storage. Internally, Curiefense uses Redis for this. Other storage methods can be used instead if desired.
+Some activities \(such as rate limiting\) require local data storage. Internally, Curiefense uses Redis for this. Other storage methods can be used if desired.
 
 ## Monitoring
 
@@ -91,6 +93,6 @@ Each time a request goes through Curiefense, a detailed log message is pushed to
 
 Traffic data is available in several ways:
 
-* The Curiefense graphical client provides an [Access Log](analytics/kibana.md) which provides comprehensive details for requests.
-* Curiefense is also integrated with [Kibana](https://www.elastic.co/kibana/), [Grafana](https://github.com/grafana/grafana) and [Prometheus](https://github.com/prometheus/prometheus), for traffic dashboards and other displays.
+* The Curiefense graphical client provides a [Kibana Access Log](analytics/kibana.md) which provides comprehensive details for requests.
+* Curiefense is also integrated with [Grafana](https://github.com/grafana/grafana) and [Prometheus](https://github.com/prometheus/prometheus), for traffic dashboards and other displays.
 
