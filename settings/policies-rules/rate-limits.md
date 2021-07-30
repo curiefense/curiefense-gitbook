@@ -66,7 +66,7 @@ Multiple conditions can be defined within the same Rate Limit. To create a new c
 If multiple conditions are defined, they are evaluated by combining them together with a logical AND. In other words, the cumulative count toward the Threshold will be incremented whenever a request is seen that matches all of the conditions simultaneously. Different combinations of conditions will have separate Threshold counts maintained for them.
 
 {% hint style="info" %}
-**Example**. A Rule contains two conditions: "Attribute / Remote Address" and "Argument / Username". When the first request is received, an internal counter is created \(set to a value of one\) for this unique combination of Remote Address and Username. A second request is then received, originating from the same Remote Address and for the same Username; this causes the internal counter to be incremented up to two. A third request is then received from the same Remote Address but with a different Username; this causes a new internal counter to be created \(and set to a value of one\) for this combination.
+**Example**. A Rule contains two conditions: "Attribute / IP Address" and "Argument / Username". When the first request is received, an internal counter is created \(set to a value of one\) for this unique combination of IP Address and Username. A second request is then received, originating from the same IP and for the same Username; this causes the internal counter to be incremented up to two. A third request is then received from the same IP but with a different Username; this causes a new internal counter to be created \(and set to a value of one\) for this combination.
 {% endhint %}
 
 ### The "Event" option: Changing the meaning of the Rate Limit
