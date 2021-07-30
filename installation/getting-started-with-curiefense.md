@@ -60,23 +60,18 @@ Make sure everything is working by testing the echo server:
 ```text
 curl curie.demo:30081
 
-Request served by 1cebc4ed2938
+Request served by echo
 
 HTTP/1.1 GET /
 
 Host: curie.demo:30081
-X-Envoy-Expected-Rq-Timeout-Ms: 15000
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-Accept-Encoding: gzip, deflate
-X-Request-Id: 50d6bdea-58ed-4c9d-9d26-c8eeff432817
-Cookie: csrftoken=u97m660E9Pji8PvSpAGWU3K4pVsl2N4mTscK00bvO8Jkb7h3nTTQQR8FuArzPgIk; CSRF-Token-X3TDN=bEYiHVfq9RvWY4UbyeLN4CWrfqyLevuj; redirect_to=%2F
-Upgrade-Insecure-Requests: 1
-X-Forwarded-For: 172.18.0.1
+X-Forwarded-For: <redacted>
 X-Forwarded-Proto: http
 X-Envoy-Internal: true
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/81.0
-Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
-Content-Length: 0
+X-Request-Id: 0bced763-5d06-4724-875d-c5936b948d80
+X-Envoy-Expected-Rq-Timeout-Ms: 15000
+User-Agent: curl/7.74.0
+Accept: */*
 ```
 
 ## Deployed Containers Overview
@@ -93,12 +88,16 @@ This diagram will help us understand the containers we just deployed, their conn
 | :--- | :--- |
 | curieproxy | \(represented by the column with the Curiefense logo\) performs traffic filtering |
 | curiesync | ensures configurations are always in sync with latest policies and rules changes |
+| curietasker | Runs periodic maintenance tasks |
+| curielogger | Pushes Envoy access log to postgresql and metrics to prometheus |
 | confserver | API server to manage configuration |
 | uiserver | UI Management Console |
 | echo | Dummy web server for testing |
-| logdb \* | stores access log |
-| grafana \* | dashboards |
-| prometheus \* | stores time series metrics |
+| elasticsearch \* | Stores access logs |
+| kibana | Displays logs |
+| filebeat | Sends logs to elasticsearch |
+| grafana \* | Dashboards |
+| prometheus \* | Stores time series metrics |
 | redis \* | Synchronizes session and rules across deployments and Envoy containers |
 |  | \(\*\) You may replace these containers with your own if desired. |
 
@@ -121,7 +120,7 @@ Curiefense runs every incoming request \(and in some cases, responses as well\) 
 
 During the procedures described below, you will set up some simple rules and then run some requests through Curiefense. By the end of this process, you will understand how to create security rules and policies, you will observe them being applied, and you will see how Curiefense reports on incoming requests and its reactions to them.
 
-![](../.gitbook/assets/filtering-stages.png)
+![Curiefense analysis and filtering mechanisms](../.gitbook/assets/filtering-stages.png)
 
 ### Open the UI
 
