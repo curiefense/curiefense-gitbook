@@ -6,7 +6,7 @@ description: >-
 
 # Getting Started with Curiefense
 
-**Prerequisite**: Ubuntu 20.04 LTS
+**Prerequisite**: Ubuntu 21.04
 
 In this Quick Start guide, we will deploy Curiefense using Docker Compose, then test and configure. 
 
@@ -41,7 +41,7 @@ docker-compose up
 ## Verify the Deployment
 
 {% hint style="info" %}
-This tutorial assumes that host names **curie.demo** and **api.curie.demo** are mapped to the host machine. You may replace it with the IP of your host, or set your`/etc/hosts` file accordingly. For example, if docker-compose was executed locally, then
+This tutorial assumes that host names **curie.demo** and **api.curie.demo** are mapped to the host machine. You may replace it with the IP of your host, or set your`/etc/hosts`file accordingly. For example, if docker-compose was executed locally, then
 
 `127.0.0.1 curie.demo api.curie.demo`
 {% endhint %}
@@ -86,8 +86,8 @@ This diagram will help us understand the containers we just deployed, their conn
 
 | Container Name | Purpose and Functionality |
 | :--- | :--- |
-| curieproxy | \(represented by the column with the Curiefense logo\) performs traffic filtering |
-| curiesync | ensures configurations are always in sync with latest policies and rules changes |
+| curieproxy | \(Represented by the column with the Curiefense logo\) Performs traffic filtering |
+| curiesync | Ensures configurations are always in sync with latest policies and rules changes |
 | curietasker | Runs periodic maintenance tasks |
 | curielogger | Pushes Envoy access log to postgresql and metrics to prometheus |
 | confserver | API server to manage configuration |
@@ -128,13 +128,13 @@ Open the UI management console by going to [http://curie.demo:30080/](http://cur
 
 At the top left of the page, in the second pulldown control, select **Tag Rules**.
 
-### Create a Tag Rules list
+### Create a Tag Rule
 
-Tag Rules lists attach tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs to traffic sources such as geolocations, IP addresses, CIDRs, and AS numbers. Subsequently, the tags are then used to make decisions about how the requests are handled.
+Tag Rules attach tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs, to traffic sources such as geolocations, IP addresses, CIDRs, and ASNs. Subsequently, the tags are then used to make decisions about how the requests are handled.
 
-Start by creating a new Tag Rules List by selecting the "**+**" button at the top:
+Start by creating a new Tag Rule by selecting the "**+**" button at the top:
 
-![](../.gitbook/assets/tag-rules-foo-bar-add.png)
+![](../.gitbook/assets/tag-rules-foo-bar-add%20%281%29.png)
 
 Next, in the **Tags** text box on the left, enter the value `trusted` .
 
@@ -152,7 +152,7 @@ We have created a simple tag rule. Every request that contains a header named `f
 
 Now save the new configuration:
 
-![](../.gitbook/assets/tag-rules-foo-bar-save.png)
+![](../.gitbook/assets/tag-rules-foo-bar-save%20%281%29.png)
 
 And then publish it by going to "Publish Changes" in the left sidebar, and selecting **Publish configuration**:
 
