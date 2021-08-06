@@ -59,7 +59,9 @@ Make sure everything is working by testing the echo server:
 
 ```text
 curl curie.demo:30081
+```
 
+```coffeescript
 Request served by echo
 
 HTTP/1.1 GET /
