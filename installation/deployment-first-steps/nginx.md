@@ -8,6 +8,12 @@ This guide describes a basic integration, and it cannot cover the wide variety o
 For specific questions about this, or other Curiefense-related topics, feel free to join our Slack at [https://join.slack.com/t/curiefense/shared\_invite/zt-nc8lyrjo-JJoY2mwrqNOfkmoA6ycTHg](https://join.slack.com/t/curiefense/shared_invite/zt-nc8lyrjo-JJoY2mwrqNOfkmoA6ycTHg).
 {% endhint %}
 
+## Scope
+
+This page describes the installation of the Curiefense filtering component for an environment where NGINX is running in a container. 
+
+The other components of Curiefense will need to be installed separately, according to the specific instructions for each situation \(e.g., [Docker](docker-compose.md) and [Istio](istio-via-helm.md)\). This can be done either before or after completing the instructions below.
+
 ## Dependencies
 
 If OpenResty is not installed yet, please follow the [instructions on the OpenResty website](https://openresty.org/en/installation.html).
