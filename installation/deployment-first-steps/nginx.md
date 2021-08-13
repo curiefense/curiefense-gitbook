@@ -35,8 +35,10 @@ Next, build the Curiefense shared object. This needs to be done on a Linux syste
   ```text
   cd /tmp/curiefense/curiefense/curieproxy/rust
   cargo build --release
-  mv target/release/libcuriefense_lua.so /usr/local/openresty/luajit/lib/lua/5.1/curiefense.so
+  mv target/release/libcuriefense_lua.so target/release/curiefense.so
   ```
+
+* Move the new `curiefense.so` file on the build machine to this location on the proxy machine: `/usr/local/openresty/luajit/lib/lua/5.1/curiefense.so`
 
 ## Configuration setup
 
