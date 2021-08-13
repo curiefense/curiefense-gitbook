@@ -25,12 +25,6 @@ cd /tmp
 git clone https://github.com/curiefense/curiefense
 cp -r /tmp/curiefense/curiefense/curieproxy/lua /
 cp /tmp/curiefense/curiefense/curieproxy/lua/shared-objects/grasshopper.so /usr/local/openresty/luajit/lib/lua/5.1/
-
-# if you have libhyperscan5
-cp /tmp/curiefense/curiefense/curieproxy/lua/shared-objects/curiefense.hs5.so /usr/local/openresty/luajit/lib/lua/5.1/curiefense.so
-
-# if you have libhyperscan4
-cp /tmp/curiefense/curiefense/curieproxy/lua/shared-objects/curiefense.so /usr/local/openresty/luajit/lib/lua/5.1/curiefense.so
 ```
 
 Next, build the Curiefense shared object. This needs to be done on a Linux system that runs the same major `libc` and `libhyperscan` versions as your NGINX server. 
