@@ -33,6 +33,17 @@ cp /tmp/curiefense/curiefense/curieproxy/lua/shared-objects/curiefense.hs5.so /u
 cp /tmp/curiefense/curiefense/curieproxy/lua/shared-objects/curiefense.so /usr/local/openresty/luajit/lib/lua/5.1/curiefense.so
 ```
 
+Next, build the Curiefense shared object. This needs to be done on a Linux system that runs the same major `libc` and `libhyperscan` versions as your NGINX server. 
+
+* On the build machine, first [install the Rust compiler](https://www.rust-lang.org/tools/install).
+* Then run the following:
+
+  ```text
+  cd /tmp/curiefense/curiefense/curieproxy/rust
+  cargo build --release
+  mv target/release/libcuriefense_lua.so /usr/local/openresty/luajit/lib/lua/5.1/curiefense.so
+  ```
+
 ## Configuration setup
 
 ```text
