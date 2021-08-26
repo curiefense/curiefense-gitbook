@@ -1,22 +1,26 @@
 # Istio via Helm
 
-The instructions below show how to install Curiefense on a Kubernetes cluster, embedded in an Istio service mesh. It assumes that the instructions described in [First Tasks](first-tasks.md) have been completed successfully.
+## Introduction
+
+The instructions below show how to install Curiefense on a Kubernetes cluster, embedded in an Istio service mesh. 
 
 The following tasks, each described below in sequence, should be performed:
 
 * [Clone the Helm Repository](istio-via-helm.md#clone-the-helm-repository)
 * [Setup Synchronization](istio-via-helm.md#markdown-header-prerequisites)
-* [Create a Kubernetes Cluster Running Helm](istio-via-helm.md#create-a-kubernetes-cluster-running-helm)
+* [Create a Kubernetes Cluster Running Helm](istio-via-helm.md#create-a-kubernetes-cluster)
 * [Reset State](istio-via-helm.md#reset-state)
 * [Create Namespaces](istio-via-helm.md#create-namespaces)
 * [Setup Secrets](istio-via-helm.md#setup-secrets)
-* [Setup TLS](istio-via-helm.md#setup-tls)
+* [Setup TLS](istio-via-helm.md#setup-tls-for-the-ui-server)
 * [Deploy Istio and Curiefense Images](istio-via-helm.md#deploy-istio-and-curiefense-images)
 * [Deploy the \(Sample\) App](istio-via-helm.md#deploy-the-sample-app)
-* [Expose Curiefense services Using NodePorts](istio-via-helm.md#markdown-header-expose-curiefense-services-using-nodeports)
+* [Expose Curiefense Services Using NodePorts](istio-via-helm.md#markdown-header-expose-curiefense-services-using-nodeports)
 * [Access Curiefense Services](istio-via-helm.md#markdown-header-access-curiefense-services)
 
 At the bottom of this page is a [Reference section](istio-via-helm.md#markdown-header-description-of-the-pods) describing the charts and configuration variables.
+
+During this process, you might find it helpful to read the descriptions \(which include the purpose, secrets, and network/port details\) of the services and their containers: [Services and Container Images](../../reference/services-container-images.md)
 
 ## Clone the Helm Repository
 
@@ -221,7 +225,7 @@ Also set the `curiefense_bucket_type` variables in the same values.yaml files to
 
 ## Setup TLS for the UI server
 
-Using TLS is optional. Follow these steps if only if you want to use TLS for the UI server, and you do not rely on istio to manage TLS.
+Using TLS is optional. Follow these steps if only if you want to use TLS for communicating with the UI server, and you do not rely on istio to manage TLS.
 
 The UIServer can be made to be reachable over HTTPS. To do that, two secrets have to be created to hold the TLS certificate and TLS key.
 
@@ -370,7 +374,7 @@ Expected output:.
 "uri":"/TEST_STRING"
 ```
 
-## Expose Curiefense Services using NodePorts <a id="markdown-header-expose-curiefense-services-using-nodeports"></a>
+## Expose Curiefense Services Using NodePorts <a id="markdown-header-expose-curiefense-services-using-nodeports"></a>
 
 Run the following commands to expose Curiefense services through NodePorts. Warning: if the machine has a public IP, the services will be exposed on the Internet.
 
@@ -410,7 +414,7 @@ For the `bookinfo` sample app, the Book Review product page is now available on 
 
 The confserver is now available on port 30000 over HTTP: try reaching `http://IP:30000/api/v1/`.
 
-For a full list of ports used by Curiefense containers, see the [Reference page on services and containers](../../reference/services-container-images.md).
+For a full list of ports used by Curiefense containers, see the [Reference page on services and containers]().
 
 ## Reference: Description of Helm Charts <a id="markdown-header-description-of-the-pods"></a>
 

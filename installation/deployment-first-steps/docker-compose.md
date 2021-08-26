@@ -1,16 +1,17 @@
 # Docker Compose
 
-This page describes the tasks necessary to deploy Curiefense using Docker Compose. It assumes that the instructions described in [First Tasks](first-tasks.md) have been completed successfully.
+## Introduction
 
-This process consists of the following tasks, described sequentially below:
+This page describes the tasks necessary to deploy Curiefense using Docker Compose. The tasks are described sequentially below:
 
 * [Clone the Repository](docker-compose.md#clone-the-repository)
 * [TLS Setup](docker-compose.md#tls-setup)
-* [Set Database Credentials](docker-compose.md#set-database-credentials)
 * [Set Deployment Variables](docker-compose.md#set-deployment-variables)
 * [Deploy Curiefense](docker-compose.md#deploy-curiefense)
 * [Test the Deployment](docker-compose.md#test-the-deployment)
 * [Clean Up](docker-compose.md#clean-up)
+
+During this process, you might find it helpful to read the descriptions \(which include the purpose, secrets, and network/port details\) of the services and their containers: [Services and Container Images](../../reference/services-container-images.md)
 
 If during this process you need to rebuild an image, see the instructions here: [Building/Rebuilding an Image](../../reference/services-container-images.md#building-rebuilding-images).
 
@@ -26,7 +27,9 @@ This documentation assumes it has been cloned to `~/curiefense`.
 
 ## TLS Setup
 
-If you want Curiefense to use TLS, then you should have already generated the certificates and keys.
+A Docker Compose deployment can use TLS for communication with Curiefense's UI server and also for the protected service, but this is optional. \(If you do not choose to set it up, HTTPS will be disabled.\)
+
+If you do not want Curiefense to use TLS, then skip this step and proceed to the next section. Otherwise, generate the certificate\(s\) and key\(s\) now.
 
 To enable TLS for the protected site/application, go to `curiefense/deploy/compose/curiesecrets/curieproxy_ssl/` and do the following:
 

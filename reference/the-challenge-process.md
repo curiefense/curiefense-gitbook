@@ -25,14 +25,14 @@ When Curiefense receives the first request from a previously unknown traffic sou
 4. **The browser then automatically resubmits the original request**, but this time, the cookies are included. The user is granted access to the requested URL, resources, etc.
 5. **Subsequent requests will also include the cookies,** and thus, they are not challenged.
 
-This process happens quickly \(in a few milliseconds\), and is **invisible** to the user.
+This process happens quickly \(in a few milliseconds\), and is **invisible** to the user.  
 
 ## Active Challenges versus Passive Challenges
 
 The process described above is the **active** challenge process. Out of the box, this is the challenge process that Curiefense uses.
 
 {% hint style="info" %}
-**We recommend that whenever possible, users also enable** _**passive**_ **challenges.**
+**We recommend that whenever possible, users also enable** _**passive**_ **challenges.** 
 {% endhint %}
 
 Passive challenges add three additional benefits:
@@ -47,7 +47,7 @@ Passive challenges add three additional benefits:
 
 ## Biometric Behavioral Profiling
 
-With Biometric Bot Detection, Curiefense continually gathers and analyzes stats such as client-side I/O events, triggered by the user’s keyboard, mouse, scroll, touch, zoom, device orientation, movements, and more. Based on these metrics, the platform uses Machine Learning to construct and maintain behavioral profiles of legitimate human visitors. Curiefense learns and understands how actual humans interact with the applications and services it is protecting. Continuous multivariate analysis verifies that each user is indeed conforming to expected behavioral patterns, and is thus a human user with legitimate intentions.
+With Biometric Bot Detection, Curiefense continually gathers and analyzes stats such as client-side I/O events, triggered by the user’s keyboard, mouse, scroll, touch, zoom, device orientation, movements, and more. Based on these metrics, the platform uses Machine Learning to construct and maintain behavioral profiles of legitimate human visitors. Curiefense learns and understands how actual humans interact with the applications and services it is protecting. Continuous multivariate analysis verifies that each user is indeed conforming to expected behavioral patterns, and is thus a human user with legitimate intentions. 
 
 Using this approach, Curiefense bot detection accuracy is not only high, it is also robust and resistant to reverse-engineering by threat actors. Behavioral profiles are constructed based on private analytics data, and threat actors have no realistic way of obtaining this information.
 
@@ -102,9 +102,11 @@ Other than those situations, Active Challenges can be very beneficial.
 **We recommend that you keep Active Challenges enabled if possible.** They automatically eliminate almost all DDoS traffic, scanning tools, and other hostile bot traffic.
 {% endhint %}
 
-If you wish to turn off Active Challenges, remove all tags from the "Deny Bot" column within [ACL Profiles](../console/document-editor/acl-profiles.md).
+If you wish to turn off Active Challenges, remove all tags from the "Deny Bot" column within [ACL Profiles](../settings/policies-rules/acl-policies.md).
 
 {% hint style="danger" %}
 **If you have not enabled Passive Challenges** \(and successfully tested them\), disabling Active Challenges is not recommended.
 {% endhint %}
+
+
 

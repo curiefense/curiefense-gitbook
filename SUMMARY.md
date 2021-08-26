@@ -6,36 +6,34 @@
 
 * [Getting Started with Curiefense](installation/getting-started-with-curiefense.md)
 * [Deployment in Depth](installation/deployment-first-steps/README.md)
-  * [First Tasks](installation/deployment-first-steps/first-tasks.md)
   * [Docker Compose](installation/deployment-first-steps/docker-compose.md)
   * [Istio via Helm](installation/deployment-first-steps/istio-via-helm.md)
+  * [NGINX](installation/deployment-first-steps/nginx.md)
 
-## Console
+## Settings
 
-* [Document Editor](console/document-editor/README.md)
-  * [ACL Profiles](console/document-editor/acl-profiles.md)
-  * [Rate Limits](console/document-editor/rate-limits.md)
-  * [Profiling Lists](console/document-editor/profiling-lists.md)
-  * [URL Maps](console/document-editor/url-maps.md)
-  * [WAF Profiles](console/document-editor/waf-profiles.md)
-  * [WAF Signatures](console/document-editor/waf-signatures.md)
-* [System Settings](console/system-settings.md)
-* [Publish Configuration](console/publish-configuration.md)
+* [Policies & Rules](settings/policies-rules/README.md)
+  * [ACL Policies](settings/policies-rules/acl-policies.md)
+  * [Flow Control](settings/policies-rules/flow-control.md)
+  * [Tag Rules](settings/policies-rules/tag-rules.md)
+  * [Rate Limits](settings/policies-rules/rate-limits.md)
+  * [URL Maps](settings/policies-rules/url-maps.md)
+  * [WAF Policies](settings/policies-rules/waf-policies.md)
+  * [WAF Rules](settings/policies-rules/waf-rules.md)
+* [Search](settings/search.md)
+* [Databases](settings/databases.md)
+* [Publish Changes](settings/publish-changes.md)
+* [API](settings/api/README.md)
+  * [curl Examples](settings/api/curl-examples.md)
 
 ## Analytics
 
-* [Access Log](analytics/access-log.md)
-* [Dashboards](analytics/dashboards.md)
+* [Kibana](analytics/kibana.md)
+* [Grafana](analytics/grafana.md)
 
 ## GIT
 
 * [Version Control](git/version-control.md)
-
-## API
-
-* [API Introduction](api/introduction.md)
-* [API Namespaces and Endpoints](api/api-namespaces-and-endpoints.md)
-* [cURL and CLI Tool](api/curl-and-cli-tool.md)
 
 ## Reference
 
@@ -43,4 +41,5 @@
 * [The Challenge Process](reference/the-challenge-process.md)
 * [Multi-Stage Traffic Filtering](reference/multi-stage-traffic-filtering.md)
 * [Tags](reference/tags.md)
+* [Release Notes](reference/release-notes.md)
 
