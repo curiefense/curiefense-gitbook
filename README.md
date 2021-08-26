@@ -1,8 +1,8 @@
 ---
 description: >-
-  The following documentation is for the "Next" version: code which has not yet
-  been bundled into a release. Documentation for previous releases is available
-  at the top left of the sidebar.
+  The following is for the "Next" version: the code in the "main" branch which
+  has not yet been bundled into a release. Documentation for previous releases
+  is available at the top left of the sidebar.
 ---
 
 # Overview
