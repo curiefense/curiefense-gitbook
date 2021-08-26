@@ -1,3 +1,10 @@
+---
+description: >-
+  The following documentation is for version 1.4.x; different versions are
+  available at the top left of the sidebar. "Next" are the most recent changes
+  which have not yet been bundled into a release.
+---
+
 # Overview
 
 Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/) **and** [**NGINX**](https://nginx.org/en/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
