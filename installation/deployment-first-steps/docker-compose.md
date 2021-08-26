@@ -1,21 +1,35 @@
 # Docker Compose
 
-This page describes the tasks necessary to deploy Curiefense using Docker Compose. It assumes that the instructions described in [First Tasks](first-tasks.md) have been completed successfully.
+## Introduction
 
-This process consists of the following tasks, described sequentially below:
+This page describes the tasks necessary to deploy Curiefense using Docker Compose. The tasks are described sequentially below:
 
+* [Clone the Repository](docker-compose.md#clone-the-repository)
 * [TLS Setup](docker-compose.md#tls-setup)
-* [Set Database Credentials](docker-compose.md#set-database-credentials)
 * [Set Deployment Variables](docker-compose.md#set-deployment-variables)
 * [Deploy Curiefense](docker-compose.md#deploy-curiefense)
 * [Test the Deployment](docker-compose.md#test-the-deployment)
 * [Clean Up](docker-compose.md#clean-up)
 
+During this process, you might find it helpful to read the descriptions \(which include the purpose, secrets, and network/port details\) of the services and their containers: [Services and Container Images](../../reference/services-container-images.md)
+
 If during this process you need to rebuild an image, see the instructions here: [Building/Rebuilding an Image](../../reference/services-container-images.md#building-rebuilding-images).
+
+## Clone the Repository
+
+Clone the repository, if you have not already done so:
+
+```text
+git clone https://github.com/curiefense/curiefense.git
+```
+
+This documentation assumes it has been cloned to `~/curiefense`.
 
 ## TLS Setup
 
-If you want Curiefense to use TLS, then you should have already generated the certificates and keys.
+A Docker Compose deployment can use TLS for communication with Curiefense's UI server and also for the protected service, but this is optional. \(If you do not choose to set it up, HTTPS will be disabled.\)
+
+If you do not want Curiefense to use TLS, then skip this step and proceed to the next section. Otherwise, generate the certificate\(s\) and key\(s\) now.
 
 To enable TLS for the protected site/application, go to `curiefense/deploy/compose/curiesecrets/curieproxy_ssl/` and do the following:
 
@@ -26,18 +40,6 @@ To enable TLS for the nginx server that is used by `uiserver`, go to `curiefense
 
 * Edit `ui.crt` and add the certificate.
 * Edit `ui.key` and add the key.
-
-## Set Database Credentials
-
-The logdb database has two accounts:
-
-* The`postgres` account has write access, and is used by `curielogger`.
-* The`logserver_ro` account has read-only access, and is used by `curielogserver`.
-
-If you wish to change the default passwords for these accounts, you must edit the files in which they are defined:
-
-* The password for `postgres` is defined in `curiesecrets/logdb/postgres_password.txt`. 
-* The password for `logserver_ro`is defined in `curiesecrets/logdb/ro_password.txt`.
 
 ## Set Deployment Variables
 
@@ -50,7 +52,7 @@ These variables are described below.
 
 ### CURIE\_BUCKET\_LINK
 
-Curiefense uses the storage defined here for synchronizing configuration changes between `confserver` and the Curiefense sidecars. 
+Curiefense uses the storage defined here for synchronizing configuration changes between `confserver` and the Curiefense sidecars.
 
 By default, this points to the `local_bucket` Docker volume:
 
@@ -65,7 +67,7 @@ For multi-node deployments, or to use S3 for a single node, replace this value w
 CURIE_BUCKET_LINK=s3:///BUCKETNAME/prod/manifest.json
 ```
 
-In that case, you will need to supply AWS credentials in  `deploy/compose/curiesecrets/s3cfg`, following this template:
+In that case, you will need to supply AWS credentials in `deploy/compose/curiesecrets/s3cfg`, following this template:
 
 ```text
 [default]
@@ -79,7 +81,7 @@ The address of the destination service for which Curiefense acts as a reverse pr
 
 ### DOCKER\_TAG
 
-Defaults to `latest` \(the latest stable image\). To run a version that matches the contents of your working directory, use the following command:
+Defaults to `main` \(the latest stable image, automatically built from the `main` branch\). To run a version that matches the contents of your working directory, use the following command:
 
 ```text
 DOCKER_TAG="$(git describe --tag --long --dirty)-$(git rev-parse --short=12 HEAD:curiefense)"
@@ -100,12 +102,23 @@ After deployment, the Echo service should be running and protected behind Curief
 
 ```text
 $ curl http://localhost:30081/
-Echo
+Request served by echo
+
+HTTP/1.1 GET /
+
+Host: localhost:30081
+X-Envoy-Internal: true
+X-Request-Id: 57dd8be5-6040-491a-903e-7ef3734ab9db
+X-Envoy-Expected-Rq-Timeout-Ms: 15000
+User-Agent: curl/7.74.0
+Accept: */*
+X-Forwarded-For: 172.18.0.1
+X-Forwarded-Proto: http
 ```
 
 Also verify the following:
 
-* The UIServer is now available at [http://localhost:30080](http://localhost:30080) \(access logs are at [http://localhost:30080/accesslog](http://localhost:30080/accesslog)\)
+* The UIServer is now available at [http://localhost:30080](http://localhost:30080)
 * Grafana is now available at [http://localhost:30300](http://localhost:30300)
 * The `confserver` is now available at [http://localhost:30000/api/v1/](http://localhost:30000/api/v1/)
 

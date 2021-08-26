@@ -6,15 +6,17 @@ description: >-
 
 # Getting Started with Curiefense
 
-**Prerequisite**: Ubuntu 20.04 LTS
+**Prerequisite**: Ubuntu 21.04
 
-In this guide, we will deploy Curiefense using Docker Compose, then test and configure.
+In this Quick Start guide, we will deploy Curiefense using Docker Compose, then test and configure. 
 
-If you want to use Helm instead of Docker Compose, or if you want more control over the deployment options, then do this:
+Or, you can: 
 
-1. Go to the [Deployment in Depth: First Tasks](deployment-first-steps/first-tasks.md) page and follow its instructions. 
-2. Go to the appropriate Deployment in Depth page \([Docker Compose](deployment-first-steps/docker-compose.md) or [Helm](deployment-first-steps/istio-via-helm.md)\) and follow its  instructions.
-3. Return here to the [Verify the Deployment](getting-started-with-curiefense.md#verify-the-deployment) section below, and continue.
+* Go through the process at [Docker Compose deployment in depth](deployment-first-steps/docker-compose.md) for more control over the deployment options.
+* Use Helm instead, by following the instructions here: [Istio via Helm](deployment-first-steps/istio-via-helm.md). 
+* Deploy for NGINX instead, by following the instructions here: [NGINX deployment](deployment-first-steps/nginx.md).
+
+If you choose any of these options, after you follow the instructions on the appropriate page, return here to the [Verify the Deployment](getting-started-with-curiefense.md#verify-the-deployment) section below, and continue.
 
 ## Let's begin
 
@@ -34,12 +36,12 @@ cd curiefense/deploy/compose/
 docker-compose up
 ```
 
-ProTip: Try Curiefense out on [Katacoda](https://www.katacoda.com/curiefense), no install necessary.
+**💡 ProTip:** Try Curiefense out on [Katacoda](https://www.katacoda.com/curiefense), no install necessary.
 
 ## Verify the Deployment
 
 {% hint style="info" %}
-This tutorial assumes that host names **curie.demo** and **api.curie.demo** are mapped to the host machine. You may replace it with the IP of your host, or set your `/etc/hosts` file accordingly. For example, if docker-compose was executed locally, then
+This tutorial assumes that host names **curie.demo** and **api.curie.demo** are mapped to the host machine. You may replace it with the IP of your host, or set your`/etc/hosts`file accordingly. For example, if docker-compose was executed locally, then
 
 `127.0.0.1 curie.demo api.curie.demo`
 {% endhint %}
@@ -57,24 +59,21 @@ Make sure everything is working by testing the echo server:
 
 ```text
 curl curie.demo:30081
+```
 
-Request served by 1cebc4ed2938
+```coffeescript
+Request served by echo
 
 HTTP/1.1 GET /
 
 Host: curie.demo:30081
-X-Envoy-Expected-Rq-Timeout-Ms: 15000
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-Accept-Encoding: gzip, deflate
-X-Request-Id: 50d6bdea-58ed-4c9d-9d26-c8eeff432817
-Cookie: csrftoken=u97m660E9Pji8PvSpAGWU3K4pVsl2N4mTscK00bvO8Jkb7h3nTTQQR8FuArzPgIk; CSRF-Token-X3TDN=bEYiHVfq9RvWY4UbyeLN4CWrfqyLevuj; redirect_to=%2F
-Upgrade-Insecure-Requests: 1
-X-Forwarded-For: 172.18.0.1
+X-Forwarded-For: <redacted>
 X-Forwarded-Proto: http
 X-Envoy-Internal: true
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/81.0
-Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
-Content-Length: 0
+X-Request-Id: 0bced763-5d06-4724-875d-c5936b948d80
+X-Envoy-Expected-Rq-Timeout-Ms: 15000
+User-Agent: curl/7.74.0
+Accept: */*
 ```
 
 ## Deployed Containers Overview
@@ -85,20 +84,22 @@ This section describes the newly-described components of Curiefense. Feel free t
 
 This diagram will help us understand the containers we just deployed, their connections, and the data flow:
 
-![Curiefense Components -- Flow and Relations ](../.gitbook/assets/screen-shot-2020-11-06-at-4.22.43-pm.png)
+![](../.gitbook/assets/isometric-services.png)
 
 | Container Name | Purpose and Functionality |
 | :--- | :--- |
-| curieproxy | Envoy built with our modules |
-| curiesync | ensures configurations are always in sync with latest policies and rules changes |
-| curielogger | pushes Envoy access log to postgresql and metrics to prometheus |
+| curieproxy | \(Represented by the column with the Curiefense logo\) Performs traffic filtering |
+| curiesync | Ensures configurations are always in sync with latest policies and rules changes |
+| curietasker | Runs periodic maintenance tasks |
+| curielogger | Pushes Envoy access log to postgresql and metrics to prometheus |
 | confserver | API server to manage configuration |
-| curielogserver | REST API interface for reading and analyzing logs from PostgreSQL |
 | uiserver | UI Management Console |
 | echo | Dummy web server for testing |
-| logdb \* | stores access log |
-| grafana \* | dashboards |
-| prometheus \* | stores time series metrics |
+| elasticsearch \* | Stores access logs |
+| kibana | Displays logs |
+| filebeat | Sends logs to elasticsearch |
+| grafana \* | Dashboards |
+| prometheus \* | Stores time series metrics |
 | redis \* | Synchronizes session and rules across deployments and Envoy containers |
 |  | \(\*\) You may replace these containers with your own if desired. |
 
@@ -107,13 +108,13 @@ This diagram will help us understand the containers we just deployed, their conn
 Before diving in and making changes, let's discuss a few concepts of Curiefense's configuration.
 
 * Git is the storage management used to keep track of changes. This means:
-  1. Data can be store anywhere a git repository can \(local, remote, hosted, etc\).
+  1. Data can be stored anywhere a git repository can \(local, remote, hosted, etc\).
   2. Every change you made can be reverted.
   3. You can automate deployments based on tagging.
   4. Using a single configuration server, you can maintain configurations of multiple deployments \(e.g. production, devops, qa, rc, etc.\) by keeping each in a separate branch, and you can merge them the git way at any point in time, via the API and/or UI.
 * Configurations are organized in Documents and Entries. More on this [here](../#data-structures).
 
-![](../.gitbook/assets/curiefense-conf.png)
+![](../.gitbook/assets/data-structures%20%282%29.png)
 
 ## Policy and Rules Configuration
 
@@ -121,43 +122,43 @@ Curiefense runs every incoming request \(and in some cases, responses as well\) 
 
 During the procedures described below, you will set up some simple rules and then run some requests through Curiefense. By the end of this process, you will understand how to create security rules and policies, you will observe them being applied, and you will see how Curiefense reports on incoming requests and its reactions to them.
 
-![Curiefense analysis and filtering mechanisms](../.gitbook/assets/4_sec_layers-02.png)
+![Curiefense analysis and filtering mechanisms](../.gitbook/assets/filtering-stages.png)
 
 ### Open the UI
 
-Open the UI management console by going to [http://curie.demo:30080/](http://curie.demo:30080/). In the left sidebar, select  **Document Editor** if it is not already selected.
+Open the UI management console by going to [http://curie.demo:30080/](http://curie.demo:30080/). In the left sidebar, select **Policies & Rules** if it is not already selected.
 
-At the top left of the page,  in the second pulldown control, select **Profiling Lists**.
+At the top left of the page, in the second pulldown control, select **Tag Rules**.
 
-### Create a Session Profiling list
+### Create a Tag Rule
 
-Session profiling attaches tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs to traffic sources such as geolocations, IP addresses, CIDRs, and AS numbers. Subsequently, the tags are then used to make decisions about how the requests are handled.
+Tag Rules attach tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs, to traffic sources such as geolocations, IP addresses, CIDRs, and ASNs. Subsequently, the tags are then used to make decisions about how the requests are handled.
 
-Start by creating a new Profiling List:
+Start by creating a new Tag Rule by selecting the "**+**" button at the top:
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-4.59.46-am.png)
+![](../.gitbook/assets/tag-rules-foo-bar-add%20%281%29.png)
 
-Next, in the **Tags** text box, enter the value `trusted` .
+Next, in the **Tags** text box on the left, enter the value `hdr-test` .
 
-Then, at the top of the \(currently empty\) list to the right, add a new entry by selecting the  **+**  button.  Enter `foo` for its name, `bar` for value, and `trust me` for annotation. Now click on the "add" link.
+Then, at the top of the \(currently empty\) list to the right, add a new entry by selecting the **Create New Section** button. An empty rule will appear.
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-5.04.49-am.png)
+![](../.gitbook/assets/tag-rules-empty-section.png)
+
+In the left pulldown, select **Header**. Enter `foo` for its name, and `test` for its value. Then select "**Add**".
 
 Your screen should look similar to this:
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-5.03.11-am.png)
+![](../.gitbook/assets/tag-rules-foo-test.png)
 
-We have created a simple profiling rule. Every request that contains a header named `foo` which matches the regex \(PCRE\) `bar` will receive a tag of `trusted`. 
-
-\(The Annotation of `trust me` is a label for internal admin use, and does not affect traffic processing.\)
+We have created a simple tag rule. Every request that contains a header named `foo` which matches the regex \(PCRE\) `test` will receive a tag of `hdr-test`. 
 
 Now save the new configuration:
 
-![Save changes](../.gitbook/assets/screen-shot-2020-11-07-at-5.12.44-am.png)
+![](../.gitbook/assets/tag-rules-foo-bar-save%20%281%29.png)
 
-And then publish it:
+And then publish it by going to "Publish Changes" in the left sidebar, and selecting **Publish configuration**:
 
-![Publish configuration](../.gitbook/assets/screen-shot-2020-11-07-at-5.13.49-am.png)
+![](../.gitbook/assets/publish-changes%20%281%29.png)
 
 {% hint style="info" %}
 After publishing, your changes need time to propagate. Waiting 10-15 seconds should be enough.
@@ -167,78 +168,127 @@ Now it is time to test our configuration. Let's run the following curl commands:
 
 ```text
 curl http://curie.demo:30081/no/header
-curl http://curie.demo
-:30081/with/header -H "foo: bar"
+curl http://curie.demo:30081/with/header -H "foo: test"
 ```
 
-Navigating to **Access Log** in the left sidebar should show a screen similar to this:
+Navigating to **Kibana** in the left sidebar should show a screen similar to this:
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-5.28.14-am.png)
+![](../.gitbook/assets/tag-rules-quickstart-1.png)
 
-Click on the `/with/header` entry, and notice the `trusted` tag on the right column:
+This shows the two requests you just sent, in order of receipt \(with the newest on top\).
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-5.29.05-am.png)
+Click on the "&gt;" to expand the top entry:
 
-Notice also that along the `trusted` tag you defined, Curiefense attached a number of tags that were generated automatically. [More information about this](../reference/tags.md#automatic-tags).
+![](../.gitbook/assets/tag-rules-quickstart-2.png)
 
-Profiling Lists are a powerful feature of Curiefense \(and are explained in depth [here](../console/document-editor/profiling-lists.md)\). We just demonstrated the ability to create a single-entry self-managed list that characterizes incoming requests based on a header. Curiefense allows you to attach tags based on complex combinations of headers, arguments, cookies, geolocation, methods, paths, and more. External data sources are also supported; sessions can be profiled based on data and rules defined by a third party, such as blocklists and whitelists.
+All the information about this request is available here. Scroll down until you see the "tags" field:
+
+![](../.gitbook/assets/tag-rules-quickstart-3.png)
+
+You should see that Curiefense added the `hdr-test` tag.
+
+Notice also that along the `hdr-test` tag that you defined, Curiefense attached a number of tags that were generated automatically. [More information about these](../reference/tags.md#automatic-tags).
+
+Tag Rules Lists are a powerful feature of Curiefense \(and are explained in depth [here](../settings/policies-rules/tag-rules.md)\). We just demonstrated the ability to create a single-entry self-managed list that characterizes incoming requests based on a header. Curiefense allows you to attach tags based on complex combinations of headers, arguments, cookies, geolocation, methods, paths, and more. External data sources are also supported; sessions can be profiled based on data and rules defined by a third party, such as blocklists and whitelists.
 
 Now that we know how to attach tags to incoming requests, let's tell Curiefense how to react to them.
 
 ### Create an ACL \(Access Control List\)
 
-We're going to block all requests with the `trusted` tag. 
+We're going to block all requests with the `hdr-test` tag. 
 
-In the left menu, navigate to **Document Editor**. By default, **ACL Profiles** should already be selected.
+In the left menu, navigate to **Policies & Rules**. By default, **ACL Profiles** should already be selected.
 
-Enter `trusted` into the **DENY** column, then save your changes.
+Enter `hdr-test` into the **DENY** column. Your screen should look similar to this:
 
-Your screen should look similar to this:
+![](../.gitbook/assets/acl-deny-hdr-test.png)
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-5.35.56-am.png)
-
-Publish the new configuration again \(and wait 15 seconds for the changes to propagate\).
+Save your changes, then publish the new configuration again \(and wait 15 seconds for the changes to propagate\).
 
 #### Test the ACL
 
-Run this command:
+Run this command \(note the addition of the `-i` option\):
 
 ```text
-curl http://curie.demo:30081/with/header -H "foo: bar"
+curl -i http://curie.demo:30081/with/header -H "foo: test"
 ```
 
-In the Access Log, you should see the request listed. Expanding it will show this:
+You should see output that looks something like this:
 
-![](../.gitbook/assets/image%20%284%29.png)
+```yaml
+HTTP/1.1 200 OK
+content-type: text/plain
+date: Tue, 03 Aug 2021 01:34:34 GMT
+content-length: 308
+x-envoy-upstream-service-time: 0
+server: envoy
 
-Note that the request was identified as a risk, because it contains the specified tag and therefore matches the **DENY** ACL.
+Request served by echo
 
-However, Curiefense passed the request through the system, as seen in the green HTTP status code \(**200:** successful\). If it had been blocked, the code would instead be red with an error code.
+HTTP/1.1 GET /with/header
 
-This behavior is expected. By default, Curiefense's security profiles are in report/monitor mode;  requests will be flagged but not blocked. This mode allows for testing and fine-tuning of new configurations without affecting traffic.
+Host: curie.demo:30081
+X-Request-Id: dde00ccb-776a-4953-9011-51f7c52ed342
+User-Agent: curl/7.64.1
+Accept: */*
+Foo: test
+X-Forwarded-Proto: http
+X-Envoy-Expected-Rq-Timeout-Ms: 15000
+```
 
-Let's assume that we've tested our new policies and want to make the ACL active.
+The `-i` allows us to see the response headers. Note that we received HTTP status code 200: "request succeeded." In other words, Curiefense did not block the request.
+
+This behavior is expected. By default, Curiefense's security profiles are in report/monitor mode; requests will be flagged but not blocked. This mode allows for testing and fine-tuning of new configurations without affecting traffic.
+
+This information is also visible in the access log. The log shows that Curiefense is configured to block the request, and the reason why this would happen:
+
+![](../.gitbook/assets/acl-deny-hdr-blocked%20%282%29.png)
+
+And it also shows that the request was not actually blocked, because status code 200 was returned: 
+
+![](../.gitbook/assets/acl-deny-hdr-response-200.png)
+
+Now let's assume that we've tested our new policies and we want to make the ACL active.
 
 #### Activate the ACL
 
-Navigate to **Document Editor** and then choose to edit **URL Maps** in the upper dropdown list**.** 
+Navigate to **Policies & Rules** and then choose to edit **URL Maps** in the upper dropdown list**.** 
 
-URL Maps assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. \(They are explained in depth [here](../console/document-editor/url-maps.md).\) 
+URL Maps assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. \(They are explained in depth [here](../settings/policies-rules/url-maps.md).\) 
 
 We're going to edit Curiefense's default security profile: the one that applies to every URL which does not otherwise have any policies assigned to it.
 
-Expand the **default** profile \(the one assigned to path `/`\) by selecting it. Then activate the profile by checking the **Active Mode** checkbox. 
+Expand the **default** profile \(the one assigned to path `/`\) by selecting it. Then activate the ACL Policy by checking its **Active Mode** checkbox. Note that the name of the ACL Policy changes from red to green.
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-5.49.48-am.png)
+![](../.gitbook/assets/url-maps-default-activate-acl.png)
 
 Save your changes and publish the configuration again. 
 
-After the change propagates, Curiefense should block the request:
+After the change propagates, send the request again:
 
 ```text
-curl http://curie.demo:30081/with/header -H "foo: bar"
-curiefense - request denied
+curl -i http://curie.demo:30081/with/header -H "foo: bar"
 ```
+
+ This time, Curiefense should block the request:
+
+```yaml
+HTTP/1.1 403 Forbidden
+x-curiefense: response
+content-length: 13
+date: Tue, 03 Aug 2021 01:44:57 GMT
+server: envoy
+
+access denied  
+```
+
+As before, the blocking reason appears in the traffic log:
+
+![](../.gitbook/assets/acl-block-hdr-test.png)
+
+And so does the response status code:
+
+![](../.gitbook/assets/response-code-403.png)
 
 ### Add Rate Limiting
 
@@ -254,9 +304,15 @@ Return to **URL Maps** and select the default profile again. At the bottom of it
 
 Attach an existing rule by select the first "here" link. A pulldown list of available Rate Limit Rules will be displayed.
 
-Open the list, and select its only entry \(the one that comes by default with the system\). This rule limits requests from a given IP address to a maximum of 5 requests per 60 seconds.
+Open the list, and you should see a default entry that comes with the system. This rule limits requests from a given IP address to a maximum of 5 requests per 60 seconds.
 
-Select the "add" link to add this rule to the default URL Map.
+{% hint style="info" %}
+If you don't see any default entries, click on the second "here" link to create a new Rate Limit. In the window that appears, create the rule shown below, save it, and then return to the URL Map.
+{% endhint %}
+
+![](../.gitbook/assets/rate-limit-example-rule-5-60.png)
+
+Select the "add" link to add this rule to the default URL Map. The rule will then be displayed without the pulldown list:
 
 ![](../.gitbook/assets/screen-shot-2020-11-07-at-6.08.28-am.png)
 
@@ -267,27 +323,29 @@ After propagation, we can test it:
 ```text
 while true; 
 do 
-    curl -s -o /dev/null -w "%{http_code}" http://curie.demo:30081/with/header -H "foo: bar";
+    curl -s -o /dev/null -w "%{http_code}" http://curie.demo:30081/with/header -H "foo: test";
     printf ", "; 
     sleep 1s; 
 done
 ```
 
-Wait briefly, and you should see how the response changes from 403 \(ACL\) to 503 \(Rate limit\) on the 6th request.
+Wait briefly, and you should see that on the 6th request, the response changes from 403 \(which means the ACL Policy is blocking the request\) to 503 \(which means the Rate Limit is blocking it\). 
 
-```text
+```coffeescript
 403, 403, 403, 403, 403, 503, 503, 503, 503, 503, 503, 503, 503...
 ```
+
+In Curiefense, Rate Limit Rules are enforced before the ACL Policies \(as explained further here: [Multi-Stage Traffic Filtering](../reference/multi-stage-traffic-filtering.md)\). Thus, when a request would violate both, it is the Rate Limit Rule that blocks it.
 
 ### Add Multiple Rate Limits
 
 Now that we're somewhat familiar with the system, let's set up multi-layered rate limiting to protect against a variety of attacks.
 
 {% hint style="info" %}
-Rate limits in Curiefense are reusable "stand-alone" rules that can be attached to different paths in [URL Maps](../console/document-editor/url-maps.md).
+Rate limits in Curiefense are reusable 'stand-alone' rules that can be attached to different paths in [URL Maps](../settings/policies-rules/url-maps.md).
 {% endhint %}
 
-Previously, we used the default Rate Limit that comes with Curiefense, and applied it to the entire domain. Now we will create three specific Rate Limits for the login process of an API, and attach them to the relevant endpoints. 
+Previously, we used the default Rate Limit that comes with Curiefense, and applied it to the entire domain. Now we will create some specific Rate Limits for the login process of an API, and attach them to the relevant endpoints. 
 
 #### Creating a URL Map for the API
 
@@ -297,63 +355,67 @@ Create a new URL Map by duplicating the default one:
 
 Set its **name** \(the unlabeled field at the top\) to `API`. Set **Matching Names** to `api.curie.demo`.
 
-![](../.gitbook/assets/image%20%282%29.png)
+![](../.gitbook/assets/url-map-demo-api.png)
 
 #### Adding Profiles
 
-Note that the new URL Map contains a default profile. As you might expect, this will apply to every path within the scope set by the **Matching Names** entry. \(In this tutorial, the **Matching Names** is a specific subdomain. In production use, this might be a regex describing a range of domains, subdomains, or URLs.\)
+As did the original URL Map, this new one contains a default profile. As you might expect, this will apply to every path within the scope set by the **Matching Names** entry. \(In this tutorial, the **Matching Names** is a specific subdomain. In production use, this might be a regex describing a range of domains, subdomains, or URLs.\)
+
+Our hypothetical API has two versions: `/api/v1/` and `/api/v2/`. Let's say that the default profile is good enough for each of them. \(If it weren't, we could set up separate profiles for one or both instead.\) 
+
+However, there are two endpoints where we want to set up stricter Rate Limiting: `/api/v1/login` and `/api/v2/login`. To do this, let's create a dedicated profile for the login endpoints. \(We could set up a separate profile for each endpoint, but in this case, we can accomplish this task with only one.\)
 
 To add a profile to a URL Map, open an existing profile \(in this case, the default\) and select the **Fork profile** button.
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-7.27.16-am.png)
+![](../.gitbook/assets/url-map-fork-profile.png)
 
-Edit the Name and Match condition of the profile and then repeat this process twice more, so that there are four profiles in total. The Names and Match Conditions are shown below:
+Edit the Name and Match condition of the profile as follows: 
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-7.23.14-am.png)
+![](../.gitbook/assets/url-map-api-login.png)
 
-At this point, we have four profiles: the default `/` which we left in place, `/api/v1/` and `/api/v2` to match API calls of different versions, and an entry for `/login` that catches both versions.
+Now save your changes \(but you don't need to publish them yet\).
+
+At this point, we have two profiles: the default `/` which we left in place, and an entry for `/login` that controls login access to both versions of the API.
 
 #### Setting Rate Limits
 
-Note that the default has one Rate Limit attached to it \(shown as a "1" in the **RL** column\), because it already had this when it was duplicated. The other three profiles do not yet have any limits.
+Both profiles currently have the default Rate Limit assigned to them. 
 
-For `/api/v1/` and `/api/v2/` ,  set the standard rate limit rule as you did before:
-
-![](../.gitbook/assets/image.png)
-
-For `/api/v[1-2]/login`, we will create three new rate limit rules. 
+For `/api/v[1-2]/login`, we will create two new rate limit rules. 
 
 #### Create New Rate Limits
 
 Open the Rate Limits section of the UI by selecting **Rate Limits** at the top of the window \(in the pulldown list that currently says **URL Maps**\).
 
-The default Rate Limit should be displayed. Add a new Rate Limit by duplicating it, using the Duplicate Document button in the top right part of the interface.
+The default Rate Limit rule should be displayed. Add a new Rate Limit by duplicating it, using the Duplicate Document button in the top right part of the interface.
 
-#### Rule \#1: Limiting IPs
+#### Rule \#1: Limiting geolocation of a user's login attempts
 
-Edit the new Rate Limit so that it limits login attempts from the same IP address, allowing a maximum of three within 10 minutes:
+An attacker who is trying to brute-force a login will get caught by the default Rate Limit rule. To evade this, attackers will often rotate their geolocations. So, if the same "user" attempts to login from different countries within a short time, it's probably an attack. Let's set up a rate limit to prevent this.
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-7.13.43-am.png)
+Edit the new Rate Limit so that it limits a given `userid` argument to a single country within a one-hour timespan. When you are done, save it.
 
-#### Rule \#2: Limiting locations
+![](../.gitbook/assets/rate-limit-one-country-per-hour.png)
 
-Create a second Rate Limit by duplicating an existing one. Edit it so that it limits a given User-Id header to a single country within a four hour timespan:
+In production use, you can use a similar tactic and limit the number of ASNs \(shown in the Curiefense interface as "Companies"\) per User ID. However, you'd want the rule to be less strict than the one shown here, to accommodate users who can legitimately change ASNs \(for example, a user who switches from coffee shop WiFi to a cellular data connection\).
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-7.13.23-am.png)
+#### Rule \#2: Limit number of User IDs
 
-#### Rule \#3: Limit number of User IDs
+Another common threat is credential stuffing, where an attacker submits valid credential sets \(usually stolen from other sites\) in an attempt to see which ones will work, and then take over those accounts. Let's set up a Rate Limit for this.
 
-Create a third Rate Limit by duplicating an existing one. Edit it so that it limits each IP to submitting a maximum of eight unique User IDs:
+Create a second Rate Limit by duplicating an existing one. Edit it so that it limits each IP to submitting a maximum of two unique User IDs per minute. When you are done, save it.
 
-![](../.gitbook/assets/screen-shot-2020-11-07-at-7.12.10-am.png)
+![](../.gitbook/assets/rate-limit-credential-stuffing.png)
 
 #### Using the new Rate Limit rules
 
-Return to the URL Maps section of the interface. Let's attach the new rules to the `/api/v[1-2]/login` matching path.
+Return to the URL Maps section of the interface; the API map that you created earlier should be opened for editing \(since it's the first one in the alphabetical list\). Let's attach the new rules to the `/api/v[1-2]/login` matching path.
 
-Expand the appropriate profile, select the link at the bottom \("To attach an existing rule..."\), and select the first of the three new rules you created. Repeat for the second and third rules. When you're finished, you should see something similar to this:
+Expand the API Login profile, select "**+**" to add a rule, select one of the two new rules you created, then select "**add**". Repeat for the second rule. When you're finished, you should see something similar to this:
 
-![](../.gitbook/assets/image%20%285%29.png)
+![](../.gitbook/assets/rate-limit-api-demo.png)
+
+Save your changes, publish them, and wait 15-20 seconds for propagation.
 
 #### Testing the new Rate Limits
 
@@ -368,10 +430,15 @@ do
   printf ", "; 
   sleep 1s; 
 done
-200, 200, 200, ... 503, 503, 503, 503, ...
 ```
 
-To test the other rule, we will have curl send a unique User ID each time:
+The first five attempts will succeed, and then the default Rate Limit will be triggered.
+
+```coffeescript
+200, 200, 200, 200, 200, 503, 503, 503, 503, ...
+```
+
+After waiting one minute to let the Rate Limit reset, we'll test the Credential Stuffing limit by having curl send a unique User ID each time:
 
 ```text
 while true; 
@@ -384,37 +451,53 @@ do
 done
 ```
 
-As traffic gets blocked \(returning a 503 error by default\) we can look at the **Access Log**. When expanding a 503 line, you can see the Risk Details, which include the rate limit rule that was violated \(in this case, Dictionary Harvesting\). 
+This time, only two login attempts are allowed:
 
-You can also see the system has generated a tag named after the rule name. Lastly, notice that every request is logged with all details.
+```coffeescript
+200, 200, 503, 503, 503, 503, ...
+```
 
-![](../.gitbook/assets/image%20%287%29.png)
+As before, the details of these events are available in the traffic log.
 
 ### Advanced Rate Limiting
 
 The demonstration above is only the beginning of what can be done with Rate Limiting. You can configure Curiefense to limit complex combinations of conditions and events, customize its reactions \(including blocking, redirecting, monitoring, responding with custom codes, adding headers to requests for backend evaluation\), and more.
 
-Here's a common example. Rate Limits like the ones demonstrated above will block a requestor who exceeds a defined limit within the given timespan. However, once the limit resets, the requestor would be able to try again, and could repeat this cycle as often as desired. To prevent this, you can configure Curiefense to ban a requestor \(and block all of their requests\) when multiple rate limits are violated.
+Here's a common example. Rate Limits like the ones demonstrated above will block a requestor who exceeds a defined limit within the given timespan. However, once the time period resets, the requestor would be able to try again, and could repeat this cycle as often as desired. To prevent this, you can configure Curiefense to ban a requestor \(and block all of their requests\) when multiple rate limits are violated.
 
-A full explanation of Curiefense's Rate Limits and their capabilities is available [here](../console/document-editor/rate-limits.md).  
+A full explanation of Curiefense's Rate Limits and their capabilities is available [here](../settings/policies-rules/rate-limits.md).  
 
 ## Grafana Dashboards
 
 The docker-compose deployment process will create Grafana visualizations for Curiefense's traffic data.
 
-Curiefense comes with two dashboards out of the box: Traffic Overview and Top Activities. They are available at [http://curie.demo:30300/](http://curie.demo:30300/).
+Curiefense comes with two dashboards out of the box: Traffic Overview and Top Activities. They are available at [http://curie.demo:30300/](http://curie.demo:30300/). 
+
+To login, the default username and password are `admin` and `admin`. Then you should see this:
+
+![](../.gitbook/assets/grafana-initial%20%281%29.png)
+
+On the Dashboards menu, select "Manage":
+
+![](../.gitbook/assets/grafana-initial-menu%20%281%29.png)
+
+This will reveal the Provisioned folder:
+
+![](../.gitbook/assets/grafana-provisioned%20%281%29.png)
+
+Opening the Provisioned folder will reveal the default Curiefense dashboards:
+
+![](../.gitbook/assets/grafana-provisioned-items%20%281%29.png)
+
+Here's one of them:
 
 #### Traffic Overview Dashboard
 
 ![](../.gitbook/assets/image%20%283%29.png)
 
-#### Top Activities
-
-![](../.gitbook/assets/image%20%289%29.png)
-
 ## Onwards
 
-You now have a working Curiefense installation to experiment with. Its capabilities go far beyond those demonstrated in this tutorial; browsing through the rest of this Manual \(especially the [Document Editor](../console/document-editor/) section\) will give you some ideas to test, so you can see what the platform can do.
+You now have a working Curiefense installation to experiment with. Its capabilities go far beyond those demonstrated in this tutorial; browsing through the rest of this Manual \(especially the [Policies & Rules](../settings/policies-rules/) section\) will give you some ideas to test, so you can see what the platform can do.
 
 Note that this tutorial was a Quick Start guide, and therefore, it used many default options for the deployment. You might want to change some of them; for example, you might want Curiefense to use TLS for its UI server and for communicating with the backend.
 
