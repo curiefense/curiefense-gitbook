@@ -1,8 +1,8 @@
 ---
 description: >-
   The following documentation is for version 1.4.x; different versions are
-  available at the top left of the sidebar. "Next" are the most recent changes
-  which have not yet been bundled into a release.
+  available at the top left of the sidebar. ("Next" are the most recent changes
+  which have not yet been bundled into a release.)
 ---
 
 # Overview
