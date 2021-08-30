@@ -9,10 +9,6 @@ Much of the Curiefense interface focuses on configuration for:
 
 The **challenge process** is different. It is built into Curiefense, and provides a third approach to security. It mitigates threats based on the requestor's identity, environment, and behavior.
 
-{% hint style="info" %}
-Bot challenges are included in the Premium version of Curiefense.
-{% endhint %}
-
 When Curiefense receives the first request from a previously unknown traffic source \(below described as the "user"\) for a browser-based web application, this is the typical process that is followed.
 
 1. **Curiefense challenges the user's browsing environment.** Curiefense uses a variety of proprietary, multi-faceted techniques to verify that this requestor is a human using a browser, instead of a bot using a headless browser or emulator.
