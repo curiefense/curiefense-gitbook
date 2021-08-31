@@ -1,6 +1,6 @@
 # Global Filters
 
-![](../../.gitbook/assets/tag-rules-google-crawlers%20%281%29.png)
+![](../../.gitbook/assets/image%20%2818%29.png)
 
 The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a Global Filters List is described below.
 
@@ -74,7 +74,7 @@ Match conditions are combined into sections. An additional logical operator defi
 
 Many Global Filters Lists will have only section. Here's an example. 
 
-![](../../.gitbook/assets/tag-rules-api-discovery.png)
+![](../../.gitbook/assets/image%20%2817%29.png)
 
 In the example, the **Sections relation** toggle is set to `AND`. For a single-section list, this toggle is ignored.
 
@@ -123,7 +123,7 @@ Match conditions can be combined into multiple sections. To add a section to an 
 
 Here's an example:
 
-![](../../.gitbook/assets/tag-rules-two-sections%20%281%29.png)
+![](../../.gitbook/assets/image%20%2826%29.png)
 
 Each additional section works the same as the initial section. However, a multiple-section list also includes a logical operator for the relationship between the individual sections. It is shown between the sections, and can be changed by toggling the **Sections Relation** control on the left.
 

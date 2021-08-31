@@ -22,7 +22,7 @@ This process is based on the Documents as follows:
 
 ## Policies & Rules interface
 
-![](../../.gitbook/assets/policies-rules-interface.png)
+![](../../.gitbook/assets/image%20%2830%29.png)
 
 This page is divided into three vertical sections. From top to bottom, they are:
 
@@ -60,7 +60,7 @@ The UI in this section will vary, depending on the type of Document being edited
 * [Flow Control Policies](flow-control.md)
 * [Global Filters](global-filters.md)
 * [Rate Limits](rate-limits.md)
-* [Security Plicies](security-policies.md)
+* [Security Policies](security-policies.md)
 * [WAF Policies](waf-policies.md)
 * [WAF Rules](waf-rules.md)
 

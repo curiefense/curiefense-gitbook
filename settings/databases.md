@@ -1,6 +1,6 @@
 # Databases
 
-![](../.gitbook/assets/system-settings%20%281%29.png)
+![](../.gitbook/assets/image%20%2815%29.png)
 
 This page displays the current System Database in a JSON editor. These settings are used to populate the interface for [Publish Configuration](publish-changes.md).
 

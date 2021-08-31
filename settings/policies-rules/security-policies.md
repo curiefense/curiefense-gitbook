@@ -1,6 +1,6 @@
 # Security Policies
 
-![](../../.gitbook/assets/url-maps-initial.png)
+![](../../.gitbook/assets/image%20%2824%29.png)
 
 The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a Security Policy is described below.
 
@@ -23,7 +23,7 @@ A Security Policy consists of:
 
 ## The Default Security Policy
 
-![](../../.gitbook/assets/url-maps-default%20%281%29.png)
+![](../../.gitbook/assets/image%20%2822%29.png)
 
 Every Curiefense deployment includes a default Security Policy. If a request does not match any other Security Policy, the default one is applied.
 
@@ -40,7 +40,7 @@ To add a new Security Policy, use the buttons at the top of the window to duplic
 
 When you create or revise a Security Policy, each combination of **Matching Name** and **Path Map** must be unique. For this reason, when a new Security Policy is created, the UI generates a unique Matching Name. 
 
-![](../../.gitbook/assets/url-map-unique-matching-name.png)
+![](../../.gitbook/assets/image%20%2816%29.png)
 
 This should be changed to a correct value before the Security Policy is saved.
 
@@ -48,7 +48,7 @@ This should be changed to a correct value before the Security Policy is saved.
 
 A new Security Policy will include a default Path Map. Clicking on it, or on the **expand** button at the end of its listing, will expand it for editing.
 
-![](../../.gitbook/assets/url-maps-api-expanded%20%281%29.png)
+![](../../.gitbook/assets/image%20%2823%29.png)
 
 To add a new Path Map, select an existing one, expand it, and select **Fork Profile** at the bottom. The existing one will be cloned, and the new one will be displayed for editing.
 

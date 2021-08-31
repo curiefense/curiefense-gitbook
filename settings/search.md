@@ -1,6 +1,6 @@
 # Search
 
-![](../.gitbook/assets/search%20%281%29.png)
+![](../.gitbook/assets/image%20%2827%29.png)
 
 This page offers a search capability globally across Curiefense, or for a specific scope \(Document Type, ID, Name, Description, Tags, or Connections\).
 

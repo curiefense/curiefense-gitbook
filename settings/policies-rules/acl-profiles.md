@@ -1,6 +1,6 @@
 # ACL Profiles
 
-![](../../.gitbook/assets/acl-policies.png)
+![](../../.gitbook/assets/image%20%2812%29.png)
 
 An ACL \(Access Control List\) Policy is a set of sequential criteria by which a request is evaluated. The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of an ACL Profile is described below.
 

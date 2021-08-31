@@ -154,7 +154,7 @@ We have created a simple global filter. Every request that contains a header nam
 
 Now save the new configuration:
 
-![](../.gitbook/assets/tag-rules-foo-bar-save%20%281%29.png)
+![](../.gitbook/assets/image%20%2832%29.png)
 
 And then publish it by going to "Publish Changes" in the left sidebar, and selecting **Publish configuration**:
 
@@ -201,7 +201,7 @@ In the left menu, navigate to **Policies & Rules**. By default, **ACL Profiles**
 
 Enter `hdr-test` into the **DENY** column. Your screen should look similar to this:
 
-![](../.gitbook/assets/acl-deny-hdr-test.png)
+![](../.gitbook/assets/image%20%2831%29.png)
 
 Save your changes, then publish the new configuration again \(and wait 15 seconds for the changes to propagate\).
 
@@ -260,7 +260,7 @@ We're going to edit Curiefense's default security profile: the one that applies 
 
 Expand the **default** profile \(the one assigned to path `/`\) by selecting it. Then activate the ACL Profile by checking its **Active Mode** checkbox. Note that the name of the ACL Profile changes from red to green.
 
-![](../.gitbook/assets/url-maps-default-activate-acl.png)
+![](../.gitbook/assets/image%20%2829%29.png)
 
 Save your changes and publish the configuration again. 
 
@@ -351,7 +351,7 @@ Previously, we used the default Rate Limit that comes with Curiefense, and appli
 
 Create a new Security Policy by duplicating the default one:
 
-![](../.gitbook/assets/image%20%2810%29.png)
+![](../.gitbook/assets/image%20%2814%29.png)
 
 Set its **name** \(the unlabeled field at the top\) to `API`. Set **Matching Names** to `api.curie.demo`.
 
@@ -367,7 +367,7 @@ However, there are two endpoints where we want to set up stricter Rate Limiting:
 
 To add a profile to a Security Policy, open an existing profile \(in this case, the default\) and select the **Fork profile** button.
 
-![](../.gitbook/assets/url-map-fork-profile.png)
+![](../.gitbook/assets/image%20%2813%29.png)
 
 Edit the Name and Match condition of the profile as follows: 
 
@@ -413,7 +413,7 @@ Return to the Security Policies section of the interface; the API map that you c
 
 Expand the API Login profile, select "**+**" to add a rule, select one of the two new rules you created, then select "**add**". Repeat for the second rule. When you're finished, you should see something similar to this:
 
-![](../.gitbook/assets/rate-limit-api-demo.png)
+![](../.gitbook/assets/image%20%2825%29.png)
 
 Save your changes, publish them, and wait 15-20 seconds for propagation.
 
