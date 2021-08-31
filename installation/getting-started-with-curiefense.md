@@ -128,13 +128,13 @@ During the procedures described below, you will set up some simple rules and the
 
 Open the UI management console by going to [http://curie.demo:30080/](http://curie.demo:30080/). In the left sidebar, select **Policies & Rules** if it is not already selected.
 
-At the top left of the page, in the second pulldown control, select **Tag Rules**.
+At the top left of the page, in the second pulldown control, select **Global Filters**.
 
-### Create a Tag Rule
+### Create a Global Filter
 
-Tag Rules attach tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs, to traffic sources such as geolocations, IP addresses, CIDRs, and ASNs. Subsequently, the tags are then used to make decisions about how the requests are handled.
+Global Filters attach tags to requests and sessions based on various criteria, from matching headers, cookies, arguments or URLs, to traffic sources such as geolocations, IP addresses, CIDRs, and ASNs. Subsequently, the tags are then used to make decisions about how the requests are handled.
 
-Start by creating a new Tag Rule by selecting the "**+**" button at the top:
+Start by creating a new Global Filter by selecting the "**+**" button at the top:
 
 ![](../.gitbook/assets/tag-rules-foo-bar-add%20%281%29.png)
 
@@ -150,7 +150,7 @@ Your screen should look similar to this:
 
 ![](../.gitbook/assets/tag-rules-foo-test.png)
 
-We have created a simple tag rule. Every request that contains a header named `foo` which matches the regex \(PCRE\) `test` will receive a tag of `hdr-test`. 
+We have created a simple global filter. Every request that contains a header named `foo` which matches the regex \(PCRE\) `test` will receive a tag of `hdr-test`. 
 
 Now save the new configuration:
 
@@ -189,7 +189,7 @@ You should see that Curiefense added the `hdr-test` tag.
 
 Notice also that along the `hdr-test` tag that you defined, Curiefense attached a number of tags that were generated automatically. [More information about these](../reference/tags.md#automatic-tags).
 
-Tag Rules Lists are a powerful feature of Curiefense \(and are explained in depth [here](../settings/policies-rules/tag-rules.md)\). We just demonstrated the ability to create a single-entry self-managed list that characterizes incoming requests based on a header. Curiefense allows you to attach tags based on complex combinations of headers, arguments, cookies, geolocation, methods, paths, and more. External data sources are also supported; sessions can be profiled based on data and rules defined by a third party, such as blocklists and whitelists.
+Global Filters Lists are a powerful feature of Curiefense \(and are explained in depth [here](../settings/policies-rules/global-filters.md)\). We just demonstrated the ability to create a single-entry self-managed list that characterizes incoming requests based on a header. Curiefense allows you to attach tags based on complex combinations of headers, arguments, cookies, geolocation, methods, paths, and more. External data sources are also supported; sessions can be profiled based on data and rules defined by a third party, such as blocklists and whitelists.
 
 Now that we know how to attach tags to incoming requests, let's tell Curiefense how to react to them.
 
@@ -252,13 +252,13 @@ Now let's assume that we've tested our new policies and we want to make the ACL 
 
 #### Activate the ACL
 
-Navigate to **Policies & Rules** and then choose to edit **URL Maps** in the upper dropdown list**.** 
+Navigate to **Policies & Rules** and then choose to edit **Security Policies** in the upper dropdown list**.** 
 
-URL Maps assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. \(They are explained in depth [here](../settings/policies-rules/url-maps.md).\) 
+Security Policies assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. \(They are explained in depth [here](../settings/policies-rules/security-policies.md).\) 
 
 We're going to edit Curiefense's default security profile: the one that applies to every URL which does not otherwise have any policies assigned to it.
 
-Expand the **default** profile \(the one assigned to path `/`\) by selecting it. Then activate the ACL Policy by checking its **Active Mode** checkbox. Note that the name of the ACL Policy changes from red to green.
+Expand the **default** profile \(the one assigned to path `/`\) by selecting it. Then activate the ACL Profile by checking its **Active Mode** checkbox. Note that the name of the ACL Profile changes from red to green.
 
 ![](../.gitbook/assets/url-maps-default-activate-acl.png)
 
@@ -298,7 +298,7 @@ Now we'll see how to filter requests that are not obviously hostile at first, bu
 
 #### Add a Rate Limit
 
-Return to **URL Maps** and select the default profile again. At the bottom of its map, there is the Rate Limit Rules section. Currently, it is empty.
+Return to **Security Policies** and select the default profile again. At the bottom of its map, there is the Rate Limit Rules section. Currently, it is empty.
 
 ![](../.gitbook/assets/screen-shot-2020-11-07-at-6.08.00-am.png)
 
@@ -307,12 +307,12 @@ Attach an existing rule by select the first "here" link. A pulldown list of avai
 Open the list, and you should see a default entry that comes with the system. This rule limits requests from a given IP address to a maximum of 5 requests per 60 seconds.
 
 {% hint style="info" %}
-If you don't see any default entries, click on the second "here" link to create a new Rate Limit. In the window that appears, create the rule shown below, save it, and then return to the URL Map.
+If you don't see any default entries, click on the second "here" link to create a new Rate Limit. In the window that appears, create the rule shown below, save it, and then return to the Security Policy.
 {% endhint %}
 
 ![](../.gitbook/assets/rate-limit-example-rule-5-60.png)
 
-Select the "add" link to add this rule to the default URL Map. The rule will then be displayed without the pulldown list:
+Select the "add" link to add this rule to the default Security Policy. The rule will then be displayed without the pulldown list:
 
 ![](../.gitbook/assets/screen-shot-2020-11-07-at-6.08.28-am.png)
 
@@ -329,27 +329,27 @@ do
 done
 ```
 
-Wait briefly, and you should see that on the 6th request, the response changes from 403 \(which means the ACL Policy is blocking the request\) to 503 \(which means the Rate Limit is blocking it\). 
+Wait briefly, and you should see that on the 6th request, the response changes from 403 \(which means the ACL Profile is blocking the request\) to 503 \(which means the Rate Limit is blocking it\). 
 
 ```coffeescript
 403, 403, 403, 403, 403, 503, 503, 503, 503, 503, 503, 503, 503...
 ```
 
-In Curiefense, Rate Limit Rules are enforced before the ACL Policies \(as explained further here: [Multi-Stage Traffic Filtering](../reference/multi-stage-traffic-filtering.md)\). Thus, when a request would violate both, it is the Rate Limit Rule that blocks it.
+In Curiefense, Rate Limit Rules are enforced before the ACL Profiles \(as explained further here: [Multi-Stage Traffic Filtering](../reference/multi-stage-traffic-filtering.md)\). Thus, when a request would violate both, it is the Rate Limit Rule that blocks it.
 
 ### Add Multiple Rate Limits
 
 Now that we're somewhat familiar with the system, let's set up multi-layered rate limiting to protect against a variety of attacks.
 
 {% hint style="info" %}
-Rate limits in Curiefense are reusable 'stand-alone' rules that can be attached to different paths in [URL Maps](../settings/policies-rules/url-maps.md).
+Rate limits in Curiefense are reusable 'stand-alone' rules that can be attached to different paths in [Security Policies](../settings/policies-rules/security-policies.md).
 {% endhint %}
 
 Previously, we used the default Rate Limit that comes with Curiefense, and applied it to the entire domain. Now we will create some specific Rate Limits for the login process of an API, and attach them to the relevant endpoints. 
 
-#### Creating a URL Map for the API
+#### Creating a Security Policy for the API
 
-Create a new URL Map by duplicating the default one:
+Create a new Security Policy by duplicating the default one:
 
 ![](../.gitbook/assets/image%20%2810%29.png)
 
@@ -359,13 +359,13 @@ Set its **name** \(the unlabeled field at the top\) to `API`. Set **Matching Nam
 
 #### Adding Profiles
 
-As did the original URL Map, this new one contains a default profile. As you might expect, this will apply to every path within the scope set by the **Matching Names** entry. \(In this tutorial, the **Matching Names** is a specific subdomain. In production use, this might be a regex describing a range of domains, subdomains, or URLs.\)
+As did the original Security Policy, this new one contains a default profile. As you might expect, this will apply to every path within the scope set by the **Matching Names** entry. \(In this tutorial, the **Matching Names** is a specific subdomain. In production use, this might be a regex describing a range of domains, subdomains, or URLs.\)
 
 Our hypothetical API has two versions: `/api/v1/` and `/api/v2/`. Let's say that the default profile is good enough for each of them. \(If it weren't, we could set up separate profiles for one or both instead.\) 
 
 However, there are two endpoints where we want to set up stricter Rate Limiting: `/api/v1/login` and `/api/v2/login`. To do this, let's create a dedicated profile for the login endpoints. \(We could set up a separate profile for each endpoint, but in this case, we can accomplish this task with only one.\)
 
-To add a profile to a URL Map, open an existing profile \(in this case, the default\) and select the **Fork profile** button.
+To add a profile to a Security Policy, open an existing profile \(in this case, the default\) and select the **Fork profile** button.
 
 ![](../.gitbook/assets/url-map-fork-profile.png)
 
@@ -385,7 +385,7 @@ For `/api/v[1-2]/login`, we will create two new rate limit rules.
 
 #### Create New Rate Limits
 
-Open the Rate Limits section of the UI by selecting **Rate Limits** at the top of the window \(in the pulldown list that currently says **URL Maps**\).
+Open the Rate Limits section of the UI by selecting **Rate Limits** at the top of the window \(in the pulldown list that currently says **Security Policies**\).
 
 The default Rate Limit rule should be displayed. Add a new Rate Limit by duplicating it, using the Duplicate Document button in the top right part of the interface.
 
@@ -409,7 +409,7 @@ Create a second Rate Limit by duplicating an existing one. Edit it so that it li
 
 #### Using the new Rate Limit rules
 
-Return to the URL Maps section of the interface; the API map that you created earlier should be opened for editing \(since it's the first one in the alphabetical list\). Let's attach the new rules to the `/api/v[1-2]/login` matching path.
+Return to the Security Policies section of the interface; the API map that you created earlier should be opened for editing \(since it's the first one in the alphabetical list\). Let's attach the new rules to the `/api/v[1-2]/login` matching path.
 
 Expand the API Login profile, select "**+**" to add a rule, select one of the two new rules you created, then select "**add**". Repeat for the second rule. When you're finished, you should see something similar to this:
 

@@ -1,4 +1,4 @@
-# Flow Control
+# Flow Control Policies
 
 ![](../../.gitbook/assets/session-flow-control%20%281%29.png)
 

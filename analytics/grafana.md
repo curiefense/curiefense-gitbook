@@ -60,7 +60,7 @@ This dashboard currently shows a heatmap of Curielogger's SQL query duration.
 This dashboard provides the ability to monitor the top metrics and sources of various security issues, including blocked requests, problematic traffic sources, URLs, and so on
 
 * Top Countries
-* URL maps
+* Security Policies
 * URLs
 * Methods
 * Blocked Methods

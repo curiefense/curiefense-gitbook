@@ -13,7 +13,7 @@ A Rate Limit defines the number of times that requests can match certain conditi
 The matching conditions are specified with the parameters in the "Count by" section and the optional Event. See **Matching Conditions** below. 
 
 {% hint style="info" %}
-After a Rate Limit is defined on this page, it will not be active until it is assigned to one or more URLs. This is done in the [URL Maps](url-maps.md) Document.
+After a Rate Limit is defined on this page, it will not be active until it is assigned to one or more URLs. This is done in the [Scurity Polcies](security-policies.md) Document.
 {% endhint %}
 
 By default, a Rate Limit will be enforced for all requests for the URL\(s\) to which it is assigned.
@@ -45,7 +45,7 @@ A condition consists of a field and a value. Within a Rate Limit, they play a ro
 {% endhint %}
 
 {% hint style="info" %}
-Note that the &lt;ASSIGNED-LOCATION&gt; mentioned above is included for illustration purposes only. This value is not part of a Rate Limit definition—it is defined in a [URL Map](url-maps.md).
+Note that the &lt;ASSIGNED-LOCATION&gt; mentioned above is included for illustration purposes only. This value is not part of a Rate Limit definition—it is defined in a [Security Policies](security-policies.md).
 {% endhint %}
 
 ### Condition Definition
@@ -137,7 +137,7 @@ The Ban action can be used to block \(or take some other Action in response to\)
   
 However, an additional Rate Limit rule is also defined: nine requests per three minutes, with an Action of _Ban_. The Ban has an Action of _503 Service Unavailable,_ and a duration of one hour.  
   
-[URL Maps](url-maps.md) allow for multiple Rate Limits to be assigned to a single URL. Thus, both of the above rules can be assigned to the login form.  
+[Security Policies](security-policies.md) allow for multiple Rate Limits to be assigned to a single URL. Thus, both of the above rules can be assigned to the login form.  
   
 Now an attacker tries to brute-force the login form, sending 60 requests per minute. The first three requests are allowed. The next six requests are blocked \(and a 503 error is issued\) by the first Rate Limit.   
   

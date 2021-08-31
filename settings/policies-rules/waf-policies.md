@@ -8,13 +8,13 @@ The input controls at the top of this page are described here: [Policies & Rules
 
 A WAF Profile is a set of security policies that are used by the Curiefense WAF \(Web Application Firewall\). Every deployment includes a default WAF Profile, and additional Profiles can be created. 
 
-Every URL that Curiefense protects has a WAF Profile assigned to it in [URL Maps](url-maps.md). \(If none is assigned explicitly, the default is used.\) A request sent to a URL might, or might not, be filtered according to the assigned Profile. 
+Every URL that Curiefense protects has a WAF Profile assigned to it in [Security Policies](security-policies.md). \(If none is assigned explicitly, the default is used.\) A request sent to a URL might, or might not, be filtered according to the assigned Profile. 
 
 #### Reasons why WAF filtering might not occur:
 
 * The request was blocked before WAF filtering would have occurred. \(Before the WAF is used, [several other stages of filtering occur first](../../reference/multi-stage-traffic-filtering.md).\)
-* The applicable [ACL Profile](acl-policies.md) resulted in an Action of Bypass, which exempts the request from WAF filtering. 
-* The WAF is not in [Active Mode](url-maps.md#editing-its-path-maps) for this URL.
+* The applicable [ACL Profile](acl-profiles.md) resulted in an Action of Bypass, which exempts the request from WAF filtering. 
+* The WAF is not in [Active Mode](security-policies.md#editing-its-path-maps) for this URL.
 
 ## Input Characteristics
 

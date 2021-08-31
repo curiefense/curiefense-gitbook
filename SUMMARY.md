@@ -13,11 +13,11 @@
 ## Settings
 
 * [Policies & Rules](settings/policies-rules/README.md)
-  * [ACL Policies](settings/policies-rules/acl-policies.md)
-  * [Flow Control](settings/policies-rules/flow-control.md)
-  * [Tag Rules](settings/policies-rules/tag-rules.md)
+  * [ACL Profiles](settings/policies-rules/acl-profiles.md)
+  * [Flow Control Policies](settings/policies-rules/flow-control.md)
+  * [Global Filters](settings/policies-rules/global-filters.md)
   * [Rate Limits](settings/policies-rules/rate-limits.md)
-  * [URL Maps](settings/policies-rules/url-maps.md)
+  * [Security Policies](settings/policies-rules/security-policies.md)
   * [WAF Policies](settings/policies-rules/waf-policies.md)
   * [WAF Rules](settings/policies-rules/waf-rules.md)
 * [Search](settings/search.md)

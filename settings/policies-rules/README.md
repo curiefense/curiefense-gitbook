@@ -16,9 +16,9 @@ Curiefense processes incoming requests according to this traffic flow:
 
 This process is based on the Documents as follows:
 
-* \*\*\*\*[**Tag Rules** ](tag-rules.md)is the Document which defines tags for external lists and custom lists.
-* \*\*\*\*[**Rate Limits**](rate-limits.md) and [**Flow Control**](flow-control.md) parameters define session-based policies.
-* \*\*\*\*[**ACL Policies**](acl-policies.md) ****and [**WAF Policies**](waf-policies.md) define the actions to take when specific tags and/or other criteria are observed. [**URL Maps**](url-maps.md) assign these actions to internal URLs.
+* \*\*\*\*[**Tag Rules** ](global-filters.md)is the Document which defines tags for external lists and custom lists.
+* \*\*\*\*[**Rate Limits**](rate-limits.md) and [**Flow Control Policies**](flow-control.md) parameters define session-based policies.
+* \*\*\*\*[**ACL Policies**](acl-profiles.md) ****and [**WAF Policies**](waf-policies.md) define the actions to take when specific tags and/or other criteria are observed. [**Security Policies**](security-policies.md) assign these actions to internal URLs.
 
 ## Policies & Rules interface
 
@@ -56,11 +56,11 @@ On the right are these:
 
 The UI in this section will vary, depending on the type of Document being edited. Each is discussed in more depth here:
 
-* [ACL Policies](acl-policies.md)
-* [Flow Control](flow-control.md)
-* [Tag Rules](tag-rules.md)
+* [ACL Policies](acl-profiles.md)
+* [Flow Control Policies](flow-control.md)
+* [Global Filters](global-filters.md)
 * [Rate Limits](rate-limits.md)
-* [URL Maps](url-maps.md)
+* [Security Plicies](security-policies.md)
 * [WAF Policies](waf-policies.md)
 * [WAF Rules](waf-rules.md)
 
