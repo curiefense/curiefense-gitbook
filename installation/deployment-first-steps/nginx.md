@@ -3,16 +3,16 @@
 This document describes how Curiefense can be integrated into an existing NGINX-based reverse proxy.
 
 {% hint style="info" %}
-This guide describes a basic integration, and it cannot cover the wide variety of possible use cases and configurations.   
-  
-For specific questions about this, or other Curiefense-related topics, feel free to join our Slack at [https://join.slack.com/t/curiefense/shared\_invite/zt-nc8lyrjo-JJoY2mwrqNOfkmoA6ycTHg](https://join.slack.com/t/curiefense/shared_invite/zt-nc8lyrjo-JJoY2mwrqNOfkmoA6ycTHg).
+This guide describes a basic integration, and it cannot cover the wide variety of possible use cases and configurations. \
+\
+For specific questions about this, or other Curiefense-related topics, feel free to join our Slack at [https://join.slack.com/t/curiefense/shared_invite/zt-nc8lyrjo-JJoY2mwrqNOfkmoA6ycTHg](https://join.slack.com/t/curiefense/shared_invite/zt-nc8lyrjo-JJoY2mwrqNOfkmoA6ycTHg).
 {% endhint %}
 
 ## Scope
 
 This page describes the installation of the Curiefense filtering component for an environment where NGINX is running in a container. 
 
-The other components of Curiefense will need to be installed separately, according to the specific instructions for each situation \(e.g., [Docker](docker-compose.md) and [Istio](istio-via-helm.md)\). This can be done either before or after completing the instructions below.
+The other components of Curiefense will need to be installed separately, according to the specific instructions for each situation (e.g., [Docker](docker-compose.md) and [Istio](istio-via-helm.md)). This can be done either before or after completing the instructions below.
 
 ## Dependencies
 
@@ -36,19 +36,18 @@ cp /tmp/curiefense/curiefense/curieproxy/lua/shared-objects/grasshopper.so /usr/
 Next, build the Curiefense shared object. This needs to be done on a Linux system that runs the same major `libc` and `libhyperscan` versions as your NGINX server. 
 
 * On the build machine, first [install the Rust compiler](https://www.rust-lang.org/tools/install).
-* Then run the following:
+*   Then run the following:
 
-  ```text
-  cd /tmp/curiefense/curiefense/curieproxy/rust
-  cargo build --release
-  mv target/release/libcuriefense_lua.so target/release/curiefense.so
-  ```
-
+    ```
+    cd /tmp/curiefense/curiefense/curieproxy/rust
+    cargo build --release
+    mv target/release/libcuriefense_lua.so target/release/curiefense.so
+    ```
 * Move the new `curiefense.so` file on the build machine to this location on the proxy machine: `/usr/local/openresty/luajit/lib/lua/5.1/curiefense.so`
 
 ## Configuration setup
 
-```text
+```
 mkdir -p /config/current
 cp -r /tmp/curiefense/curiefense/images/confserver/bootstrap/confdb-initial-data/master/config/ /config/current/
 ```
@@ -57,7 +56,7 @@ cp -r /tmp/curiefense/curiefense/images/confserver/bootstrap/confdb-initial-data
 
 In the http block of the configuration, the following directives must be set:
 
-```text
+```
 # set the package path for the Curiefense logic
 lua_package_path '/lua/?.lua;;';
 
@@ -71,7 +70,7 @@ map $status $request_map { default '-'; }
 
 For each server block that must be protected with Curiefense:
 
-```text
+```
 server {
     # original configuration directives
     (...)
@@ -110,4 +109,3 @@ The default configuration does not block any requests, so the following steps sh
 * Traffic should be served as usual.
 * No errors appear in the error logs.
 * JSON data appears in the access logs.
-

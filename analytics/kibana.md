@@ -1,6 +1,6 @@
 # Kibana
 
-![](../.gitbook/assets/access-log.png)
+![](../.gitbook/assets/Access-Log.png)
 
 The Access Log displays requests that were received in the specified time period.
 
@@ -10,11 +10,11 @@ By default, this page shows all requests in the time period. To change the time 
 
 To filter the display, type a search string into the Search box. For example, to see only those requests that include the substring "script", enter it into the box.
 
-![](../.gitbook/assets/access-log-filtering-script.png)
+![](../.gitbook/assets/Access-Log-Filtering-script.png)
 
-To search for \(or exclude\) the value of an entire parameter, it is often faster to hover the cursor over an existing request with that value. For example, to show all requests originating from IP address `13.212.190.213`, you could manually enter that address into the Search box. Or, find an existing request with that value and hover the mouse over it. A "Filter for value" button will appear; selecting it will create the filter for you automatically.
+To search for (or exclude) the value of an entire parameter, it is often faster to hover the cursor over an existing request with that value. For example, to show all requests originating from IP address `13.212.190.213`, you could manually enter that address into the Search box. Or, find an existing request with that value and hover the mouse over it. A "Filter for value" button will appear; selecting it will create the filter for you automatically.
 
-![](../.gitbook/assets/access-log-filter-for-value.png)
+![](../.gitbook/assets/Access-Log-filter-for-value.png)
 
 More powerful filtering capabilities are available immediately below the Search box, by selecting **Add filter** and manually constructing one or more filtering criteria. 
 
@@ -24,15 +24,14 @@ It's helpful to spend a few minutes experimenting with these filtering capabilit
 
 ## Viewing Request Details
 
-The primary display shows a summary of each request. To view more information about a request, click on the twirl control \(**&gt;**\) at the beginning of its listing. The display will expand to show its full details.
+The primary display shows a summary of each request. To view more information about a request, click on the twirl control (**>**) at the beginning of its listing. The display will expand to show its full details.
 
-![](../.gitbook/assets/access-log-expanded%20%281%29.png)
+![](<../.gitbook/assets/Access-log-expanded (1).png>)
 
 All the details of the request are shown. Hovering the cursor over a parameter, as shown for the `headers.request_method` example above, shows controls where you can easily construct a filter for it.
 
 Within the expanded display, the `tag` field can be especially useful.
 
-![](../.gitbook/assets/access-log-tags.png)
+![](../.gitbook/assets/Access-log-tags.png)
 
 This shows all the [tags](../reference/tags.md) that were assigned to this request. It can be helpful in understanding how Curiefense evaluated this request, and the decisions that it made. 
-

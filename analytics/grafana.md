@@ -1,10 +1,10 @@
 # Grafana
 
-![](../.gitbook/assets/grafana.png)
+![](../.gitbook/assets/Grafana.png)
 
 ## Introduction
 
-Out of the box, Curiefense stores metrics using [Prometheus](https://prometheus.io/), and provides dashboards and alerts via [Grafana](https://hub.docker.com/r/grafana/grafana/). 
+Out of the box, Curiefense stores metrics using [Prometheus](https://prometheus.io), and provides dashboards and alerts via [Grafana](https://hub.docker.com/r/grafana/grafana/). 
 
 * [Details of Curiefense's prometheus service](../reference/services-container-images.md#prometheus)
 * [Details of Curiefense's grafana service](../reference/services-container-images.md#grafana)
@@ -13,25 +13,25 @@ By default, Curiefense includes several Grafana dashboards, or you can create yo
 
 ## Accessing the Dashboards
 
-In a standard installation, the Grafana dashboards are accessible at [http://localhost:30300/](http://localhost:30300/). Selecting the **Grafana** link in the UI sidebar should send you there directly.
+In a standard installation, the Grafana dashboards are accessible at [http://localhost:30300/](http://localhost:30300). Selecting the **Grafana** link in the UI sidebar should send you there directly.
 
 To login, the default username and password are `admin` and `admin`.
 
 After logging into Grafana, you will see this:
 
-![](../.gitbook/assets/grafana-initial.png)
+![](../.gitbook/assets/Grafana-initial.png)
 
 On the Dashboards menu, select "Manage":
 
-![](../.gitbook/assets/grafana-initial-menu.png)
+![](../.gitbook/assets/Grafana-initial-menu.png)
 
 This will reveal the Provisioned folder:
 
-![](../.gitbook/assets/grafana-provisioned.png)
+![](../.gitbook/assets/Grafana-Provisioned.png)
 
 Opening the Provisioned folder will reveal the default Curiefense dashboards:
 
-![](../.gitbook/assets/grafana-provisioned-items.png)
+![](../.gitbook/assets/Grafana-Provisioned-items.png)
 
 Selecting a dashboard will open it. Then specify the date/time range to display. 
 
@@ -86,4 +86,3 @@ Envoy users: [https://grafana.com/grafana/dashboards/6693](https://grafana.com/g
 NGINX users: [https://grafana.com/grafana/dashboards/5063](https://grafana.com/grafana/dashboards/5063)
 
 Prometheus users: [https://grafana.com/grafana/dashboards/7901](https://grafana.com/grafana/dashboards/7901)
-

@@ -6,9 +6,7 @@ Curiefense has multiple deployment options:
 * [Istio via Helm](istio-via-helm.md)
 * [NGINX](nginx.md)
 
-## 
-
-
+##
 
 
 

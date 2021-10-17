@@ -6,9 +6,9 @@
 This documentation is for the "main" branch of the [Curiefense repository](https://github.com/curiefense/curiefense), which is pre-release code. It should, but might not, be stable. The most recent release is currently v1.4; its documentation is available [here](https://docs.curiefense.io/v/1.4.0/).
 {% endhint %}
 
-Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapter for** [**Envoy**](https://www.envoyproxy.io/) **and** [**NGINX**](https://nginx.org/en/). It provides multiple security technologies \(WAF, application-layer DDoS protection, bot management, and more\) along with real-time traffic monitoring and transparency.
+Curiefense is an **API-first, DevOps oriented web-defense HTTP-Filter** **adapter for **[**Envoy**](https://www.envoyproxy.io)** and **[**NGINX**](https://nginx.org/en/). It provides multiple security technologies (WAF, application-layer DDoS protection, bot management, and more) along with real-time traffic monitoring and transparency.
 
-Curiefense is [fully controllable programmatically](settings/api/). All configuration data \(security rulesets, policies, etc.\) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
+Curiefense is [fully controllable programmatically](settings/api/). All configuration data (security rulesets, policies, etc.) can be maintained singularly, or as different branches for different environments, as you choose. All changes are versioned, and reverts can be done at any time.
 
 Curiefense also has a UI console, discussed in this Manual beginning in the [Settings](settings/policies-rules/) section. 
 
@@ -16,29 +16,29 @@ Curiefense also has a UI console, discussed in this Manual beginning in the [Set
 
 This documentation is for **version 1.4.0.**
 
-\(To view docs for a different version, choose it at the top of the left sidebar.\)
+(To view docs for a different version, choose it at the top of the left sidebar.)
 
 ## Architecture and Components
 
-Curiefense provides traffic filtering that can be configured differently for multiple environments \(e.g. dev/qa/prod\), all of which can be administered from one central cluster if desired. Here is an overview of its components.
+Curiefense provides traffic filtering that can be configured differently for multiple environments (e.g. dev/qa/prod), all of which can be administered from one central cluster if desired. Here is an overview of its components.
 
 ![Curiefense Components -- Flow and Relations](.gitbook/assets/isometric-services.png)
 
-In the diagram above, the **Server** represents a resource protected by Curiefense \(a site, app, service, or API\). The **User** is a traffic source attempting to access that resource. 
+In the diagram above, the **Server** represents a resource protected by Curiefense (a site, app, service, or API). The **User** is a traffic source attempting to access that resource. 
 
 Incoming traffic passes through Curiefense. Hostile requests are blocked.
 
 The other components in the diagram represent the Curiefense platform, as follows:
 
-* **Curiefense proxy** \(represented by the column with the Curiefense logo\): Integrated with Envoy or NGINX; performs traffic filtering. 
+* **Curiefense proxy **(represented by the column with the Curiefense logo): Integrated with Envoy or NGINX; performs traffic filtering. 
 * **Elasticsearch** stores access logs.
 * **Access Logs**: Traffic data viewable via Kibana.
 * **Metrics**. A Prometheus store of traffic metrics.
-* **Dashboard**. Grafana dashboard\(s\) with visual displays of traffic metrics.
+* **Dashboard**. Grafana dashboard(s) with visual displays of traffic metrics.
 * **Web Console**. Curiefense's web UI for configuring the platform.
 * **Config Server:** A service which:
   * Receives configuration edits from the **Web Console.**
-  * Receives configuration edits from API calls \(not shown in the diagram\).
+  * Receives configuration edits from API calls (not shown in the diagram).
   * Creates a new configuration version in response to edits.
   * Stores the new version in one or more **Cloud Storage** buckets.
 * **Cloud Storage**: Stores versioned configurations. Each **Curiefense proxy** periodically checks **Cloud Storage**: when a new version is found there, the proxy downloads it and updates its security posture.
@@ -57,9 +57,9 @@ If you create an installation workflow for a situation that is not currently des
 
 Conceptually, there are three primary roles performed by Curiefense:
 
-* **Configuration** \(allowing admins to define security policies, assign them to URLs, etc.\)
-* **Filtering** \(applying the defined Configurations to incoming traffic and blocking hostile requests\)
-* **Monitoring** \(displaying traffic data in real-time and in historical logs\).
+* **Configuration** (allowing admins to define security policies, assign them to URLs, etc.)
+* **Filtering** (applying the defined Configurations to incoming traffic and blocking hostile requests)
+* **Monitoring** (displaying traffic data in real-time and in historical logs).
 
 Each is discussed below.
 
@@ -69,11 +69,11 @@ Each is discussed below.
 
 Curiefense maintains its security parameters as Entries, which are contained in Documents, which are contained in Configurations.
 
-A Configuration is a complete definition of Curiefense's behavior for a specific environment. An organization can maintain multiple Configurations \(e.g., development, staging, and production\).
+A Configuration is a complete definition of Curiefense's behavior for a specific environment. An organization can maintain multiple Configurations (e.g., development, staging, and production).
 
-![](.gitbook/assets/data-structures%20%281%29.png)
+![](<.gitbook/assets/data-structures (1).png>)
 
-Each Configuration contains six Documents \(one of each type: ACL Profiles, Rate Limits, etc.\) Each Document contains at least one Entry, i.e., an individual security rule or definition. Documents are edited and managed in the [Policies & Rules](settings/policies-rules/) UI or via API.
+Each Configuration contains six Documents (one of each type: ACL Profiles, Rate Limits, etc.) Each Document contains at least one Entry, i.e., an individual security rule or definition. Documents are edited and managed in the [Policies & Rules](settings/policies-rules/) UI or via API.
 
 A Configuration also includes data blobs, which currently are used to store the Maxmind geolocation database. This is where Curiefense obtains its geolocation data and ASN for each request it processes.
 
@@ -81,17 +81,17 @@ A Configuration also includes data blobs, which currently are used to store the 
 
 A Configuration is the atomic unit for all of Curiefense's parameters. Any edits to a Configuration result in a new Configuration being committed. Configurations are versioned, and can be reverted at any time.
 
-When a Configuration is created or modified \(whether by the UI console or an API call\), the admin pushes it to a Cloud Storage bucket. An important feature of Curiefense is simultaneous publishing to multiple environments. 
+When a Configuration is created or modified (whether by the UI console or an API call), the admin pushes it to a Cloud Storage bucket. An important feature of Curiefense is simultaneous publishing to multiple environments. 
 
-![](.gitbook/assets/architecture-multiple-buckets.png)
+![](<.gitbook/assets/Architecture - Multiple buckets.png>)
 
-When a Configuration is [published](settings/publish-changes.md), it can be pushed to multiple buckets \(each of which can be monitored by one or more environments\) all at once, from a single button-push or API call.
+When a Configuration is [published](settings/publish-changes.md), it can be pushed to multiple buckets (each of which can be monitored by one or more environments) all at once, from a single button-push or API call.
 
 ## Filtering
 
 Traffic filtering is performed by the Curiefense proxy, as shown in the first diagram above. In other words, this is where the security policies defined in the Configurations are enforced.
 
-Some activities \(such as rate limiting\) require local data storage. Internally, Curiefense uses Redis for this. Other storage methods can be used if desired.
+Some activities (such as rate limiting) require local data storage. Internally, Curiefense uses Redis for this. Other storage methods can be used if desired.
 
 ## Monitoring
 
@@ -101,4 +101,3 @@ Traffic data is available in several ways:
 
 * The Curiefense graphical client provides a [Kibana Access Log](analytics/kibana.md) which provides comprehensive details for requests.
 * Curiefense is also integrated with [Grafana](https://github.com/grafana/grafana) and [Prometheus](https://github.com/prometheus/prometheus), for traffic dashboards and other displays.
-

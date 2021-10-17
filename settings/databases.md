@@ -1,15 +1,13 @@
 # Databases
 
-![](../.gitbook/assets/image%20%2815%29.png)
+![](<../.gitbook/assets/image (33).png>)
 
 This page displays the current System Database in a JSON editor. These settings are used to populate the interface for [Publish Configuration](publish-changes.md).
 
 The settings are:
 
 * **buckets**: the complete list of buckets to which a Configuration can be pushed.
-* **branch\_buckets:** the _default_ list of buckets for each branch. When a Configuration is published, the default buckets for the branch will be initially selected in the Publish Configuration interface \(but they can be changed before publishing\).
-
-
+* **branch_buckets: **the _default_ list of buckets for each branch. When a Configuration is published, the default buckets for the branch will be initially selected in the Publish Configuration interface (but they can be changed before publishing).
 
 
 

@@ -1,12 +1,12 @@
 # API
 
-![](../../.gitbook/assets/api-main.png)
+![](../../.gitbook/assets/API-main.png)
 
 ## Introduction
 
-Selecting the API option in the left sidebar will open the window shown above \(by default, at [http://localhost:30000/api/v1](http://localhost:30000/api/v1)\).
+Selecting the API option in the left sidebar will open the window shown above (by default, at [http://localhost:30000/api/v1](http://localhost:30000/api/v1)).
 
-This displays the API visually using [Swagger](https://swagger.io/). For production use, [curl](https://curl.se/) can be used; sample curl calls for the various endpoints are available within Swagger.
+This displays the API visually using [Swagger](https://swagger.io). For production use, [curl](https://curl.se) can be used; sample curl calls for the various endpoints are available within Swagger.
 
 ## Data Structures
 
@@ -33,25 +33,25 @@ Each time a Configuration is modified, a new version is created. A Configuration
 
 The Curiefense API has the following namespaces:
 
-* **configs** \(for manipulating Configurations\)
-* **db** \(for accessing persistent key value storage\)
-* **tools** \(for publishing, etc.\)
+* **configs **(for manipulating Configurations)
+* **db **(for accessing persistent key value storage)
+* **tools **(for publishing, etc.)
 
 ## Endpoints
 
 Each namespace contains various endpoints. For example, **tools** contains five:
 
-![](../../.gitbook/assets/api-tools.png)
+![](../../.gitbook/assets/API-tools.png)
 
 ## Exploring the API
 
 Swagger is a useful way to experiment with the API. For example, selecting **configs** will display a list of endpoints. If you select this one:
 
-![](../../.gitbook/assets/api-example-get-cfg.png)
+![](../../.gitbook/assets/API-example-get-cfg.png)
 
-... and then select the **Try it out** button, followed by the **Execute** button, this will be the result:
+... and then select the **Try it out **button, followed by the **Execute **button, this will be the result:
 
-![](../../.gitbook/assets/api-example-get-cfg-results.png)
+![](../../.gitbook/assets/API-example-get-cfg-results.png)
 
 This allows you to interact with the API, try different commands, and see what responses will be generated.
 
@@ -63,15 +63,13 @@ As shown in the example above, Swagger will include sample curl commands for eac
 
 For some endpoints, arguments need to be supplied. Swagger will create defaults/samples, and provide input controls for them, as in this example: 
 
-![](../../.gitbook/assets/api-example-create-cfg.png)
+![](../../.gitbook/assets/API-example-create-cfg.png)
 
 Here a sample payload has been created, and is being displayed for editing. After it is edited, selecting the **Execute** button will display the responses that are generated.
 
 
 
-## 
-
-
+##
 
 
 
