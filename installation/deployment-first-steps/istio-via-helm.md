@@ -120,7 +120,7 @@ kubectl create namespace curiefense
 kubectl create namespace istio-system
 ```
 
-## Setup Secrets
+## Setup storage
 
 Curiefense's confserver exports configurations to object storage services, from which they are retrieved by curieproxy. Four backends are currently supported: AWS S3, Google Cloud Storage, minio (which can be self-hosted), or local storage (for single-node test deployments). To use curiefense, you must pick one, and define Secrets that allow interacting with the chosen storage service (except for local storage).
 
@@ -277,6 +277,14 @@ An example miniocfg.yaml file is provided in  `~/curiefense-helm/curiefense-helm
 Set the `curieconf_manifest_url` variables in `curiefense-helm/curiefense/values.yaml` and `istio-helm/charts/gateways/istio-ingress/values.yaml` to the following URL: `minio://BUCKET_NAME/prod/manifest.json` (replace BUCKET_NAME with the actual name of the bucket; use `curiefense-minio-bucket` with the minio installation that is provided in the curiefense helm charts).
 
 Also set the `curiefense_bucket_type` variables in the same values.yaml files to `minio`.
+
+### Option 4: local bucket
+
+For clusters where all istio ingress proxies as well as the confserver run on the same kubernetes  node (typically test environments), a simple `hostPath` volume can be used. It is mounted to `/bucket` on the host machine, as well as in relevant containers.
+
+Set the `curieconf_manifest_url` variables in `curiefense-helm/curiefense/values.yaml` and `istio-helm/charts/gateways/istio-ingress/values.yaml` to the following URL: `file:///bucket/prod/manifest.json`.
+
+Also set the `curiefense_bucket_type` variables in the same values.yaml files to `local-bucket`.
 
 ## Setup TLS for the UI server
 
