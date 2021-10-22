@@ -2,6 +2,10 @@
 
 ![](<../../.gitbook/assets/Rate-Limits-No-Limitations (1).png>)
 
+{% hint style="info" %}
+The UI for Rate Limits recently changed. Updates to this documentation are pending.
+{% endhint %}
+
 Rate Limits are rules which define the number of requests with certain characteristics that are allowed within defined time frames. When a request is received that exceeds a Rate Limit, a specified action is performed.
 
 The input controls at the top of this page are described here: [Policies & Rules Entry Administration](./#entry-administration). Specific editing of a Rate Limit is described below.
@@ -10,17 +14,17 @@ The input controls at the top of this page are described here: [Policies & Rules
 
 A Rate Limit defines the number of times that requests can match certain conditions within a certain time frame. Once that limit has been reached, subsequent requests matching those conditions within the same time frame will trigger an action.
 
-The matching conditions are specified with the parameters in the "Count by" section and the optional Event. See **Matching Conditions** below. 
+The matching conditions are specified with the parameters in the "Count by" section and the optional Event. See **Matching Conditions** below.&#x20;
 
 {% hint style="info" %}
-After a Rate Limit is defined on this page, it will not be active until it is assigned to one or more URLs. This is done in the [Scurity Polcies](security-policies.md) Document.
+After a Rate Limit is defined on this page, it will not be active until it is assigned to one or more URLs. This is done in the [Security Policies](security-policies.md) Document.
 {% endhint %}
 
 By default, a Rate Limit will be enforced for all requests for the URL(s) to which it is assigned.
 
 Enforcement can be further limited to a subset of these requests: see **Limiting the scope of a Rate Limit** below.
 
-##  Meta Parameters
+## &#x20;Meta Parameters
 
 | Field           | Value                                                                                                                                                                                                                                                                                                                  |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -71,7 +75,7 @@ If multiple conditions are defined, they are evaluated by combining them togethe
 
 ### The "Event" option: Changing the meaning of the Rate Limit
 
-Below the list of condition(s), there is another condition named "**Event**." 
+Below the list of condition(s), there is another condition named "**Event**."&#x20;
 
 By default, this is set to "HTTP request,", which simply means to increment a counter each time a request is received that matches the conditions.
 
@@ -85,16 +89,16 @@ In the discussion below, **"Count Condition"** will refer to the condition (or c
 
 **Adding an Event Condition changes the evaluation process. **An Event Condition is not logically combined with the preceding Count Condition; it is always evaluated separately.
 
-More importantly, adding an Event Condition **changes the meaning of the Rate Limit**. 
+More importantly, adding an Event Condition **changes the meaning of the Rate Limit**.&#x20;
 
 * If an Event Condition is _not_ defined—in other words, if "HTTP request" is selected—then as discussed above, an internal counter is maintained for each Count Condition value, and incremented each time that value is encountered in a request.
 * If an Event Condition _is_ defined—in other words, if something other than "HTTP request" is selected—an internal counter is maintained for each Count Condition Value, and incremented each time a _new, previously unobserved_ Event Condition value is encountered in a request.
 
-Therefore, if an Event Condition is defined, the Rate Limit constrains the _number of allowable Event Condition values for any given Count Condition value_. 
+Therefore, if an Event Condition is defined, the Rate Limit constrains the _number of allowable Event Condition values for any given Count Condition value_.&#x20;
 
 So, the evaluation becomes something like this:
 
- "More than \<THRESHOLD> \<EVENT-CONDITION-VALUE> \<EVENT-CONDITION-FIELD>s per any one \<COUNT-CONDITION-VALUE>\<COUNT-CONDITION-FIELD> sent to \<ASSIGNED-LOCATION> within \<TTL-PERIOD> will cause \<ACTION>."
+&#x20;"More than \<THRESHOLD> \<EVENT-CONDITION-VALUE> \<EVENT-CONDITION-FIELD>s per any one \<COUNT-CONDITION-VALUE>\<COUNT-CONDITION-FIELD> sent to \<ASSIGNED-LOCATION> within \<TTL-PERIOD> will cause \<ACTION>."
 
 Note that the number of Count Condition values is not being limited here. The limit is on the number of Event Condition values that each Count Condition value is allowed.
 
@@ -122,7 +126,7 @@ When an incoming request exceeds the Threshold, the Action specified here will o
 
 ### The Ban action
 
-Most of the Actions listed above will not fully exclude an attacker that continues pressing the attack. 
+Most of the Actions listed above will not fully exclude an attacker that continues pressing the attack.&#x20;
 
 {% hint style="info" %}
 **Example**: Access to a login form is rate-limited to three requests per minute. An attacker tries to brute-force the login, and sends 60 requests per minute. The Rate Limit allows the first three requests, but then blocks the next 57 requests with a 503 error. \
@@ -130,7 +134,7 @@ Most of the Actions listed above will not fully exclude an attacker that continu
 However, after the minute has passed, the Rate Limit resets. The attacker is allowed another three attempts before being temporarily blocked again. This cycle can continue for as long as the attacker wishes. In effect, the Rate Limit is not preventing the attack; it is merely slowing it from 60 attempts per minute down to three attempts per minute.
 {% endhint %}
 
-The Ban action can be used to block (or take some other Action in response to) a Rate Limit violator for an extended period of time. 
+The Ban action can be used to block (or take some other Action in response to) a Rate Limit violator for an extended period of time.&#x20;
 
 {% hint style="info" %}
 **Example**: As described above, a Rate Limit is created to allow three requests per minute, with an Action of _503 Service Unavailable_.\
@@ -158,7 +162,7 @@ Note that when setting up a Ban, the most common choices for its Action are to d
 
 By default, an active Rate Limit rule will be enforced upon all incoming requests targeting URLs to which this rule has been assigned.
 
-To change this behavior, you can add **Include** and/or **Exclude** parameters. These define the portion of the incoming traffic stream that will be evaluated for possible violation of the Rate Limit. In other words, they limit the scope of the Rate Limit's enforcement: 
+To change this behavior, you can add **Include** and/or **Exclude** parameters. These define the portion of the incoming traffic stream that will be evaluated for possible violation of the Rate Limit. In other words, they limit the scope of the Rate Limit's enforcement:&#x20;
 
 * The Include filter will limit enforcement to requests matching its parameters. All other requests in the traffic stream will not have this Rate Limit enforced upon them.
 * The Exclude filter will exempt requests from enforcement that otherwise would have been subject to it.
