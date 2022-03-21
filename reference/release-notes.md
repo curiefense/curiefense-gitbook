@@ -6,86 +6,72 @@ description: >-
 
 # Release Notes
 
-## Version 1.4.0
+## Version 1.5.0
 
 ### Added
 
-* \[e2e] Add back test_ipv4 which passes
-* \[e2e] Add support for fork repositories in github workflows
-* \[helm] Add curiefense to Istio-helm charts
-* \[docker] Add missing packages to curielogger (to run contrib scripts)
-* \[ui] Add options to configure links to Kibana & Grafana
-* \[curielogger] Add docker-compose e2e tests
-* \[e2e] Add tests to last missing components, fix referral bug in url maps editor, chang coverage thresholds, remove unused code
-* \[ui] Add autocomplete support to WAF Policies editor and resolve a bug in URL Maps editor
-* \[ui] Add a requirement of at least one tag for Tag Rule tags list in Tag Rules json schema
-* \[e2e] Add test of flow control editor in case of multiple limit option keys
-* \[helm] Add v2 deployment tests
-* \[e2e] Add test on fluentd
-* \[helm] Add filebeat to the helm deployment
-* \[curielogger] Add logrotate container
-* \[e2e] Add a testcase for pairwith limits
-* \[e2e] Add Rust formatting tests to Makefile
-* Add configs and templates for Elasticsearch 6.x
-* Add an nginx-ingress container
-* Add map to define request_map
-* Add knob to disable Kibana initialization (es6 init script)
+* New multiple layers rate limit
+* New content filter Active/Report/Ignored
+* Content filter category and risk level added 
+* Content type validation
+* Region and subregion support
+* When multiple security policies match an url, the longest match string (more specific) is selected
+
 
 ### Updated
 
-* \[ui] Update dependencies with found security vulnerabilities.
-* \[ui] Update version to 1.3.0 to match the achieved milestone and overall\* system version
-* \[docker] Update Envoy configuration version to v3
-* \[e2e] Update log patterns
-* \[docker] Update Istio image to use Envoy binary for 1.9.2
-* \[helm] Update curiefense EnvoyFilters to v3
-* \[docker] Update Envoy binary for Istio
-* \[ci] Update minikube to fix CI
-* \[e2e] Update Rust unit tests to include urldecode
-* \[curieproxy] Update iptools.so in curieproxy with new url decode function
-* Update iptools.so for lua
-* Update iptools.so with fixed urldecode
-* Update with new urldecode algorithm
+* build-docker-images.sh fails to update on macOS
 
 ### Improved
 
-* \[e2e] Improve general coverage of UI unit tests in DocumentEditor.vue and Publish.Vue for a total coverage of 89%+
-* \[e2e] Improve general coverage of UI unit tests, add types to unit tests, fix small issues throughout the UI
+* Rewrite of the default policy
+* Rate limit can be based on the tag list
+* Support for inverted regexp in matching
+* Argument masking
+* eu field in logging
 
 ### Removed
 
-* \[helm] Remove helm install
-* \[e2e] Remove test for feature that does not exist anymore
-* \[helm] Remove references & variables for postgres & curielogserver
-* \[deploy] Remove remaining postgres configuration values
-* Remove the ROADMAP.md file in favor of RELEASES.md
-* Remove ILM for ES 6.x as it was added in 7.x
-* Remove logstashs' from e2e-ci.yml
+-
 
 ### Fixed
 
-* \[ci] use more recent shellcheck version, fix remaining errors
-* \[e2e] Fix ratelimit countby tests
-* \[e2e] Fix WAF Rules tests
-* \[e2e] Fix arguments passed to deploy.sh. Fixes e2e tests.
-* \[e2e] Fix elasticsearch port for tests on minikube
-* \[ci] Fix deployment & tests following Istio update
-* \[e2e] Fix latency tests (deploy-gke.sh)
-* \[ci] Fix environment for rust & lua tests
-* \[docker-compose] Fix curieproxy metrics scrape
-* \[ui] Fix referral bug in url maps editor
-* \[curielogger] Fix test_logs Elasticsearch query
-* \[docker-compose] Fix CI
-* \[curielogger] Fix tag rules logging
-* \[curieproxy] fix geo-related ratelimit counters
-* \[curieproxy] fix geo-related ratelimit scope checks
-* Fix challenge in flow control
-* Fix start_curiefense script
-* Fix flow checks tags
-* Fix default return codes
-* Fix nginx failure with unknown remote ip
-* Fix curiefense/images/uiserver/Dockerfile to reduce vulnerabilities
+* [ui] Tag Rules adds an empty tag to each request
+* [ui] Tag rules - we do not require at lease one tag
+* [ui] Adding a third entry in Flow control presents an error
+* [ui] Tag rule lists tags - we create tags twice for the same list
+* [ui] Flow control - When creating a new sequence - we have only one section instead of two
+* ACL profiles - when tags at "deny bot" and "deny" columns, the evaluation flow is not as described at manual
+* Global filters - Error at proxy log when we add list of ips from http source without comment
+* Rate limits - "Event" by:Header/Cookie/Argument block, even when we don't pass this Header/Cookie/Argument in request
+* Flow control - "Count by" attribute:tag doesn't work
+* Logging failure when source IP is from an EU country
+* Security policy second added rate limit is not enforced
+* Tests fails because of invalid dependency in curieconfctl
+* Rate limit - with Threshold = 0 does't added the tag to tags list of kibana logs
+* Flow control "Count by" - We do not count by the selected attribute
+* Rate limit\Tag rules 503 response code blocks with 403
+* Rate Limits with Ban Action does not unlock a blocking at the end of blocking time
+* Tags - after deleting lists and not using the tags in ACL anymore we still present the tags
+* Make request.attributes consistent
+* Disable all tag rules except API discovery by default
+* Policies & Rules Search - ACLs are not listed
+* Mask PII data
+* ACL Policies Deny Bot and Allow Bot are both being checked when ACL is not active
+* Rate Limits with Redirect Action does not work as expected
+* If several decisions are reached during the rate limiting or flow control phase, the strongest one is chosen. Previously, an arbitrary decision was selected bug
+* Empty regex no longer match any values, preventing content filter bypasses
+* Logging messages related to ACL blocks is now more informative
+* Non existing selectors for rate limiting / flow control will now cause the request to not be processed by the relevant rule, instead of being bundled in a "no selector" group
+
 
 ### Enhanced
 
-* N/A
+* [ui] Rate Limit - Include/Exclude should be changed to accept tags only
+* [ui] Version Control - Add an option to undo a version revert
+* [ui] Remove the blue top border from the header
+* [ui] Toast status messages change
+* Flow control, If 2 rules share the same last request, action initiated will be according to the hierarchy
+* Add 'authority' to 'request' in log structure
+* Implement a syslog input for curielogger 
+
