@@ -13,10 +13,10 @@ description: >-
 * Rate Limit is now a multi-tiered rule, where different actions can taken over various cases
 * Content filter rules (signatures) now have tags, which helps group them by various categories
 * Conten filter Policy supports diffrent rules in different operation modes (Active/Report/Ignored)
-* Content filter category, subcategory and risk level added
-* Content filter support custom decoding operation modes
-* Content type validation for Content filter policy
-* Region and subregion support
+* Content filter rule supports category, subcategory and risk level added
+* Content filter policy support custom decoding operation modes
+* Content filter policy supports MIME (Content-type) validation
+* Region and subregion support (geo:xxx autotags)
 * When multiple security policies match an url, the longest match string (more specific) is selected
 
 
