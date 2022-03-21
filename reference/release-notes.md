@@ -34,7 +34,7 @@ description: >-
 
 ### Removed
 
--
+* Content Filter Rules Groups 
 
 ### Fixed
 
