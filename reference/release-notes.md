@@ -29,6 +29,8 @@ description: >-
 * Support for inverted regexp in matching
 * Argument masking
 * eu field in logging
+* Content Filter Profile entries exclusion, now based on tags instead of Content Filter Rule names
+* Order of Policies & Rules to better describe the flow of the request throughout the various processes and mechanisms
 
 ### Removed
 
@@ -41,6 +43,7 @@ description: >-
 * [ui] Adding a third entry in Flow control presents an error
 * [ui] Tag rule lists tags - we create tags twice for the same list
 * [ui] Flow control - When creating a new sequence - we have only one section instead of two
+* [ui] Fix bug where Security Policies were not savable in some cases
 * ACL profiles - when tags at "deny bot" and "deny" columns, the evaluation flow is not as described at manual
 * Global filters - Error at proxy log when we add list of ips from http source without comment
 * Rate limits - "Event" by:Header/Cookie/Argument block, even when we don't pass this Header/Cookie/Argument in request
