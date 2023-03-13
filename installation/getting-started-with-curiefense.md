@@ -8,12 +8,12 @@ description: >-
 
 **Prerequisite**: Ubuntu 21.04
 
-In this Quick Start guide, we will deploy Curiefense using Docker Compose, then test and configure. 
+In this Quick Start guide, we will deploy Curiefense using Docker Compose, then test and configure.
 
-Or, you can: 
+Or, you can:
 
 * Go through the process at [Docker Compose deployment in depth](deployment-first-steps/docker-compose.md) for more control over the deployment options.
-* Use Helm instead, by following the instructions here: [Istio via Helm](deployment-first-steps/istio-via-helm.md). 
+* Use Helm instead, by following the instructions here: [Istio via Helm](deployment-first-steps/istio-via-helm.md).
 * Deploy for NGINX instead, by following the instructions here: [NGINX deployment](deployment-first-steps/nginx.md).
 
 If you choose any of these options, after you follow the instructions on the appropriate page, return here to the [Verify the Deployment](getting-started-with-curiefense.md#verify-the-deployment) section below, and continue.
@@ -51,7 +51,7 @@ At this point you should have the following http interfaces:
 | Interface       | URL                             |
 | --------------- | ------------------------------- |
 | Management UI   | http://curie.demo:30080/        |
-| Swagger API     | http://curie.demo:30000/api/v1/ |
+| Swagger API     | http://curie.demo:30000/api/v3/ |
 | Echo web server | http://curie.demo:30081/        |
 | Grafana         | http://curie.demo:30300/        |
 
@@ -150,7 +150,7 @@ Your screen should look similar to this:
 
 ![](../.gitbook/assets/Tag-Rules-foo-test.png)
 
-We have created a simple global filter. Every request that contains a header named `foo` which matches the regex (PCRE) `test` will receive a tag of `hdr-test`. 
+We have created a simple global filter. Every request that contains a header named `foo` which matches the regex (PCRE) `test` will receive a tag of `hdr-test`.
 
 Now save the new configuration:
 
@@ -195,7 +195,7 @@ Now that we know how to attach tags to incoming requests, let's tell Curiefense 
 
 ### Create an ACL (Access Control List)
 
-We're going to block all requests with the `hdr-test` tag. 
+We're going to block all requests with the `hdr-test` tag.
 
 In the left menu, navigate to **Policies & Rules**. By default, **ACL Profiles** should already be selected.
 
@@ -244,7 +244,7 @@ This information is also visible in the access log. The log shows that Curiefens
 
 ![](<../.gitbook/assets/ACL-deny-hdr-blocked (2).png>)
 
-And it also shows that the request was not actually blocked, because status code 200 was returned: 
+And it also shows that the request was not actually blocked, because status code 200 was returned:
 
 ![](../.gitbook/assets/ACL-deny-hdr-response-200.png)
 
@@ -252,9 +252,9 @@ Now let's assume that we've tested our new policies and we want to make the ACL 
 
 #### Activate the ACL
 
-Navigate to **Policies & Rules** and then choose to edit **Security Policies **in the upper dropdown list**.** 
+Navigate to **Policies & Rules** and then choose to edit **Security Policies **in the upper dropdown list**.**
 
-Security Policies assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. (They are explained in depth [here](../settings/policies-rules/security-policies.md).) 
+Security Policies assign security policies to paths within the protected application. You can assign policies at any scale, from globally down to individual URLs. (They are explained in depth [here](../settings/policies-rules/security-policies.md).)
 
 We're going to edit Curiefense's default security profile: the one that applies to every URL which does not otherwise have any policies assigned to it.
 
@@ -262,7 +262,7 @@ Expand the **default** profile (the one assigned to path `/`) by selecting it. T
 
 ![](<../.gitbook/assets/image (14).png>)
 
-Save your changes and publish the configuration again. 
+Save your changes and publish the configuration again.
 
 After the change propagates, send the request again:
 
@@ -279,7 +279,7 @@ content-length: 13
 date: Tue, 03 Aug 2021 01:44:57 GMT
 server: envoy
 
-access denied  
+access denied
 ```
 
 As before, the blocking reason appears in the traffic log:
@@ -321,15 +321,15 @@ Save your changes, and then publish.
 After propagation, we can test it:
 
 ```
-while true; 
-do 
+while true;
+do
     curl -s -o /dev/null -w "%{http_code}" http://curie.demo:30081/with/header -H "foo: test";
-    printf ", "; 
-    sleep 1s; 
+    printf ", ";
+    sleep 1s;
 done
 ```
 
-Wait briefly, and you should see that on the 6th request, the response changes from 403 (which means the ACL Profile is blocking the request) to 503 (which means the Rate Limit is blocking it). 
+Wait briefly, and you should see that on the 6th request, the response changes from 403 (which means the ACL Profile is blocking the request) to 503 (which means the Rate Limit is blocking it).
 
 ```coffeescript
 403, 403, 403, 403, 403, 503, 503, 503, 503, 503, 503, 503, 503...
@@ -345,7 +345,7 @@ Now that we're somewhat familiar with the system, let's set up multi-layered rat
 Rate limits in Curiefense are reusable 'stand-alone' rules that can be attached to different paths in [Security Policies](../settings/policies-rules/security-policies.md).
 {% endhint %}
 
-Previously, we used the default Rate Limit that comes with Curiefense, and applied it to the entire domain. Now we will create some specific Rate Limits for the login process of an API, and attach them to the relevant endpoints. 
+Previously, we used the default Rate Limit that comes with Curiefense, and applied it to the entire domain. Now we will create some specific Rate Limits for the login process of an API, and attach them to the relevant endpoints.
 
 #### Creating a Security Policy for the API
 
@@ -361,7 +361,7 @@ Set its **name** (the unlabeled field at the top) to `API`. Set **Matching Names
 
 As did the original Security Policy, this new one contains a default profile. As you might expect, this will apply to every path within the scope set by the **Matching Names** entry. (In this tutorial, the **Matching Names** is a specific subdomain. In production use, this might be a regex describing a range of domains, subdomains, or URLs.)
 
-Our hypothetical API has two versions: `/api/v1/` and `/api/v2/`. Let's say that the default profile is good enough for each of them. (If it weren't, we could set up separate profiles for one or both instead.) 
+Our hypothetical API has two versions: `/api/v1/` and `/api/v2/`. Let's say that the default profile is good enough for each of them. (If it weren't, we could set up separate profiles for one or both instead.)
 
 However, there are two endpoints where we want to set up stricter Rate Limiting: `/api/v1/login` and `/api/v2/login`. To do this, let's create a dedicated profile for the login endpoints. (We could set up a separate profile for each endpoint, but in this case, we can accomplish this task with only one.)
 
@@ -369,7 +369,7 @@ To add a profile to a Security Policy, open an existing profile (in this case, t
 
 ![](<../.gitbook/assets/image (16).png>)
 
-Edit the Name and Match condition of the profile as follows: 
+Edit the Name and Match condition of the profile as follows:
 
 ![](../.gitbook/assets/URL-Map-API-login.png)
 
@@ -379,9 +379,9 @@ At this point, we have two profiles: the default `/` which we left in place, and
 
 #### Setting Rate Limits
 
-Both profiles currently have the default Rate Limit assigned to them. 
+Both profiles currently have the default Rate Limit assigned to them.
 
-For `/api/v[1-2]/login`, we will create two new rate limit rules. 
+For `/api/v[1-2]/login`, we will create two new rate limit rules.
 
 #### Create New Rate Limits
 
@@ -422,13 +422,13 @@ Save your changes, publish them, and wait 15-20 seconds for propagation.
 Next, let's try to brute-force the login endpoint, using the same user id and IP, but with a new password each time:
 
 ```
-while true; 
-do 
+while true;
+do
   curl -s -o /dev/null -w "%{http_code}" \
      http://api.curie.demo:30081/api/v1/login \
-     --data "userid=me@gmail.com&password=$RANDOM" ; 
-  printf ", "; 
-  sleep 1s; 
+     --data "userid=me@gmail.com&password=$RANDOM" ;
+  printf ", ";
+  sleep 1s;
 done
 ```
 
@@ -441,13 +441,13 @@ The first five attempts will succeed, and then the default Rate Limit will be tr
 After waiting one minute to let the Rate Limit reset, we'll test the Credential Stuffing limit by having curl send a unique User ID each time:
 
 ```
-while true; 
-do 
+while true;
+do
   curl -s -o /dev/null -w "%{http_code}" \
      http://api.curie.demo:30081/api/v1/login \
-     --data "userid=$RANDOM@gmail.com&password=$RANDOM" ; 
-  printf ", "; 
-  sleep 1s; 
+     --data "userid=$RANDOM@gmail.com&password=$RANDOM" ;
+  printf ", ";
+  sleep 1s;
 done
 ```
 
@@ -465,13 +465,13 @@ The demonstration above is only the beginning of what can be done with Rate Limi
 
 Here's a common example. Rate Limits like the ones demonstrated above will block a requestor who exceeds a defined limit within the given timespan. However, once the time period resets, the requestor would be able to try again, and could repeat this cycle as often as desired. To prevent this, you can configure Curiefense to ban a requestor (and block all of their requests) when multiple rate limits are violated.
 
-A full explanation of Curiefense's Rate Limits and their capabilities is available [here](../settings/policies-rules/rate-limits.md).  
+A full explanation of Curiefense's Rate Limits and their capabilities is available [here](../settings/policies-rules/rate-limits.md).
 
 ## Grafana Dashboards
 
 The docker-compose deployment process will create Grafana visualizations for Curiefense's traffic data.
 
-Curiefense comes with two dashboards out of the box: Traffic Overview and Top Activities. They are available at [http://curie.demo:30300/](http://curie.demo:30300). 
+Curiefense comes with two dashboards out of the box: Traffic Overview and Top Activities. They are available at [http://curie.demo:30300/](http://curie.demo:30300).
 
 To login, the default username and password are `admin` and `admin`. Then you should see this:
 
@@ -502,10 +502,3 @@ You now have a working Curiefense installation to experiment with. Its capabilit
 Note that this tutorial was a Quick Start guide, and therefore, it used many default options for the deployment. You might want to change some of them; for example, you might want Curiefense to use TLS for its UI server and for communicating with the backend.
 
 Modifying the deployment is straightforward. For Docker Compose, just go through the procedures described [here](deployment-first-steps/docker-compose.md) and then re-run `docker-compose up`. For Helm, go through the procedures [here](deployment-first-steps/istio-via-helm.md).
-
-
-
-
-
-
-
